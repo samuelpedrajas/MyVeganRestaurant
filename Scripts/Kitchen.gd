@@ -6,6 +6,9 @@ func _ready():
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 
 
+func use_ingredient(ingredient):
+	print("Using ingredient: %s" % [ingredient.name])
+
 ### Signal Handlers ###
 
 func _on_HUD_start_game():

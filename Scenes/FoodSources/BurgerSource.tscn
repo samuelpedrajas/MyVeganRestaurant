@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Scenes/Ingredients/RawBurger.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Ingredients/Burger.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/FoodSource.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Images/Kitchen/FuenteHamburguesa.png" type="Texture" id=4]

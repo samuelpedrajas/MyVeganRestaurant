@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/FoodMachine.gd" type="Script" id=1]
+[ext_resource path="res://Images/Kitchen/Parrilla.png" type="Texture" id=2]
+
+[node name="Grill" type="Node2D" groups=[
+"FoodMachine",
+]]
+script = ExtResource( 1 )
+reference = "Grill"
+cook_time = 10
+burn_time = 8
+acceptable_ingredients = [ "RawBurger" ]
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="Placeholder" type="Node2D" parent="."]

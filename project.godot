@@ -19,6 +19,10 @@ config/name="MyVeganRestaurant"
 run/main_scene="res://Scenes/Kitchen.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Utils="*res://Scripts/Utils.gd"
+
 [debug]
 
 gdscript/warnings/return_value_discarded=false

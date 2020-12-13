@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Images/Kitchen/Mueble.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scenes/FoodSources/BreadSource.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/FoodSources/TomatoSource.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/FoodSources/LettuceSource.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Grill.tscn" type="PackedScene" id=9]
 
 [node name="Kitchen" type="Node2D"]
 script = ExtResource( 3 )
@@ -35,6 +36,9 @@ kitchen = NodePath("../..")
 [node name="FriesSource" parent="Table" instance=ExtResource( 5 )]
 position = Vector2( -747.655, 35.9593 )
 kitchen = NodePath("../..")
+
+[node name="Grill" parent="Table" instance=ExtResource( 9 )]
+position = Vector2( -356.54, -173.225 )
 
 [node name="HUD" parent="." instance=ExtResource( 2 )]
 margin_right = 1920.0

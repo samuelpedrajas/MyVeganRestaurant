@@ -6,4 +6,8 @@
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
 [connection signal="input_event" from="." to="." method="_on_ClickableArea_input_event"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

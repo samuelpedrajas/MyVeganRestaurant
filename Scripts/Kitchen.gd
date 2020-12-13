@@ -7,7 +7,7 @@ func _ready():
 
 
 func use_ingredient(ingredient):
-	print("Using ingredient: %s" % [ingredient.name])
+	print("Using ingredient: %s" % [ingredient.reference])
 
 ### Signal Handlers ###
 

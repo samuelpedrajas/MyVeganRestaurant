@@ -2,7 +2,7 @@ extends Node2D
 
 
 var ingredient = null
-export(NodePath) var kitchen
+export(NodePath) onready var kitchen = get_node(kitchen)
 
 
 func _ready():

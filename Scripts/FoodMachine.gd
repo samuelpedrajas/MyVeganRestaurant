@@ -28,3 +28,12 @@ func add_ingredient(_ingredient):
 		return
 	self.ingredient = _ingredient
 	$Placeholder.add_child(_ingredient)
+	$Timer.resume_or_start()
+
+
+func _on_Timer_food_cooked():
+	self.ingredient.evolve()
+
+
+func _on_Timer_food_burned():
+	self.ingredient.evolve()

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/FoodMachine.gd" type="Script" id=1]
 [ext_resource path="res://Images/Kitchen/Parrilla.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=3]
 
 [node name="Grill" type="Node2D" groups=[
 "FoodMachine",
@@ -16,3 +17,8 @@ acceptable_ingredients = [ "RawBurger" ]
 texture = ExtResource( 2 )
 
 [node name="Placeholder" type="Node2D" parent="."]
+
+[node name="Timer" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -103 )
+[connection signal="food_burned" from="Timer" to="." method="_on_Timer_food_burned"]
+[connection signal="food_cooked" from="Timer" to="." method="_on_Timer_food_cooked"]

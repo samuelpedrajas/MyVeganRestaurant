@@ -2,7 +2,6 @@ extends Node2D
 
 
 export(String) var reference = ""
-export(int) var order = 0
 export(int) var cook_time = -1
 export(int) var burn_time = -1
 export(bool) var hide_ingredient = false

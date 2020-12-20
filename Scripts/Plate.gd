@@ -1,8 +1,6 @@
 extends Node2D
 
 
-export(int) var order = 0
-
 var dish = null
 
 

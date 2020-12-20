@@ -13,8 +13,12 @@ func _ready():
 		print("ERROR: Kitchen not configured for this FoodSource")
 
 
+func drop_item():
+	pass
+
+
 func _on_ClickableArea_clicked():
-	self.kitchen.use_ingredient(self.ingredient)
+	self.kitchen.use_item(self.ingredient.duplicate(), self)
 
 
 func _on_ClickableArea_released():

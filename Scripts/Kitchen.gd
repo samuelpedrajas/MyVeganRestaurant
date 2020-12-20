@@ -6,23 +6,35 @@ func _ready():
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 
 
-func select_food_machine(ingredient):
-	var machines = get_tree().get_nodes_in_group("FoodMachine")
-	machines = Utils.sort_by_attribute(machines, "order")
-	for machine in machines:
-		if machine.is_accepted(ingredient):
-			return machine
+func select_destination(item):
+	var destinations = get_tree().get_nodes_in_group(item.get_destination())
+	destinations = Utils.sort_by_attribute(destinations, "order")
+	for destination in destinations:
+		if not destination.is_busy():
+			return destination
 	return null
 
-func use_ingredient(ingredient):
-	print("Using ingredient: %s" % [ingredient.reference])
-	var machine = select_food_machine(ingredient)
-	if machine == null:
-		print("No machine is available")
+func use_item(item, origin):
+	print("Using item: %s" % [item.get_reference()])
+	var destination_name = item.get_destination()
+	if destination_name == "None":
+		print("Item %s has no destination" % item.get_reference())
 		return
-	ingredient.get_parent().remove_child(ingredient)
-	machine.add_ingredient(ingredient)
-	print("%s was added to %s" % [ingredient.reference, machine.reference])
+
+	if destination_name == "Plate":
+		print("Plates not implemented yet")
+	elif destination_name == "Platform":
+		print("Platforms not implemented yet")
+	else:
+		var destination = select_destination(item)
+		if destination == null:
+			print("No destination is available")
+		else:
+			origin.drop_item()
+			destination.add_item(item)
+			print(
+				"%s was added to %s" % [item.get_reference(), destination_name]
+			)
 
 ### Signal Handlers ###
 

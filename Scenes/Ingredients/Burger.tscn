@@ -1,22 +1,30 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Ingredient.gd" type="Script" id=1]
 [ext_resource path="res://Images/Kitchen/HamurguesaCruda.png" type="Texture" id=2]
 [ext_resource path="res://Images/Kitchen/HamburguesaHecha.png" type="Texture" id=3]
 [ext_resource path="res://Images/Kitchen/HamburguesaQuemada.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/Stage.gd" type="Script" id=5]
 
 [node name="Burger" type="Node2D"]
 script = ExtResource( 1 )
-reference = "RawBurger"
-next_stages = [ "CookedBurger", "BurnedBurger" ]
 
 [node name="RawBurger" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+script = ExtResource( 5 )
+reference = "RawBurger"
+destination = "Grill"
 
 [node name="CookedBurger" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 3 )
+script = ExtResource( 5 )
+reference = "CookedBurger"
+destination = "Plate"
 
 [node name="BurnedBurger" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 4 )
+script = ExtResource( 5 )
+reference = "BurnedBurger"
+destination = "Bin"

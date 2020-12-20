@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Images/Kitchen/Mueble.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Scenes/Dishes/FastFood/CompleteBurger.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/Dishes/FastFood/SimpleBurger.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/Plate.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scenes/Bin.tscn" type="PackedScene" id=17]
 
 [node name="Kitchen" type="Node2D"]
 script = ExtResource( 3 )
@@ -81,6 +82,9 @@ order = 2
 [node name="Plate4" parent="Table" instance=ExtResource( 16 )]
 position = Vector2( 209.763, -130.353 )
 order = 3
+
+[node name="Bin" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1607.15, 998.46 )
 
 [node name="HUD" parent="." instance=ExtResource( 2 )]
 margin_right = 1920.0

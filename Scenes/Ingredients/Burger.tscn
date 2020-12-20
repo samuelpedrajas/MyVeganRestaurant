@@ -8,6 +8,7 @@
 
 [node name="Burger" type="Node2D"]
 script = ExtResource( 1 )
+discard_price = 20
 
 [node name="RawBurger" type="Sprite" parent="."]
 texture = ExtResource( 2 )

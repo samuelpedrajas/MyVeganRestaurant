@@ -3,6 +3,8 @@ extends Node2D
 
 var level = 0
 
+export(int) var discard_price = 0
+
 
 func get_reference():
 	return get_child(self.level).reference

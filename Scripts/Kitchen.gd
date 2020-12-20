@@ -53,6 +53,10 @@ func use_item(item, origin):
 		send_to_plate(item, origin)
 	elif destination_name == "Platform":
 		print("Platforms not implemented yet")
+	elif destination_name == "Bin":
+		print("TODO: lose %s points" % item.discard_price)
+		origin.drop_item()
+		$Bin.throw_item(item)
 	else:
 		send_to_destination(item, origin)
 

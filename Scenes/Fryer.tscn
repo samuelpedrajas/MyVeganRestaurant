@@ -1,17 +1,18 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/FoodMachine.gd" type="Script" id=1]
-[ext_resource path="res://Images/Kitchen/Parrilla.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Images/Kitchen/Freidora.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Images/Kitchen/PatatasAceite.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 100.402, 70.9455 )
+extents = Vector2( 95.2351, 56.7626 )
 
 [sub_resource type="Animation" id=3]
 resource_name = "default_animation"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/path = NodePath("Fries:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -19,42 +20,44 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=2]
 resource_name = "preparing_animation"
-length = 0.8
-loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/path = NodePath("Fries:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.803922, 0.803922, 1 ), Color( 1, 1, 1, 1 ) ]
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
-[node name="Grill" type="Node2D" groups=[
-"Grill",
+[node name="Fryer" type="Node2D" groups=[
+"Fryer",
 ]]
 script = ExtResource( 1 )
-reference = "Grill"
+reference = "Fryer"
+hide_ingredient = true
 
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
+[node name="Fryer" type="Sprite" parent="."]
+texture = ExtResource( 3 )
 
-[node name="Placeholder" type="Node2D" parent="."]
+[node name="Fries" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 5 )
 
-[node name="Timer" parent="." instance=ExtResource( 3 )]
+[node name="Timer" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, -103 )
+burning_time = -1
 
-[node name="ClickableArea" parent="." instance=ExtResource( 4 )]
+[node name="ClickableArea" parent="." instance=ExtResource( 2 )]
 
 [node name="CollisionShape2D" parent="ClickableArea" index="0"]
 shape = SubResource( 1 )

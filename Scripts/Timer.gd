@@ -77,7 +77,10 @@ func _on_Timer_timeout():
 		food_is_cooked = true
 		print("Food cooked!")
 		emit_signal("food_cooked")
-		$BurningProgress.show()
+		if burning_time < 0:
+			pause()
+		else:
+			$BurningProgress.show()
 		_count = 0
 	elif limit_surpassed and food_is_cooked:
 		print("Food burned!")

@@ -16,6 +16,13 @@ script = ExtResource( 5 )
 reference = "RawBurger"
 destination = "Grill"
 
+[node name="CookingBurger" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 2 )
+script = ExtResource( 5 )
+reference = "CookingBurger"
+destination = "None"
+
 [node name="CookedBurger" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 3 )

@@ -7,8 +7,10 @@ func _ready():
 
 
 func send_to_destination(item, origin):
+	var destination_name = item.get_destination()
+	var reference = item.get_reference()
 	var destination = null
-	var destinations = get_tree().get_nodes_in_group(item.get_destination())
+	var destinations = get_tree().get_nodes_in_group(destination_name)
 	for _destination in destinations:
 		if not _destination.is_busy():
 			destination = _destination
@@ -22,10 +24,9 @@ func send_to_destination(item, origin):
 	destination.add_item(item)
 	print(
 		"%s was added to %s" % [
-			item.get_reference(), item.get_destination()
+			reference, destination_name
 		]
 	)
-	return destination
 
 
 func send_to_plate(item, origin):
@@ -42,6 +43,20 @@ func send_to_plate(item, origin):
 	print("No plates available for this item")
 
 
+func send_to_platform(item, origin):
+	var destination_name = item.get_destination()
+	var reference = item.get_reference()
+	var menu = $Menu
+	var dish = menu.get_new_dish(null, item)
+	origin.drop_item()
+	origin.platform.add_dish(dish)
+	print(
+		"%s was added to %s" % [
+			reference, destination_name
+		]
+	)
+
+
 func use_item(item, origin):
 	print("Using item: %s" % [item.get_reference()])
 	var destination_name = item.get_destination()
@@ -49,10 +64,12 @@ func use_item(item, origin):
 		print("Item %s has no destination" % item.get_reference())
 		return
 
-	if destination_name == "Plate":
+	if destination_name == "None":
+		print("No destination available for %s" % item.get_reference())
+	elif destination_name == "Plate":
 		send_to_plate(item, origin)
 	elif destination_name == "Platform":
-		print("Platforms not implemented yet")
+		send_to_platform(item, origin)
 	elif destination_name == "Bin":
 		print("TODO: lose %s points" % item.discard_price)
 		origin.drop_item()

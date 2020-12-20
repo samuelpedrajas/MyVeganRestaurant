@@ -6,13 +6,41 @@ func _ready():
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 
 
-func select_destination(item):
+func send_to_destination(item, origin):
+	var destination = null
 	var destinations = get_tree().get_nodes_in_group(item.get_destination())
-	destinations = Utils.sort_by_attribute(destinations, "order")
-	for destination in destinations:
-		if not destination.is_busy():
-			return destination
-	return null
+	for _destination in destinations:
+		if not _destination.is_busy():
+			destination = _destination
+			break
+
+	if destination == null:
+		print("No destination is available")
+		return null
+
+	origin.drop_item()
+	destination.add_item(item)
+	print(
+		"%s was added to %s" % [
+			item.get_reference(), item.get_destination()
+		]
+	)
+	return destination
+
+
+func send_to_plate(item, origin):
+	var plates = get_tree().get_nodes_in_group(item.get_destination())
+	var menu = $Menu
+	print("select_plate_strategy not implemented yet")
+	for plate in plates:
+		var dish = menu.get_new_dish(plate.dish, item)
+		if dish == null:
+			continue
+		origin.drop_item()
+		plate.add_dish(dish)
+		return
+	print("No plates available for this item")
+
 
 func use_item(item, origin):
 	print("Using item: %s" % [item.get_reference()])
@@ -22,19 +50,11 @@ func use_item(item, origin):
 		return
 
 	if destination_name == "Plate":
-		print("Plates not implemented yet")
+		send_to_plate(item, origin)
 	elif destination_name == "Platform":
 		print("Platforms not implemented yet")
 	else:
-		var destination = select_destination(item)
-		if destination == null:
-			print("No destination is available")
-		else:
-			origin.drop_item()
-			destination.add_item(item)
-			print(
-				"%s was added to %s" % [item.get_reference(), destination_name]
-			)
+		send_to_destination(item, origin)
 
 ### Signal Handlers ###
 

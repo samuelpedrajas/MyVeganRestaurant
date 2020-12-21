@@ -17,7 +17,7 @@ func sort_by_attribute(array, attribute, _order):
 			"attribute": attribute,
 			"order": _order
 		})
-	items.sort_custom(self, "customComparison")
+	items.sort_custom(self, "_attribute_comparison")
 	var result = []
 	for item in items:
 		result.append(item["object"])
@@ -29,8 +29,15 @@ func _attribute_comparison(a, b):
 	var object_b = b["object"]
 	var attribute = a["attribute"]
 	var order = a["order"]
-	var value_a = object_a.get_attribute_value(attribute)
-	var value_b = object_b.get_attribute_value(attribute)
+	var value_a
+	var value_b
+	if typeof(object_a) == TYPE_DICTIONARY:
+		value_a = object_a[attribute]
+		value_b = object_b[attribute]
+	else:
+		value_a = object_a.get_attribute_value(attribute)
+		value_b = object_b.get_attribute_value(attribute)
+
 	if order == "desc":
 		return value_a > value_b
 	return value_a < value_b

@@ -15,14 +15,12 @@ func _ready():
 	select_dishes()
 
 
-func setup(menu, rng):
-	self.menu = menu
-	self.rng = rng
+func setup(_menu, _rng):
+	self.menu = _menu
+	self.rng = _rng
 
 
 func select_dishes():
-	# TODO: agrupados por categoría
-	# TODO2: tener en cuenta sólo los deliverables
 	var categories = menu.get_children()
 	var n_categories = menu.get_child_count()
 	var n_orders = rng.randi_range(1, max_orders)
@@ -30,13 +28,23 @@ func select_dishes():
 	for _unused in range(n_orders):
 		var i = rng.randi_range(0, n_categories - 1)
 		var category = categories[i]
-		var n_dishes = category.get_child_count()
+		# get deliverable dishes
+		var dishes = []
+		for dish in category.get_children():
+			if dish.deliverable:
+				dishes.append(dish)
+		var n_dishes = dishes.size()
 		var j = rng.randi_range(0, n_dishes - 1)
-		var dish = category.get_child(j)
-		orders.append(dish.duplicate())
+		var dish_obj = {
+			"dish": dishes[j].duplicate(),
+			"order": i
+		}
+		orders.append(dish_obj)
 
-	for dish in orders:
-		bubble.add_child(dish)
+	orders = Utils.sort_by_attribute(orders, "order", "asc")
+
+	for dish_obj in orders:
+		bubble.add_child(dish_obj["dish"])
 	_resize()
 
 

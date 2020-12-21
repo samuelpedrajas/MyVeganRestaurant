@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Dish.gd" type="Script" id=1]
+[ext_resource path="res://Images/Kitchen/VasoLleno.png" type="Texture" id=2]
+
+[node name="Cola" type="Node2D"]
+script = ExtResource( 1 )
+reference = "Cola"
+profit = 50
+discard_price = 10
+deliverable = true
+v_limits = Vector2( -67, 3 )
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Cola" type="Sprite" parent="Sprites"]
+position = Vector2( 0, -32 )
+texture = ExtResource( 2 )

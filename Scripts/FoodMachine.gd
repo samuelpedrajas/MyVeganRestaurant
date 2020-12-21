@@ -6,8 +6,6 @@ export(bool) var hide_ingredient = false
 export(NodePath) onready var kitchen = get_node(kitchen)
 export(NodePath) var platform
 
-
-var current_time = 0
 var ingredient = null
 
 

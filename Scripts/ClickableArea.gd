@@ -8,6 +8,9 @@ var input_disabled = false
 
 
 func _on_ClickableArea_input_event(_viewport, _event, _shape_idx):
+	if _viewport.is_input_handled():
+		return
+	_viewport.set_input_as_handled()
 	if Input.is_action_just_pressed("ui_click") and not self.input_disabled:
 		emit_signal("clicked")
 		_block_temporary()

@@ -73,7 +73,7 @@ func use_item(item, origin):
 	elif destination_name == "Bin":
 		print("TODO: lose %s points" % item.discard_price)
 		origin.drop_item()
-		$Bin.throw_item(item)
+		$Main/Bin.throw_item(item)
 	else:
 		send_to_destination(item, origin)
 

@@ -26,10 +26,6 @@
 [node name="Kitchen" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="ClientArea" parent="." instance=ExtResource( 22 )]
-margin_bottom = 718.0
-menu = NodePath("../Menu")
-
 [node name="Menu" type="Node2D" parent="."]
 visible = false
 script = ExtResource( 11 )
@@ -47,99 +43,112 @@ script = ExtResource( 11 )
 [node name="CompleteBurger" parent="Menu/Main" instance=ExtResource( 14 )]
 
 [node name="Complement" type="Node2D" parent="Menu"]
+visible = false
 
 [node name="Fries" parent="Menu/Complement" instance=ExtResource( 21 )]
 
-[node name="Table" type="Sprite" parent="."]
+[node name="Main" type="Sprite" parent="."]
 position = Vector2( 960, 790 )
 texture = ExtResource( 1 )
 
-[node name="TomatoSource" parent="Table" instance=ExtResource( 7 )]
+[node name="ClientArea" parent="Main" instance=ExtResource( 22 )]
+show_behind_parent = true
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -1920.0
+margin_top = -1370.0
+margin_right = 0.0
+margin_bottom = -652.0
+menu = NodePath("../../Menu")
+
+[node name="TomatoSource" parent="Main" instance=ExtResource( 7 )]
 position = Vector2( 601.848, -23.4535 )
 kitchen = NodePath("../..")
 
-[node name="LettuceSource" parent="Table" instance=ExtResource( 8 )]
+[node name="LettuceSource" parent="Main" instance=ExtResource( 8 )]
 position = Vector2( 599.556, -182.828 )
 kitchen = NodePath("../..")
 
-[node name="Grill1" parent="Table" instance=ExtResource( 9 )]
+[node name="Grill1" parent="Main" instance=ExtResource( 9 )]
 position = Vector2( -339.459, -180.449 )
 kitchen = NodePath("../..")
 
-[node name="Grill2" parent="Table" instance=ExtResource( 9 )]
+[node name="Grill2" parent="Main" instance=ExtResource( 9 )]
 position = Vector2( -123.245, -179.562 )
 kitchen = NodePath("../..")
 
-[node name="Grill3" parent="Table" instance=ExtResource( 9 )]
+[node name="Grill3" parent="Main" instance=ExtResource( 9 )]
 position = Vector2( -339.459, -3.44946 )
 kitchen = NodePath("../..")
 
-[node name="Grill4" parent="Table" instance=ExtResource( 9 )]
+[node name="Grill4" parent="Main" instance=ExtResource( 9 )]
 position = Vector2( -123.245, -2.56165 )
 kitchen = NodePath("../..")
 
-[node name="Plate1" parent="Table" instance=ExtResource( 16 )]
+[node name="Plate1" parent="Main" instance=ExtResource( 16 )]
 position = Vector2( 133.337, -186.484 )
 
-[node name="Plate2" parent="Table" instance=ExtResource( 16 )]
+[node name="Plate2" parent="Main" instance=ExtResource( 16 )]
 position = Vector2( 360.399, -190.138 )
 
-[node name="Plate3" parent="Table" instance=ExtResource( 16 )]
+[node name="Plate3" parent="Main" instance=ExtResource( 16 )]
 position = Vector2( 131.579, -27.5269 )
 
-[node name="Plate4" parent="Table" instance=ExtResource( 16 )]
+[node name="Plate4" parent="Main" instance=ExtResource( 16 )]
 position = Vector2( 364.997, -28.4146 )
 
-[node name="Fryer1" parent="Table" instance=ExtResource( 19 )]
+[node name="Fryer1" parent="Main" instance=ExtResource( 19 )]
 position = Vector2( -843.474, -217.127 )
 kitchen = NodePath("../..")
-platform = NodePath("../Platform1")
+platform = NodePath("../../Main/Platform1")
 
-[node name="Fryer2" parent="Table" instance=ExtResource( 19 )]
+[node name="Fryer2" parent="Main" instance=ExtResource( 19 )]
 position = Vector2( -843.474, -91 )
 kitchen = NodePath("../..")
-platform = NodePath("../Platform2")
+platform = NodePath("../../Main/Platform2")
 
-[node name="Fryer3" parent="Table" instance=ExtResource( 19 )]
+[node name="Fryer3" parent="Main" instance=ExtResource( 19 )]
 position = Vector2( -843.474, 38 )
 kitchen = NodePath("../..")
-platform = NodePath("../Platform3")
+platform = NodePath("../../Main/Platform3")
 
-[node name="Platform1" parent="Table" instance=ExtResource( 20 )]
+[node name="Platform1" parent="Main" instance=ExtResource( 20 )]
 position = Vector2( -645.08, -218.571 )
 
-[node name="Platform2" parent="Table" instance=ExtResource( 20 )]
+[node name="Platform2" parent="Main" instance=ExtResource( 20 )]
 position = Vector2( -645.08, -83.5713 )
 
-[node name="Platform3" parent="Table" instance=ExtResource( 20 )]
+[node name="Platform3" parent="Main" instance=ExtResource( 20 )]
 position = Vector2( -645.08, 40.4287 )
 
-[node name="Saliente1" type="Sprite" parent="Table"]
+[node name="Bin" parent="Main" instance=ExtResource( 17 )]
+position = Vector2( 731.15, 208.46 )
+
+[node name="Saliente1" type="Sprite" parent="Main"]
 position = Vector2( -724.298, 182.075 )
 texture = ExtResource( 18 )
 
-[node name="FriesSource" parent="Table/Saliente1" instance=ExtResource( 5 )]
+[node name="FriesSource" parent="Main/Saliente1" instance=ExtResource( 5 )]
 position = Vector2( -2.33453, -12.4128 )
 kitchen = NodePath("../../..")
 
-[node name="Saliente2" type="Sprite" parent="Table"]
+[node name="Saliente2" type="Sprite" parent="Main"]
 position = Vector2( -234.298, 182.075 )
 texture = ExtResource( 18 )
 
-[node name="BurgerSource" parent="Table/Saliente2" instance=ExtResource( 4 )]
+[node name="BurgerSource" parent="Main/Saliente2" instance=ExtResource( 4 )]
 position = Vector2( -3.10797, -17.8473 )
 kitchen = NodePath("../../..")
 
-[node name="Saliente3" type="Sprite" parent="Table"]
+[node name="Saliente3" type="Sprite" parent="Main"]
 position = Vector2( 255.702, 182.075 )
 texture = ExtResource( 18 )
 
-[node name="BreadSource" parent="Table/Saliente3" instance=ExtResource( 6 )]
+[node name="BreadSource" parent="Main/Saliente3" instance=ExtResource( 6 )]
 position = Vector2( -2.58289, -39.6017 )
 kitchen = NodePath("../../..")
-
-[node name="Bin" parent="." instance=ExtResource( 17 )]
-position = Vector2( 1691.15, 998.46 )
 
 [node name="HUD" parent="." instance=ExtResource( 2 )]
 margin_right = 1920.0

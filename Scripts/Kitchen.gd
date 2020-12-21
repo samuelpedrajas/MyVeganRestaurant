@@ -82,7 +82,7 @@ func use_item(item, origin):
 func _on_HUD_start_game():
 	yield(get_tree(), "idle_frame")
 	get_tree().set_pause(false)
-	$ClientArea.start()
+	$Main/ClientArea.start()
 
 
 func _on_size_changed():
@@ -91,9 +91,9 @@ func _on_size_changed():
 	var position_offset = (viewport_size - screen_size) / 2.0
 	print("Resizing Kitchen")
 	set_position(position_offset)
-	$Table.set_global_position(
+	$Main.set_global_position(
 		Vector2(
-			$Table.get_global_position().x,
-			viewport_size.y - $Table.texture.get_size().y / 2.0
+			$Main.get_global_position().x,
+			viewport_size.y - $Main.texture.get_size().y / 2.0
 		)
 	)

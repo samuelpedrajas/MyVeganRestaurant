@@ -82,6 +82,7 @@ func use_item(item, origin):
 func _on_HUD_start_game():
 	yield(get_tree(), "idle_frame")
 	get_tree().set_pause(false)
+	$ClientArea.start()
 
 
 func _on_size_changed():

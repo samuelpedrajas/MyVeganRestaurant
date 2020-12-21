@@ -3,8 +3,8 @@
 [ext_resource path="res://Scripts/Plate.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=2]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 59.3074
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 69.7669, 64.7711 )
 
 [node name="Platform" type="Node2D"]
 script = ExtResource( 1 )

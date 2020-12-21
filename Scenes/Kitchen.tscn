@@ -123,7 +123,7 @@ position = Vector2( -645.08, -218.571 )
 kitchen = NodePath("../..")
 
 [node name="Platform2" parent="Main" instance=ExtResource( 20 )]
-position = Vector2( -645.08, -83.5713 )
+position = Vector2( -645.08, -88.5713 )
 kitchen = NodePath("../..")
 
 [node name="Platform3" parent="Main" instance=ExtResource( 20 )]

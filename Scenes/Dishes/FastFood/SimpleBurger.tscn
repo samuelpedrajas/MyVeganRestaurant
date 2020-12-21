@@ -11,6 +11,7 @@ reference = "SimpleBurger"
 profit = 100
 discard_price = 30
 ingredients = [ "BurgerBread", "CookedBurger" ]
+deliverable = true
 
 [node name="BottomBread" type="Sprite" parent="."]
 texture = ExtResource( 3 )

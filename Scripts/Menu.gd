@@ -21,7 +21,8 @@ func _get_new_dish(dish, ingredient):
 		ingredients += dish.ingredients
 	ingredients.append(ingredient.get_reference())
 
-	for dish in get_children():
-		if Utils.arrays_have_same_content(ingredients, dish.ingredients):
-			return dish
+	for category in get_children():
+		for dish in category.get_children():
+			if Utils.arrays_have_same_content(ingredients, dish.ingredients):
+				return dish
 	return null

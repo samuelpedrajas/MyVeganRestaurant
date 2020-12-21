@@ -29,17 +29,23 @@ script = ExtResource( 3 )
 visible = false
 script = ExtResource( 11 )
 
-[node name="BurgerBread" parent="Menu" instance=ExtResource( 10 )]
+[node name="Main" type="Node2D" parent="Menu"]
 
-[node name="SimpleBurger" parent="Menu" instance=ExtResource( 15 )]
+[node name="BurgerBread" parent="Menu/Main" instance=ExtResource( 10 )]
 
-[node name="LettuceBurger" parent="Menu" instance=ExtResource( 12 )]
+[node name="SimpleBurger" parent="Menu/Main" instance=ExtResource( 15 )]
 
-[node name="TomatoBurger" parent="Menu" instance=ExtResource( 13 )]
+[node name="LettuceBurger" parent="Menu/Main" instance=ExtResource( 12 )]
 
-[node name="CompleteBurger" parent="Menu" instance=ExtResource( 14 )]
+[node name="TomatoBurger" parent="Menu/Main" instance=ExtResource( 13 )]
 
-[node name="Fries" parent="Menu" instance=ExtResource( 21 )]
+[node name="CompleteBurger" parent="Menu/Main" instance=ExtResource( 14 )]
+
+[node name="Complement" type="Node2D" parent="Menu"]
+
+[node name="Fries" parent="Menu/Complement" instance=ExtResource( 21 )]
+
+[node name="Drink" type="Node2D" parent="Menu"]
 
 [node name="Table" type="Sprite" parent="."]
 position = Vector2( 960, 790 )

@@ -9,6 +9,7 @@ reference = "Fries"
 profit = 50
 discard_price = 10
 ingredients = [ "CookedFries" ]
+deliverable = true
 
 [node name="Fries" type="Sprite" parent="."]
 position = Vector2( 0, -32 )

@@ -12,14 +12,17 @@ profit = 100
 discard_price = 30
 ingredients = [ "BurgerBread", "CookedBurger" ]
 deliverable = true
+v_limits = Vector2( -84, 34.5 )
 
-[node name="BottomBread" type="Sprite" parent="."]
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="BottomBread" type="Sprite" parent="Sprites"]
 texture = ExtResource( 3 )
 
-[node name="CookedBurger" type="Sprite" parent="."]
+[node name="CookedBurger" type="Sprite" parent="Sprites"]
 position = Vector2( 0, -19 )
 texture = ExtResource( 4 )
 
-[node name="TopBread" type="Sprite" parent="."]
+[node name="TopBread" type="Sprite" parent="Sprites"]
 position = Vector2( 0, -46 )
 texture = ExtResource( 2 )

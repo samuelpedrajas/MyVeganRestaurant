@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Client.gd" type="Script" id=1]
+[ext_resource path="res://Images/Bocadillo.png" type="Texture" id=2]
+
+[node name="Client" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Bubble" type="NinePatchRect" parent="."]
+margin_left = 673.989
+margin_top = 44.0279
+margin_right = 973.989
+margin_bottom = 344.028
+texture = ExtResource( 2 )
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
+__meta__ = {
+"_edit_use_anchors_": false
+}

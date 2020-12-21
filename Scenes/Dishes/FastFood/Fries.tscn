@@ -10,7 +10,10 @@ profit = 50
 discard_price = 10
 ingredients = [ "CookedFries" ]
 deliverable = true
+v_limits = Vector2( -89, 25 )
 
-[node name="Fries" type="Sprite" parent="."]
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Fries" type="Sprite" parent="Sprites"]
 position = Vector2( 0, -32 )
 texture = ExtResource( 2 )

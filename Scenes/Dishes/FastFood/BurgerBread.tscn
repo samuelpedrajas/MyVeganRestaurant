@@ -9,10 +9,13 @@ script = ExtResource( 1 )
 reference = "BurgerBread"
 discard_price = 10
 ingredients = [ "BurgerBread" ]
+v_limits = Vector2( -70, 34.5 )
 
-[node name="BottomBread" type="Sprite" parent="."]
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="BottomBread" type="Sprite" parent="Sprites"]
 texture = ExtResource( 3 )
 
-[node name="TopBread" type="Sprite" parent="."]
+[node name="TopBread" type="Sprite" parent="Sprites"]
 position = Vector2( 0, -32 )
 texture = ExtResource( 2 )

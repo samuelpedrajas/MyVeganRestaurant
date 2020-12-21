@@ -8,7 +8,7 @@ var separation = 30
 var menu
 var rng
 
-var bubble_initial_position
+var bubble_initial_position = null
 
 
 func _ready():
@@ -18,6 +18,22 @@ func _ready():
 func setup(_menu, _rng):
 	self.menu = _menu
 	self.rng = _rng
+
+
+func accepts_dish(dish):
+	for _dish in bubble.get_children():
+		if _dish.reference == dish.reference:
+			return true
+	return false
+
+
+func receive_dish(dish):
+	for _dish in bubble.get_children():
+		if _dish.reference == dish.reference:
+			bubble.remove_child(_dish)
+			_dish.queue_free()
+			break
+	_resize()
 
 
 func select_dishes():
@@ -49,7 +65,8 @@ func select_dishes():
 
 
 func _resize():
-	var init_position = bubble.get_position()
+	if bubble_initial_position == null:
+		bubble_initial_position = bubble.get_position()
 	var bubble_size = bubble.get_size()
 	var x_center = bubble_size.x / 2.0
 	var new_bubble_h = separation
@@ -58,7 +75,7 @@ func _resize():
 		new_bubble_h += child.get_height() + separation
 
 	bubble.set_size(Vector2(bubble_size.x, new_bubble_h))
-	bubble.set_position(init_position - Vector2(
+	bubble.set_position(bubble_initial_position - Vector2(
 		0, new_bubble_h * bubble.get_scale().y
 	))
 

@@ -9,6 +9,10 @@ export(bool) var deliverable
 export(Vector2) var v_limits
 
 
+func deliver(pos):
+	queue_free()
+
+
 func get_height():
 	return abs(v_limits[0]) + abs(v_limits[1])
 

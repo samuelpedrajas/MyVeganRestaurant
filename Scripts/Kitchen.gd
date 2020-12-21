@@ -77,6 +77,25 @@ func use_item(item, origin):
 	else:
 		send_to_destination(item, origin)
 
+
+func _select_client(dish):
+	var clients = get_tree().get_nodes_in_group("Client")
+	for client in clients:
+		if client.accepts_dish(dish):
+			return client
+	return null
+
+
+func deliver(dish, origin):
+	var client = _select_client(dish)
+	if client == null:
+		print("No client accepts this dish")
+		return
+	origin.drop_item()
+	client.receive_dish(dish)
+	dish.deliver(Vector2())
+
+
 ### Signal Handlers ###
 
 func _on_HUD_start_game():

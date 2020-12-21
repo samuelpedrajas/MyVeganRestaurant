@@ -89,15 +89,19 @@ kitchen = NodePath("../..")
 
 [node name="Plate1" parent="Main" instance=ExtResource( 16 )]
 position = Vector2( 133.337, -186.484 )
+kitchen = NodePath("../..")
 
 [node name="Plate2" parent="Main" instance=ExtResource( 16 )]
 position = Vector2( 360.399, -190.138 )
+kitchen = NodePath("../..")
 
 [node name="Plate3" parent="Main" instance=ExtResource( 16 )]
 position = Vector2( 131.579, -27.5269 )
+kitchen = NodePath("../..")
 
 [node name="Plate4" parent="Main" instance=ExtResource( 16 )]
 position = Vector2( 364.997, -28.4146 )
+kitchen = NodePath("../..")
 
 [node name="Fryer1" parent="Main" instance=ExtResource( 19 )]
 position = Vector2( -843.474, -217.127 )
@@ -116,12 +120,15 @@ platform = NodePath("../../Main/Platform3")
 
 [node name="Platform1" parent="Main" instance=ExtResource( 20 )]
 position = Vector2( -645.08, -218.571 )
+kitchen = NodePath("../..")
 
 [node name="Platform2" parent="Main" instance=ExtResource( 20 )]
 position = Vector2( -645.08, -83.5713 )
+kitchen = NodePath("../..")
 
 [node name="Platform3" parent="Main" instance=ExtResource( 20 )]
 position = Vector2( -645.08, 40.4287 )
+kitchen = NodePath("../..")
 
 [node name="Bin" parent="Main" instance=ExtResource( 17 )]
 position = Vector2( 731.15, 208.46 )

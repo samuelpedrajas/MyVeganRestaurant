@@ -4,7 +4,9 @@
 [ext_resource path="res://Images/Bocadillo.png" type="Texture" id=2]
 [ext_resource path="res://Images/Cliente.png" type="Texture" id=3]
 
-[node name="Client" type="Node2D"]
+[node name="Client" type="Node2D" groups=[
+"Client",
+]]
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

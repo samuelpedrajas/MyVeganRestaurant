@@ -30,9 +30,13 @@ func accepts_dish(dish):
 func receive_dish(dish):
 	for _dish in bubble.get_children():
 		if _dish.reference == dish.reference:
-			bubble.remove_child(_dish)
-			_dish.queue_free()
+			dish.set_client(self, _dish)
 			break
+
+
+func remove_dish(_dish):
+	bubble.remove_child(_dish)
+	_dish.queue_free()
 	_resize()
 
 

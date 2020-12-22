@@ -93,7 +93,8 @@ func deliver(dish, origin):
 		return
 	origin.drop_item()
 	client.receive_dish(dish)
-	dish.deliver(Vector2())
+	$Main.add_child(dish)
+	dish.deliver(origin.get_throw_position())
 
 
 ### Signal Handlers ###

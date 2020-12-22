@@ -17,6 +17,10 @@ func add_dish(_dish):
 	print("Plate: %s ---> %s" % [old_dish_name, _dish.reference])
 
 
+func get_throw_position():
+	return $Placeholder.get_global_position()
+
+
 func drop_item():
 	$Placeholder.remove_child(self.dish)
 	self.dish = null

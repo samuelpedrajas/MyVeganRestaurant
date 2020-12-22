@@ -13,6 +13,10 @@ func drop_item():
 	$Timer.stop()
 
 
+func get_throw_position():
+	return $Placeholder.get_global_position()
+
+
 func _on_Timer_food_cooked():
 	self.dish = $Placeholder/Cola.duplicate()
 	$AnimationPlayer.play("prepared_animation")

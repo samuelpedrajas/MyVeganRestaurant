@@ -1,7 +1,7 @@
 extends Control
 
 
-export(int) var max_n_clients = 4
+export(int) var max_n_clients = 5
 export(NodePath) onready var menu = get_node(menu)
 
 var client_scene = preload("res://Scenes/Client.tscn")
@@ -23,7 +23,7 @@ func new_client():
 	var client = client_scene.instance()
 	client.setup(menu, rng)
 	add_child(client)
-	client.set_position(_get_new_client_position())
+	client.walk_in(_get_new_client_position())
 
 
 func _get_new_client_position():

@@ -1,8 +1,32 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Client.gd" type="Script" id=1]
 [ext_resource path="res://Images/Bocadillo.png" type="Texture" id=2]
 [ext_resource path="res://Images/Cliente.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=3]
+resource_name = "walking_in"
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Sprite:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -45.6652, -0.25, 0, 0.25, 0, -45.665, -0.25, 0, 0.25, 0, -45.6652, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -202.561, -0.25, 0, 0.25, 0, -220, -0.25, 0, 0.25, 0, -202.561, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "walking_out"
@@ -31,25 +55,67 @@ tracks/1/keys = {
 [sub_resource type="GDScript" id=2]
 script/source = "extends AnimationPlayer
 
-var speed = Vector2(-200, 0)
+
+signal arrived
+
+
+var speed = Vector2(200, 0)
+var destination
+var _destination_threshold = 10.0
+var client
 
 
 func _ready():
+	client = get_parent()
 	set_process(false)
 
 
-func _process(delta):
-	var screen_size = OS.get_screen_size()
-	var client = get_parent()
-	var viewport_size = client.get_viewport_rect().size
-	client.position += (self.speed * delta)
+func _has_arrived():
 	var client_global_pos = client.get_global_position()
-	if client_global_pos.x < 0.0 or client_global_pos.x > viewport_size.x:
-		client.die()
+	var upper_bound = destination.x + _destination_threshold
+	var lower_bound = destination.x - _destination_threshold
+	if client.position.x <= upper_bound and client.position.x >= lower_bound:
+		return true
+	return false
+
+
+func _process(delta):
+	client.position += (self.speed * delta)
+	if current_animation == \"walking_in\":
+		if _has_arrived():
+			stop()
+			set_process(false)
+			emit_signal(\"arrived\")
+			print(\"Client arrived\")
+	elif current_animation == \"walking_out\":
+		var viewport_size = client.get_viewport_rect().size
+		var client_global_pos = client.get_global_position()
+		if client_global_pos.x < 0.0 or client_global_pos.x > viewport_size.x:
+			client.die()
+
+
+func walk_in(_destination):
+	client.position.y = _destination.y
+	var client_global_pos = client.get_global_position()
+	if _destination.x < client.get_parent().get_size().x - _destination.x:
+		client.set_global_position(
+			Vector2(0, client_global_pos.y)
+		)
+	else:
+		var viewport_size = client.get_viewport_rect().size
+		speed *= -1
+		client.set_global_position(
+			Vector2(viewport_size.x, client_global_pos.y)
+		)
+	play(\"walking_in\")
+	print(\"Client walking in... (%s)\" % [_destination])
+	self.destination = _destination
+	set_process(true)
 
 
 func walk_out():
 	play(\"walking_out\")
+	print(\"Client walking out...\")
 	set_process(true)
 "
 
@@ -84,5 +150,7 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 pause_mode = 1
+anims/walking_in = SubResource( 3 )
 anims/walking_out = SubResource( 1 )
 script = SubResource( 2 )
+[connection signal="arrived" from="AnimationPlayer" to="." method="_on_AnimationPlayer_arrived"]

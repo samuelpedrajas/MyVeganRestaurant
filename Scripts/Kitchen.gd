@@ -2,6 +2,7 @@ extends Node2D
 
 
 func _ready():
+	_on_size_changed()
 	get_tree().set_pause(true)
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 

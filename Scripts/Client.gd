@@ -11,8 +11,9 @@ var rng
 var bubble_initial_position = null
 
 
-func _ready():
-	select_dishes()
+func walk_in(destination):
+	bubble.hide()
+	$AnimationPlayer.walk_in(destination)
 
 
 func walk_out():
@@ -104,3 +105,8 @@ func _resize():
 		acc += half + separation + child.get_y_offset() / 2.0
 		child.set_position(Vector2(x_center, acc))
 		acc += half - child.get_y_offset() / 2.0
+
+
+func _on_AnimationPlayer_arrived():
+	select_dishes()
+	bubble.show()

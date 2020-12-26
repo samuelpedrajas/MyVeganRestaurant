@@ -59,7 +59,7 @@ script/source = "extends AnimationPlayer
 signal arrived
 
 
-var speed = Vector2(200, 0)
+var speed = Vector2(300, 0)
 var destination
 var _destination_threshold = 10.0
 var client
@@ -71,7 +71,6 @@ func _ready():
 
 
 func _has_arrived():
-	var client_global_pos = client.get_global_position()
 	var upper_bound = destination.x + _destination_threshold
 	var lower_bound = destination.x - _destination_threshold
 	if client.position.x <= upper_bound and client.position.x >= lower_bound:
@@ -116,6 +115,7 @@ func walk_in(_destination):
 func walk_out():
 	play(\"walking_out\")
 	print(\"Client walking out...\")
+	speed *= -1
 	set_process(true)
 "
 

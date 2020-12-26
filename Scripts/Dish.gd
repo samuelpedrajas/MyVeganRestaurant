@@ -12,6 +12,7 @@ export(Vector2) var v_limits
 var client
 var client_dish
 var tween = Tween.new()
+var served = false
 
 
 func _ready():

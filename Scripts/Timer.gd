@@ -12,53 +12,35 @@ signal food_burned
 
 var food_is_cooked = false
 
-enum states {
-	STOPPED,
-	PAUSED,
-	WORKING
-}
-var status = states.STOPPED
-
-func _ready():
-	#start()
-	pass
 
 func countdown():
 	_count = 0
 	$Timer.start()
 
+
 func start():
-	status = states.WORKING
 	food_is_cooked = false
 	$Timer.set_paused(false)
 	$Timer.set_wait_time(self.resolution)
 	$CookingProgress.show()
 	countdown()
 
+
 func stop():
-	status = states.STOPPED
 	$Timer.stop()
 	$CookingProgress.hide()
 	$BurningProgress.hide()
 	$CookingProgress.set_value(0)
 	$BurningProgress.set_value(0)
 
+
 func pause():
-	status = states.PAUSED
 	$Timer.set_paused(true)
 
+
 func resume():
-	status = states.WORKING
 	$Timer.set_paused(false)
 
-func resume_or_start():
-	if status == states.STOPPED:
-		start()
-	elif status == states.PAUSED:
-		resume()
-	else:
-		# should never enter here
-		print("WARNING: ", status)
 
 func _on_Timer_timeout():
 	_count += 1

@@ -1,8 +1,57 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Client.gd" type="Script" id=1]
 [ext_resource path="res://Images/Bocadillo.png" type="Texture" id=2]
 [ext_resource path="res://Images/Cliente.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "walking_out"
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Sprite:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -45.6652, -0.25, 0, 0.25, 0, -45.665, -0.25, 0, 0.25, 0, -45.6652, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -202.561, -0.25, 0, 0.25, 0, -220, -0.25, 0, 0.25, 0, -202.561, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends AnimationPlayer
+
+var speed = Vector2(-200, 0)
+
+
+func _ready():
+	set_process(false)
+
+
+func _process(delta):
+	var screen_size = OS.get_screen_size()
+	var client = get_parent()
+	var viewport_size = client.get_viewport_rect().size
+	client.position += (self.speed * delta)
+	var client_global_pos = client.get_global_position()
+	if client_global_pos.x < 0.0 or client_global_pos.x > viewport_size.x:
+		client.die()
+
+
+func walk_out():
+	play(\"walking_out\")
+	set_process(true)
+"
 
 [node name="Client" type="Node2D" groups=[
 "Client",
@@ -32,3 +81,8 @@ patch_margin_bottom = 9
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+pause_mode = 1
+anims/walking_out = SubResource( 1 )
+script = SubResource( 2 )

@@ -13,8 +13,7 @@ func _ready():
 
 func drop_item():
 	self.dish = null
-	$Timer.stop()
-	$Timer.resume_or_start()
+	$Timer.start()
 	$Timer.show()
 	$AnimationPlayer.play("preparing_animation")
 

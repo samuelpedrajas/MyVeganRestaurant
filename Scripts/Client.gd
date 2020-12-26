@@ -15,6 +15,16 @@ func _ready():
 	select_dishes()
 
 
+func walk_out():
+	bubble.hide()
+	$AnimationPlayer.walk_out()
+
+
+func die():
+	print("Client died")
+	queue_free()
+
+
 func setup(_menu, _rng):
 	self.menu = _menu
 	self.rng = _rng
@@ -22,22 +32,26 @@ func setup(_menu, _rng):
 
 func accepts_dish(dish):
 	for _dish in bubble.get_children():
-		if _dish.reference == dish.reference:
+		if _dish.reference == dish.reference and _dish.served == false:
 			return true
 	return false
 
 
 func receive_dish(dish):
 	for _dish in bubble.get_children():
-		if _dish.reference == dish.reference:
+		if _dish.reference == dish.reference and _dish.served == false:
 			dish.set_client(self, _dish)
+			_dish.served = true
 			break
 
 
 func remove_dish(_dish):
 	bubble.remove_child(_dish)
 	_dish.queue_free()
-	_resize()
+	if bubble.get_child_count() < 1:
+		walk_out()
+	else:
+		_resize()
 
 
 func select_dishes():

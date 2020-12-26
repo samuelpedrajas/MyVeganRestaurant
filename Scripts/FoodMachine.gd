@@ -31,7 +31,7 @@ func add_item(_ingredient):
 	if not self.hide_ingredient:
 		$Placeholder.add_child(_ingredient)
 	$AnimationPlayer.play("preparing_animation")
-	$Timer.resume_or_start()
+	$Timer.start()
 
 
 func drop_item():

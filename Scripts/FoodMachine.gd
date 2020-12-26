@@ -5,6 +5,7 @@ export(String) var reference = ""
 export(bool) var hide_ingredient = false
 export(NodePath) onready var kitchen = get_node(kitchen)
 export(NodePath) var platform
+export(bool) var serve_automatically = false
 
 var ingredient = null
 
@@ -43,7 +44,8 @@ func drop_item():
 
 func _on_Timer_food_cooked():
 	self.ingredient.evolve()
-
+	if self.serve_automatically:
+		kitchen.use_item(self.ingredient, self)
 
 func _on_Timer_food_burned():
 	self.ingredient.evolve()

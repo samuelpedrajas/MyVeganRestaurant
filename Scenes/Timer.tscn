@@ -12,6 +12,8 @@ bg_color = Color( 0.831373, 0.133333, 0.0823529, 1 )
 
 [node name="Timer" type="Node2D"]
 script = ExtResource( 1 )
+cooking_time = 2
+burning_time = 6
 
 [node name="Timer" type="Timer" parent="."]
 

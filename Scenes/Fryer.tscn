@@ -9,7 +9,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 95.2351, 56.7626 )
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "default_animation"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Fries:visible")
@@ -24,8 +24,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "preparing_animation"
+[sub_resource type="Animation" id=3]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Fries:visible")
 tracks/0/interp = 1
@@ -45,6 +44,7 @@ tracks/0/keys = {
 script = ExtResource( 1 )
 reference = "Fryer"
 hide_ingredient = true
+serve_automatically = true
 
 [node name="Fryer" type="Sprite" parent="."]
 texture = ExtResource( 3 )
@@ -63,8 +63,8 @@ burning_time = -1
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/default_animation = SubResource( 3 )
-anims/preparing_animation = SubResource( 2 )
+anims/default_animation = SubResource( 2 )
+anims/preparing_animation = SubResource( 3 )
 [connection signal="food_burned" from="Timer" to="." method="_on_Timer_food_burned"]
 [connection signal="food_cooked" from="Timer" to="." method="_on_Timer_food_cooked"]
 [connection signal="clicked" from="ClickableArea" to="." method="_on_ClickableArea_clicked"]

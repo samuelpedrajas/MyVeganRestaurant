@@ -5,7 +5,7 @@
 [ext_resource path="res://Images/Cliente.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/PatienceTimer.tscn" type="PackedScene" id=4]
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=1]
 resource_name = "walking_in"
 loop = true
 tracks/0/type = "bezier"
@@ -29,7 +29,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.6, 1 )
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=2]
 resource_name = "walking_out"
 loop = true
 tracks/0/type = "bezier"
@@ -53,7 +53,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.6, 1 )
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=3]
 resource_name = "walking_out_angry"
 loop = true
 tracks/0/type = "bezier"
@@ -89,7 +89,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 0.431373, 0.431373, 1 ) ]
 }
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=4]
 script/source = "extends AnimationPlayer
 
 
@@ -194,10 +194,10 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 pause_mode = 1
 playback_speed = 2.0
-anims/walking_in = SubResource( 4 )
-anims/walking_out = SubResource( 5 )
-anims/walking_out_angry = SubResource( 6 )
-script = SubResource( 3 )
+anims/walking_in = SubResource( 1 )
+anims/walking_out = SubResource( 2 )
+anims/walking_out_angry = SubResource( 3 )
+script = SubResource( 4 )
 
 [node name="Tween" type="Tween" parent="AnimationPlayer"]
 

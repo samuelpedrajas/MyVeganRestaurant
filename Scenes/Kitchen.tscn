@@ -32,6 +32,11 @@ script = ExtResource( 3 )
 visible = false
 script = ExtResource( 11 )
 
+[node name="Complement" type="Node2D" parent="Menu"]
+visible = false
+
+[node name="Fries" parent="Menu/Complement" instance=ExtResource( 21 )]
+
 [node name="Main" type="Node2D" parent="Menu"]
 
 [node name="BurgerBread" parent="Menu/Main" instance=ExtResource( 10 )]
@@ -43,11 +48,6 @@ script = ExtResource( 11 )
 [node name="TomatoBurger" parent="Menu/Main" instance=ExtResource( 13 )]
 
 [node name="CompleteBurger" parent="Menu/Main" instance=ExtResource( 14 )]
-
-[node name="Complement" type="Node2D" parent="Menu"]
-visible = false
-
-[node name="Fries" parent="Menu/Complement" instance=ExtResource( 21 )]
 
 [node name="Drink" type="Node2D" parent="Menu"]
 

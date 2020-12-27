@@ -4,7 +4,7 @@ extends Node2D
 export(int) var seconds_gained_on_delivery = 4
 
 
-var time = 10
+var time = 90
 var score = 0
 
 
@@ -14,6 +14,7 @@ func _ready():
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 	$HUD.set_time(time)
 	$Timer.start()
+
 
 func send_to_destination(item, origin):
 	var destination_name = item.get_destination()

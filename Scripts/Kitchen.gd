@@ -1,6 +1,9 @@
 extends Node2D
 
 
+export(int) var seconds_gained_on_delivery = 4
+
+
 func _ready():
 	_on_size_changed()
 	get_tree().set_pause(true)
@@ -94,6 +97,7 @@ func deliver(dish, origin):
 		return
 	origin.drop_item()
 	client.receive_dish(dish)
+	client.increase_patience(seconds_gained_on_delivery)
 	$Main.add_child(dish)
 	dish.deliver(origin.get_throw_position())
 

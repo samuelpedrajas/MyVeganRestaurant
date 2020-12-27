@@ -18,6 +18,7 @@ func walk_in(destination):
 
 func walk_out():
 	bubble.hide()
+	$PatienceTimer.stop()
 	$AnimationPlayer.walk_out()
 
 
@@ -32,6 +33,8 @@ func setup(_menu, _rng):
 
 
 func accepts_dish(dish):
+	if not bubble.is_visible():
+		return false
 	for _dish in bubble.get_children():
 		if _dish.reference == dish.reference and _dish.served == false:
 			return true
@@ -83,6 +86,10 @@ func select_dishes():
 	_resize()
 
 
+func increase_patience(seconds):
+	$PatienceTimer.add_patience(seconds)
+
+
 func _resize():
 	if bubble_initial_position == null:
 		bubble_initial_position = bubble.get_position()
@@ -110,3 +117,10 @@ func _resize():
 func _on_AnimationPlayer_arrived():
 	select_dishes()
 	bubble.show()
+	$PatienceTimer.start()
+
+
+func _on_PatienceTimer_angry():
+	bubble.hide()
+	$PatienceTimer.stop()
+	$AnimationPlayer.walk_out_angry()

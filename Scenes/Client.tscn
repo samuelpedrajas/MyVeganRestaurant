@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Client.gd" type="Script" id=1]
 [ext_resource path="res://Images/Bocadillo.png" type="Texture" id=2]
 [ext_resource path="res://Images/Cliente.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/PatienceTimer.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=4]
 resource_name = "walking_in"
@@ -52,6 +53,42 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.6, 1 )
 }
 
+[sub_resource type="Animation" id=6]
+resource_name = "walking_out_angry"
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Sprite:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -45.6652, -0.25, 0, 0.25, 0, -45.665, -0.25, 0, 0.25, 0, -45.6652, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -202.561, -0.25, 0, 0.25, 0, -208.572, -0.25, 0, 0.25, 0, -202.561, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.6, 1 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 0.431373, 0.431373, 1 ) ]
+}
+
 [sub_resource type="GDScript" id=3]
 script/source = "extends AnimationPlayer
 
@@ -94,8 +131,8 @@ func walk_in(_destination):
 	print(\"Client walking in... (%s -> %s)\" % [left_prob,  int(left)])
 
 
-func walk_out():
-	play(\"walking_out\")
+func walk_out(anim=\"walking_out\"):
+	play(anim)
 	var viewport_size = client.get_viewport_rect().size
 	var left_prob = (viewport_size.x - client.get_global_position().x) / viewport_size.x
 	var left = _is_going_to_left(left_prob)
@@ -110,12 +147,18 @@ func walk_out():
 	print(\"Client walking out... (%s -> %s)\" % [left_prob, int(left)])
 
 
+func walk_out_angry():
+	walk_out(\"walking_out_angry\")
+
+
 func _on_Tween_tween_all_completed():
 	if current_animation == \"walking_in\":
 		stop()
 		emit_signal(\"arrived\")
 		print(\"Client arrived\")
 	elif current_animation == \"walking_out\":
+		client.die()
+	elif current_animation == \"walking_out_angry\":
 		client.die()
 "
 
@@ -153,8 +196,13 @@ pause_mode = 1
 playback_speed = 2.0
 anims/walking_in = SubResource( 4 )
 anims/walking_out = SubResource( 5 )
+anims/walking_out_angry = SubResource( 6 )
 script = SubResource( 3 )
 
 [node name="Tween" type="Tween" parent="AnimationPlayer"]
+
+[node name="PatienceTimer" parent="." instance=ExtResource( 4 )]
+position = Vector2( -125.363, -349.106 )
 [connection signal="arrived" from="AnimationPlayer" to="." method="_on_AnimationPlayer_arrived"]
 [connection signal="tween_all_completed" from="AnimationPlayer/Tween" to="AnimationPlayer" method="_on_Tween_tween_all_completed"]
+[connection signal="angry" from="PatienceTimer" to="." method="_on_PatienceTimer_angry"]

@@ -17,6 +17,7 @@ func start():
 		position_availability.append(true)
 	for _i in range(max_n_clients):
 		new_client()
+		yield(get_tree().create_timer(2.0), "timeout")
 
 
 func new_client():

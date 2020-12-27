@@ -4,7 +4,7 @@
 [ext_resource path="res://Images/Bocadillo.png" type="Texture" id=2]
 [ext_resource path="res://Images/Cliente.png" type="Texture" id=3]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 resource_name = "walking_in"
 loop = true
 tracks/0/type = "bezier"
@@ -28,8 +28,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5, 1 )
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "walking_out"
+[sub_resource type="Animation" id=2]
 loop = true
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Sprite:position:x")
@@ -52,71 +51,71 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5, 1 )
 }
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=3]
 script/source = "extends AnimationPlayer
 
 
 signal arrived
 
+export(int) var arrival_time = 3.0
 
-var speed = Vector2(300, 0)
-var destination
-var _destination_threshold = 10.0
+var init_position
+var init_offset = 100.0
 var client
+var rng
 
 
 func _ready():
 	client = get_parent()
-	set_process(false)
+	rng = RandomNumberGenerator.new()
+	rng.randomize()
 
 
-func _has_arrived():
-	var upper_bound = destination.x + _destination_threshold
-	var lower_bound = destination.x - _destination_threshold
-	if client.position.x <= upper_bound and client.position.x >= lower_bound:
-		return true
-	return false
-
-
-func _process(delta):
-	client.position += (self.speed * delta)
-	if current_animation == \"walking_in\":
-		if _has_arrived():
-			stop()
-			set_process(false)
-			emit_signal(\"arrived\")
-			print(\"Client arrived\")
-	elif current_animation == \"walking_out\":
-		var viewport_size = client.get_viewport_rect().size
-		var client_global_pos = client.get_global_position()
-		if client_global_pos.x < 0.0 or client_global_pos.x > viewport_size.x:
-			client.die()
-
+func _is_going_to_left(left_prob):
+	return left_prob > 0.3 or (rng.randf() < left_prob and left_prob > 0.3)
+	
 
 func walk_in(_destination):
-	client.position.y = _destination.y
-	var client_global_pos = client.get_global_position()
-	if _destination.x < client.get_parent().get_size().x - _destination.x:
-		client.set_global_position(
-			Vector2(0, client_global_pos.y)
-		)
+	var viewport_size = client.get_viewport_rect().size
+	var destination = client.to_global(_destination)
+	var left_prob = (viewport_size.x - destination.x) / viewport_size.x
+	var left = _is_going_to_left(left_prob)
+	if left:
+		init_position = Vector2(-init_offset, destination.y)
 	else:
-		var viewport_size = client.get_viewport_rect().size
-		speed *= -1
-		client.set_global_position(
-			Vector2(viewport_size.x, client_global_pos.y)
-		)
+		init_position = Vector2(viewport_size.x + init_offset, destination.y)
+	client.set_global_position(init_position)
+	$Tween.interpolate_method(
+		client, \"set_global_position\", init_position, destination, arrival_time
+	)
+	$Tween.start()
 	play(\"walking_in\")
-	print(\"Client walking in... (%s)\" % [_destination])
-	self.destination = _destination
-	set_process(true)
+	print(\"Client walking in... (%s -> %s)\" % [left_prob,  int(left)])
 
 
 func walk_out():
 	play(\"walking_out\")
-	print(\"Client walking out...\")
-	speed *= -1
-	set_process(true)
+	var viewport_size = client.get_viewport_rect().size
+	var left_prob = (viewport_size.x - client.get_global_position().x) / viewport_size.x
+	var left = _is_going_to_left(left_prob)
+	var final_position = Vector2(-init_offset, init_position.y)
+	if not left:
+		final_position = Vector2(viewport_size.x + init_offset, init_position.y)
+	$Tween.interpolate_method(
+		client, \"set_global_position\", client.get_global_position(),
+		final_position, arrival_time
+	)
+	$Tween.start()
+	print(\"Client walking out... (%s -> %s)\" % [left_prob, int(left)])
+
+
+func _on_Tween_tween_all_completed():
+	if current_animation == \"walking_in\":
+		stop()
+		emit_signal(\"arrived\")
+		print(\"Client arrived\")
+	elif current_animation == \"walking_out\":
+		client.die()
 "
 
 [node name="Client" type="Node2D" groups=[
@@ -150,7 +149,10 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 pause_mode = 1
-anims/walking_in = SubResource( 3 )
-anims/walking_out = SubResource( 1 )
-script = SubResource( 2 )
+anims/walking_in = SubResource( 1 )
+anims/walking_out = SubResource( 2 )
+script = SubResource( 3 )
+
+[node name="Tween" type="Tween" parent="AnimationPlayer"]
 [connection signal="arrived" from="AnimationPlayer" to="." method="_on_AnimationPlayer_arrived"]
+[connection signal="tween_all_completed" from="AnimationPlayer/Tween" to="AnimationPlayer" method="_on_Tween_tween_all_completed"]

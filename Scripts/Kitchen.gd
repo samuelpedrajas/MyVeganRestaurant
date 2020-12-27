@@ -3,6 +3,8 @@ extends Node2D
 
 export(int) var seconds_gained_on_delivery = 4
 
+var score = 0
+
 
 func _ready():
 	_on_size_changed()
@@ -75,7 +77,8 @@ func use_item(item, origin):
 	elif destination_name == "Platform":
 		send_to_platform(item, origin)
 	elif destination_name == "Bin":
-		print("TODO: lose %s points" % item.discard_price)
+		print("%s points losed" % item.discard_price)
+		substract_score(item.discard_price)
 		origin.drop_item()
 		$Main/Bin.throw_item(item)
 	else:
@@ -100,6 +103,18 @@ func deliver(dish, origin):
 	client.increase_patience(seconds_gained_on_delivery)
 	$Main.add_child(dish)
 	dish.deliver(origin.get_throw_position())
+	add_score(dish.profit)
+
+
+func add_score(inc):
+	score += inc
+	$HUD.set_score(score)
+
+
+func substract_score(inc):
+	score -= inc
+	score = max(0, score)
+	$HUD.set_score(score)
 
 
 ### Signal Handlers ###

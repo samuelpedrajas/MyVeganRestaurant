@@ -8,6 +8,9 @@ func _ready():
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 
 
+func set_score(score):
+	$Top/Score/Score.set_text(str(score))
+
 ### Signal Handlers ###
 
 func _on_PlayButton_pressed():

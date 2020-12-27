@@ -178,4 +178,7 @@ kitchen = NodePath("../..")
 [node name="HUD" parent="." instance=ExtResource( 2 )]
 margin_right = 1920.0
 margin_bottom = 1080.0
+
+[node name="Timer" type="Timer" parent="."]
 [connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

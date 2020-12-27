@@ -3,6 +3,8 @@ extends Node2D
 
 export(int) var seconds_gained_on_delivery = 4
 
+
+var time = 10
 var score = 0
 
 
@@ -10,7 +12,8 @@ func _ready():
 	_on_size_changed()
 	get_tree().set_pause(true)
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
-
+	$HUD.set_time(time)
+	$Timer.start()
 
 func send_to_destination(item, origin):
 	var destination_name = item.get_destination()
@@ -137,3 +140,8 @@ func _on_size_changed():
 			viewport_size.y - $Main.texture.get_size().y / 2.0
 		)
 	)
+
+
+func _on_Timer_timeout():
+	time -= 1
+	$HUD.set_time(time)

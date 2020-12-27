@@ -11,6 +11,10 @@ func _ready():
 func set_score(score):
 	$Top/Score/Score.set_text(str(score))
 
+
+func set_time(time):
+	$Top/Time/Time.set_text(str(time))
+
 ### Signal Handlers ###
 
 func _on_PlayButton_pressed():

@@ -4,7 +4,7 @@
 [ext_resource path="res://Images/Bocadillo.png" type="Texture" id=2]
 [ext_resource path="res://Images/Cliente.png" type="Texture" id=3]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=4]
 resource_name = "walking_in"
 loop = true
 tracks/0/type = "bezier"
@@ -24,11 +24,12 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( -202.561, -0.25, 0, 0.25, 0, -220, -0.25, 0, 0.25, 0, -202.561, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.5, 1 )
+"points": PoolRealArray( -202.561, -0.25, 0, 0.25, 0, -208.572, -0.25, 0, 0.25, 0, -202.561, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.6, 1 )
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=5]
+resource_name = "walking_out"
 loop = true
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Sprite:position:x")
@@ -47,8 +48,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( -202.561, -0.25, 0, 0.25, 0, -220, -0.25, 0, 0.25, 0, -202.561, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.5, 1 )
+"points": PoolRealArray( -202.561, -0.25, 0, 0.25, 0, -208.572, -0.25, 0, 0.25, 0, -202.561, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.6, 1 )
 }
 
 [sub_resource type="GDScript" id=3]
@@ -149,8 +150,9 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 pause_mode = 1
-anims/walking_in = SubResource( 1 )
-anims/walking_out = SubResource( 2 )
+playback_speed = 2.0
+anims/walking_in = SubResource( 4 )
+anims/walking_out = SubResource( 5 )
 script = SubResource( 3 )
 
 [node name="Tween" type="Tween" parent="AnimationPlayer"]

@@ -121,9 +121,10 @@ func walk_in(_destination):
 		init_position = Vector2(-init_offset, destination.y)
 	else:
 		init_position = Vector2(viewport_size.x + init_offset, destination.y)
-	client.set_global_position(init_position)
+	init_position = client.to_local(init_position)
+	client.set_position(init_position)
 	$Tween.interpolate_method(
-		client, \"set_global_position\", init_position, destination, arrival_time
+		client, \"set_position\", init_position, _destination, arrival_time
 	)
 	$Tween.start()
 	play(\"walking_in\")
@@ -132,14 +133,19 @@ func walk_in(_destination):
 
 func walk_out(anim=\"walking_out\"):
 	play(anim)
-	var viewport_size = client.get_viewport_rect().size
-	var left_prob = (viewport_size.x - client.get_global_position().x) / viewport_size.x
+	var scene_size = get_tree().get_current_scene().get_size()
+	var client_area_size = client.get_parent().get_size()
+	var diff_x = (scene_size.x - client_area_size.x) / 2.0
+	var left_prob = (
+		client_area_size.x - client.get_global_position().x
+	) / client_area_size.x
 	var left = _is_going_to_left(left_prob)
-	var final_position = Vector2(-init_offset, init_position.y)
+	var final_position_x = -init_offset - diff_x
 	if not left:
-		final_position = Vector2(viewport_size.x + init_offset, init_position.y)
+		final_position_x = client_area_size.x + init_offset + diff_x
+	var final_position = Vector2(final_position_x, client.get_position().y)
 	$Tween.interpolate_method(
-		client, \"set_global_position\", client.get_global_position(),
+		client, \"set_position\", client.get_position(),
 		final_position, arrival_time
 	)
 	$Tween.start()

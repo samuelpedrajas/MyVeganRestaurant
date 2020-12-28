@@ -129,16 +129,7 @@ func _on_HUD_start_game():
 
 
 func _on_size_changed():
-	var screen_size = OS.get_screen_size()
-	var scene_size = get_size()
-	var position_offset = (scene_size - screen_size) / 2.0
-	print("Resizing Kitchen")
-	$Main.set_position(
-		Vector2(
-			scene_size.x / 2.0,
-			scene_size.y - $Main.texture.get_size().y / 2.0
-		)
-	)
+	pass
 
 
 func _on_Timer_timeout():

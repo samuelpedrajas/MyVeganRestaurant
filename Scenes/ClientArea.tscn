@@ -3,8 +3,11 @@
 [ext_resource path="res://Scripts/ClientArea.gd" type="Script" id=1]
 
 [node name="ClientArea" type="Control"]
-margin_right = 1920.0
-margin_bottom = 397.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1080.0
+margin_bottom = -683.0
 mouse_filter = 2
 script = ExtResource( 1 )
 __meta__ = {

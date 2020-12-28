@@ -14,7 +14,7 @@ var current_n_clients = 0
 
 export(int) var seconds_gained_on_delivery = 4
 
-export(float) var max_time = 90
+export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
 export(float) var average_time_for_client = 3.0
 export(float) var average_reward_for_client = 150.0
@@ -307,8 +307,8 @@ func new_client():
 		dishes = select_random_dishes()
 		print("RANDOMLY SELECTED DISHES: %s" % [dishes])
 	else:
-		dishes = order_lists.pop_front()
 		timeout_seconds.pop_front()
+		dishes = order_lists.pop_front()
 		print("DISHES SELECTED FROM ORDER LIST: %s" % [dishes])
 
 	var client = client_scene.instance()
@@ -323,6 +323,7 @@ func new_client():
 	num_clients += 1
 	current_n_clients += 1
 	print("NEW CLIENT (TOTAL: %s)" % [num_clients])
+	print("CURRENT IN BOARD: %s" % [current_n_clients])
 
 
 func _get_new_client_position():

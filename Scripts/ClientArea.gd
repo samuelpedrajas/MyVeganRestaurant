@@ -54,8 +54,7 @@ var calculated_goal = null
 
 
 func start():
-	rng.randomize()
-	_prepare_game()
+	pass
 #	for _i in range(max_n_clients):
 #		position_availability.append(true)
 #	for _i in range(max_n_clients):
@@ -225,7 +224,8 @@ func _build_timeouts():
 		timeout_seconds[_i] += int(timeout_seconds[_i - 1])
 
 
-func _prepare_game():
+func prepare_game():
+	rng.randomize()
 	self.usable_time = (max_time - average_time_for_client - max_arrival_time)
 	self.average_client_number = ceil(usable_time / average_time_for_client)
 	self.calculated_goal = average_client_number * average_reward_for_client

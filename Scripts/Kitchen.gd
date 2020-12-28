@@ -3,14 +3,16 @@ extends Node2D
 
 var time = 90
 var score = 0
-
+onready var client_area = $Main/ClientArea
 
 func _ready():
+	client_area.prepare_game()
 	self.time = $Main/ClientArea.max_time
 	_on_size_changed()
 	get_tree().set_pause(true)
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 	$HUD.set_time(time)
+	$HUD.set_goal(client_area.calculated_goal)
 	$Timer.start()
 
 
@@ -123,7 +125,7 @@ func substract_score(inc):
 func _on_HUD_start_game():
 	yield(get_tree(), "idle_frame")
 	get_tree().set_pause(false)
-	$Main/ClientArea.start()
+	client_area.start()
 
 
 func _on_size_changed():

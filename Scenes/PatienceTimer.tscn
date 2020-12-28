@@ -20,6 +20,7 @@ margin_right = 73.0
 margin_bottom = 14.0
 rect_rotation = -90.0
 rect_pivot_offset = Vector2( 71, 7 )
+mouse_filter = 2
 custom_styles/fg = SubResource( 1 )
 custom_styles/bg = SubResource( 2 )
 value = 100.0

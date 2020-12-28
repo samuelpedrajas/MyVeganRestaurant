@@ -23,6 +23,5 @@ texture = ExtResource( 1 )
 rotation = 1.5708
 shape = SubResource( 1 )
 [connection signal="clicked" from="ClickableArea" to="." method="_on_ClickableArea_clicked"]
-[connection signal="released" from="ClickableArea" to="." method="_on_ClickableArea_released"]
 
 [editable path="ClickableArea"]

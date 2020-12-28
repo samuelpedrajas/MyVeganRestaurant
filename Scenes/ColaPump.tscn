@@ -11,7 +11,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 86.407, 89.0296 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "default_animation"
 length = 0.1
 tracks/0/type = "value"
@@ -39,8 +39,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "prepared_animation"
+[sub_resource type="Animation" id=3]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("ColaSprite:visible")
@@ -67,8 +66,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "preparing_animation"
+[sub_resource type="Animation" id=4]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("ColaServingSprite:visible")
@@ -123,9 +121,9 @@ position = Vector2( -35, 62 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/default_animation = SubResource( 4 )
-anims/prepared_animation = SubResource( 2 )
-anims/preparing_animation = SubResource( 3 )
+anims/default_animation = SubResource( 2 )
+anims/prepared_animation = SubResource( 3 )
+anims/preparing_animation = SubResource( 4 )
 
 [node name="Timer" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, -110 )

@@ -19,7 +19,3 @@ func drop_item():
 
 func _on_ClickableArea_clicked():
 	self.kitchen.use_item(self.ingredient.duplicate(), self)
-
-
-func _on_ClickableArea_released():
-	pass # Replace with function body.

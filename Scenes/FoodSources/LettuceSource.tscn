@@ -1,13 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/FoodSource.gd" type="Script" id=1]
 [ext_resource path="res://Images/Kitchen/FuenteLechuga.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Ingredients/Lettuce.tscn" type="PackedScene" id=4]
-
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 56.0027
-height = 64.4722
 
 [node name="LettuceSource" type="Node2D"]
 script = ExtResource( 1 )
@@ -18,10 +14,10 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 
 [node name="ClickableArea" parent="." instance=ExtResource( 3 )]
-
-[node name="CollisionShape2D" parent="ClickableArea" index="0"]
-rotation = 1.5708
-shape = SubResource( 1 )
-[connection signal="clicked" from="ClickableArea" to="." method="_on_ClickableArea_clicked"]
+margin_left = -101.0
+margin_top = -72.0
+margin_right = 102.0
+margin_bottom = 72.0
+[connection signal="pressed" from="ClickableArea" to="." method="_on_ClickableArea_pressed"]
 
 [editable path="ClickableArea"]

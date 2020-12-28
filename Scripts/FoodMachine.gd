@@ -47,10 +47,11 @@ func _on_Timer_food_cooked():
 	if self.serve_automatically:
 		kitchen.use_item(self.ingredient, self)
 
+
 func _on_Timer_food_burned():
 	self.ingredient.evolve()
 
 
-func _on_ClickableArea_clicked():
+func _on_ClickableArea_pressed():
 	if self.ingredient != null:
 		kitchen.use_item(self.ingredient, self)

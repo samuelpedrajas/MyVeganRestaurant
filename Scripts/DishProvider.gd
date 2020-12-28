@@ -29,6 +29,6 @@ func _on_Timer_food_cooked():
 		$Timer.hide()
 
 
-func _on_ClickableArea_clicked():
+func _on_ClickableArea_pressed():
 	if self.dish != null:
 		kitchen.deliver(self.dish, self)

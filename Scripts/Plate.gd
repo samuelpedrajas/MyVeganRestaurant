@@ -26,6 +26,6 @@ func drop_item():
 	self.dish = null
 
 
-func _on_ClickableArea_clicked():
+func _on_ClickableArea_pressed():
 	if dish != null:
 		kitchen.deliver(dish, self)

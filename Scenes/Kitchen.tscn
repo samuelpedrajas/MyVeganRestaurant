@@ -83,11 +83,11 @@ margin_bottom = -362.0
 menu = NodePath("../../Menu")
 
 [node name="TomatoSource" parent="Main" instance=ExtResource( 7 )]
-position = Vector2( 1561.85, 266.547 )
+position = Vector2( 1547.71, 266.547 )
 kitchen = NodePath("../..")
 
 [node name="LettuceSource" parent="Main" instance=ExtResource( 8 )]
-position = Vector2( 1559.56, 107.172 )
+position = Vector2( 1545.42, 110 )
 kitchen = NodePath("../..")
 
 [node name="Grill1" parent="Main" instance=ExtResource( 9 )]
@@ -107,7 +107,7 @@ position = Vector2( 836.755, 287.438 )
 kitchen = NodePath("../..")
 
 [node name="Plate1" parent="Main" instance=ExtResource( 16 )]
-position = Vector2( 1093.34, 103.516 )
+position = Vector2( 1082.03, 104.93 )
 kitchen = NodePath("../..")
 
 [node name="Plate2" parent="Main" instance=ExtResource( 16 )]
@@ -115,7 +115,7 @@ position = Vector2( 1320.4, 99.862 )
 kitchen = NodePath("../..")
 
 [node name="Plate3" parent="Main" instance=ExtResource( 16 )]
-position = Vector2( 1091.58, 262.473 )
+position = Vector2( 1083.09, 262.473 )
 kitchen = NodePath("../..")
 
 [node name="Plate4" parent="Main" instance=ExtResource( 16 )]

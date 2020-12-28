@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/FoodMachine.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=2]
@@ -6,10 +6,7 @@
 [ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Images/Kitchen/PatatasAceite.png" type="Texture" id=5]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 95.2351, 56.7626 )
-
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "default_animation"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Fries:visible")
@@ -24,7 +21,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Fries:visible")
 tracks/0/interp = 1
@@ -57,16 +54,17 @@ texture = ExtResource( 5 )
 position = Vector2( 0, -103 )
 burning_time = -1
 
-[node name="ClickableArea" parent="." instance=ExtResource( 2 )]
-
-[node name="CollisionShape2D" parent="ClickableArea" index="0"]
-shape = SubResource( 1 )
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/default_animation = SubResource( 2 )
-anims/preparing_animation = SubResource( 3 )
+anims/default_animation = SubResource( 1 )
+anims/preparing_animation = SubResource( 2 )
+
+[node name="ClickableArea" parent="." instance=ExtResource( 2 )]
+margin_left = -97.0
+margin_top = -62.0
+margin_right = 97.0
+margin_bottom = 61.0
 [connection signal="food_burned" from="Timer" to="." method="_on_Timer_food_burned"]
 [connection signal="food_cooked" from="Timer" to="." method="_on_Timer_food_cooked"]
-[connection signal="clicked" from="ClickableArea" to="." method="_on_ClickableArea_clicked"]
+[connection signal="pressed" from="ClickableArea" to="." method="_on_ClickableArea_pressed"]
 
 [editable path="ClickableArea"]

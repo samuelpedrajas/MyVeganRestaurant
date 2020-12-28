@@ -55,3 +55,5 @@ func _on_Timer_food_burned():
 func _on_ClickableArea_pressed():
 	if self.ingredient != null:
 		kitchen.use_item(self.ingredient, self)
+	elif self.platform != null and platform.dish != null:
+		kitchen.deliver(platform.dish, platform)

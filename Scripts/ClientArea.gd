@@ -18,7 +18,7 @@ var category_probabilities = [0.4, 0.8, 0.5]
 var max_orders = 4
 
 var patience_multiplier = 3.0
-var base_variability = 0.0
+var base_variability = 0.5
 var added_variability = 3.0
 var added_variability_percentage = 0.4
 var maximums = [0.8]
@@ -159,27 +159,35 @@ func _prepare_game():
 	print("REST")
 	print(rest)
 
-	var num_clients = timeout_seconds.size() + 1
 	timeout_seconds = [0]
 	var max_countdown = 0
 	var min_countdown = 0
-	for i in range(1, num_clients):
+	var i = 0
+	while highests or lowests or rest:
 		if i in max_start:
 			max_countdown = clients_per_maximum
-		elif i in min_start:
+		if i in min_start:
 			min_countdown = clients_per_minimum
-		if max_countdown > 0:
+		if max_countdown > 0 and highests:
 			timeout_seconds.append(highests.pop_back())
 			max_countdown -= 1
-		elif min_countdown > 0:
+			i += 1
+			continue
+		if min_countdown > 0 and lowests:
 			timeout_seconds.append(lowests.pop_back())
 			min_countdown -= 1
-		else:
+			i += 1
+			continue
+		if rest:
 			timeout_seconds.append(rest.pop_back())
+			i += 1
+
+	print("NO ACCUMULATION")
+	print(timeout_seconds)
 
 	# accumulate timeouts
-	for i in range(2, timeout_seconds.size()):
-		timeout_seconds[i] += timeout_seconds[i - 1]
+	for _i in range(2, timeout_seconds.size()):
+		timeout_seconds[_i] += timeout_seconds[_i - 1]
 
 	print("FINAL TIMEOUTS:")
 	print(timeout_seconds)

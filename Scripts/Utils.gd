@@ -41,3 +41,13 @@ func _attribute_comparison(a, b):
 	if order == "desc":
 		return value_a > value_b
 	return value_a < value_b
+
+
+func initialise_array(s, v):
+	var l = []
+	for _i in range(0, s):
+		var val = v
+		if typeof(v) in [TYPE_ARRAY, TYPE_DICTIONARY]:
+			val = v.duplicate()
+		l.append(val)
+	return l

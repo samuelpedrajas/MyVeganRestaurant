@@ -6,7 +6,7 @@
 [ext_resource path="res://Scenes/Ingredients/Lettuce.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 48.0565
+radius = 56.0027
 height = 64.4722
 
 [node name="LettuceSource" type="Node2D"]

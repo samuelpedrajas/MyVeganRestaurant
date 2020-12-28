@@ -16,11 +16,15 @@ __meta__ = {
 }
 
 [node name="Top" type="Control" parent="."]
-anchor_right = 1.0
-margin_left = 81.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -879.0
 margin_top = 22.0
-margin_right = -81.0
+margin_right = 879.0
 margin_bottom = 123.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Score" type="Control" parent="Top"]
 anchor_right = 1.0

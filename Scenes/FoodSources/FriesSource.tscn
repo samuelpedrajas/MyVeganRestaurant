@@ -6,7 +6,7 @@
 [ext_resource path="res://Scenes/Ingredients/Fries.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 47.5268
+radius = 57.5916
 height = 233.986
 
 [node name="FriesSource" type="Node2D"]

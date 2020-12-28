@@ -6,7 +6,7 @@
 [ext_resource path="res://Images/Kitchen/FuenteHamburguesa.png" type="Texture" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 54.4137
+radius = 71.0744
 height = 185.252
 
 [node name="BurgerSource" type="Node2D"]

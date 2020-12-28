@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 
 var time = 90
@@ -8,12 +8,12 @@ onready var client_area = $Main/ClientArea
 func _ready():
 	client_area.prepare_game()
 	self.time = $Main/ClientArea.max_time
-	_on_size_changed()
 	get_tree().set_pause(true)
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 	$HUD.set_time(time)
 	$HUD.set_goal(client_area.calculated_goal)
 	$Timer.start()
+	_on_size_changed()
 
 
 func send_to_destination(item, origin):
@@ -130,14 +130,13 @@ func _on_HUD_start_game():
 
 func _on_size_changed():
 	var screen_size = OS.get_screen_size()
-	var viewport_size = get_viewport_rect().size
-	var position_offset = (viewport_size - screen_size) / 2.0
+	var scene_size = get_size()
+	var position_offset = (scene_size - screen_size) / 2.0
 	print("Resizing Kitchen")
-	set_position(position_offset)
-	$Main.set_global_position(
+	$Main.set_position(
 		Vector2(
-			$Main.get_global_position().x,
-			viewport_size.y - $Main.texture.get_size().y / 2.0
+			scene_size.x / 2.0,
+			scene_size.y - $Main.texture.get_size().y / 2.0
 		)
 	)
 

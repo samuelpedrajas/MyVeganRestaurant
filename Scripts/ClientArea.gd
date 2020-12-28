@@ -10,22 +10,42 @@ var rng = RandomNumberGenerator.new()
 var pending_clients = 0
 var position_availability = []
 
-var max_time = 90  # TODO: syncronise with Kitchen
-var max_arrival_time = 3.0  # TODO: syncronise with Client
-var average_time_for_client = 6.0
-var average_reward_for_client = 150.0
-var category_probabilities = [0.4, 0.8, 0.5]
-var max_orders = 4
+export(int) var seconds_gained_on_delivery = 4
 
-var patience_multiplier = 3.0
-var base_variability = 0.5
-var added_variability = 3.0
-var added_variability_percentage = 0.4
-var maximums = [0.8]
-var minimums = [0.2]
+export(float) var max_time = 90
+export(float) var max_arrival_time = 3.0
+export(float) var average_time_for_client = 6.0
+export(float) var average_reward_for_client = 150.0
+export(Array) var category_probabilities = [0.4, 0.8, 0.5]
+export(int) var max_orders = 4
+
+export(float) var patience = 3.0 * average_time_for_client
+export(float) var base_variability = 0.5
+export(float) var added_variability = 3.0
+export(float) var added_variability_percentage = 0.4
+export(Array) var maximums = [0.8]
+export(Array) var minimums = [0.2]
+
+export(Dictionary) var price_override = {
+	"Fries": 50,
+	"SimpleBurger": 100,
+	"TomatoBurger": 150,
+	"LettuceBurger": 150,
+	"CompleteBurger": 200,
+	"Cola": 25
+}
+export(Dictionary) var discard_price_override = {
+	"Fries": 25,
+	"BurgerBread": 10,
+	"SimpleBurger": 50,
+	"TomatoBurger": 75,
+	"LettuceBurger": 75,
+	"CompleteBurger": 100,
+	"Cola": 12
+}
 
 # calculated
-var usable_time = max_time - average_time_for_client - max_arrival_time - added_variability
+var usable_time = null
 var guaranteed_coins = null
 var order_lists = []
 var timeout_seconds = []
@@ -33,6 +53,10 @@ var timeout_seconds = []
 
 func start():
 	rng.randomize()
+	self.usable_time = (
+		max_time - average_time_for_client - 
+		max_arrival_time - added_variability
+	)
 	_prepare_game()
 #	for _i in range(max_n_clients):
 #		position_availability.append(true)
@@ -42,6 +66,13 @@ func start():
 
 
 func _prepare_game():
+	# price override
+	for category in menu.get_children():
+		for dish in category.get_children():
+			if dish.deliverable:
+				dish.profit = price_override[dish.reference]
+			dish.discard_price = discard_price_override[dish.reference]
+
 	# TODO: revisar si podría quedarse colgado: asignar demasiadas bebidas
 	# y complementos y ya no poder superar el goal
 	var average_client_number = usable_time / average_time_for_client
@@ -186,8 +217,9 @@ func _prepare_game():
 	print(timeout_seconds)
 
 	# accumulate timeouts
-	for _i in range(2, timeout_seconds.size()):
-		timeout_seconds[_i] += timeout_seconds[_i - 1]
+	for _i in range(1, timeout_seconds.size()):
+		timeout_seconds[_i] = round(timeout_seconds[_i])
+		timeout_seconds[_i] += int(timeout_seconds[_i - 1])
 
 	print("FINAL TIMEOUTS:")
 	print(timeout_seconds)
@@ -218,7 +250,10 @@ func _prepare_game():
 
 func new_client():
 	var client = client_scene.instance()
-	client.setup(menu, rng)
+	client.setup(
+		menu, max_arrival_time, patience, 
+		seconds_gained_on_delivery, rng
+	)
 	add_child(client)
 	client.walk_in(_get_new_client_position())
 

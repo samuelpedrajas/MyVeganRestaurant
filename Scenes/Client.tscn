@@ -95,8 +95,7 @@ script/source = "extends AnimationPlayer
 
 signal arrived
 
-export(int) var arrival_time = 3.0
-
+var arrival_time = null
 var init_position
 var init_offset = 100.0
 var client

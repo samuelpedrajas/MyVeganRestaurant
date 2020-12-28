@@ -1,14 +1,12 @@
 extends Node2D
 
 
-export(int) var seconds_gained_on_delivery = 4
-
-
 var time = 90
 var score = 0
 
 
 func _ready():
+	self.time = $Main/ClientArea.max_time
 	_on_size_changed()
 	get_tree().set_pause(true)
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
@@ -104,7 +102,6 @@ func deliver(dish, origin):
 		return
 	origin.drop_item()
 	client.receive_dish(dish)
-	client.increase_patience(seconds_gained_on_delivery)
 	$Main.add_child(dish)
 	dish.deliver(origin.get_throw_position())
 	add_score(dish.profit)

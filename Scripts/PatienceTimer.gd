@@ -14,7 +14,8 @@ func countdown():
 	$Timer.start()
 
 
-func start():
+func start(patience):
+	patience_time = patience
 	$Timer.set_paused(false)
 	$Timer.set_wait_time(self.resolution)
 	$Progress.show()

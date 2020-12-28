@@ -4,6 +4,8 @@ extends Node2D
 onready var bubble = $Sprite/Bubble
 var max_orders = 4
 var separation = 30
+var patience
+var seconds_gained_on_delivery
 
 var menu
 var rng
@@ -27,9 +29,13 @@ func die():
 	queue_free()
 
 
-func setup(_menu, _rng):
+func setup(_menu, _max_arrival_time, _patience,
+		_seconds_gained_on_delivery, _rng):
+	self.seconds_gained_on_delivery = _seconds_gained_on_delivery
+	self.patience = _patience
 	self.menu = _menu
 	self.rng = _rng
+	$AnimationPlayer.arrival_time = _max_arrival_time
 
 
 func accepts_dish(dish):
@@ -46,6 +52,7 @@ func receive_dish(dish):
 		if _dish.reference == dish.reference and _dish.served == false:
 			dish.set_client(self, _dish)
 			_dish.served = true
+			_increase_patience()
 			break
 
 
@@ -86,8 +93,8 @@ func select_dishes():
 	_resize()
 
 
-func increase_patience(seconds):
-	$PatienceTimer.add_patience(seconds)
+func _increase_patience():
+	$PatienceTimer.add_patience(seconds_gained_on_delivery)
 
 
 func _resize():
@@ -117,7 +124,7 @@ func _resize():
 func _on_AnimationPlayer_arrived():
 	select_dishes()
 	bubble.show()
-	$PatienceTimer.start()
+	$PatienceTimer.start(patience)
 
 
 func _on_PatienceTimer_angry():

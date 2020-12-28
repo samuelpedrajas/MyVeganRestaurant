@@ -18,8 +18,8 @@ var category_probabilities = [0.4, 0.8, 0.5]
 var max_orders = 4
 
 var patience_multiplier = 3.0
-var base_variability = 1.0
-var added_variability = 2.0
+var base_variability = 0.0
+var added_variability = 3.0
 var added_variability_percentage = 0.4
 var maximums = [0.8]
 var minimums = [0.2]
@@ -176,6 +176,10 @@ func _prepare_game():
 			min_countdown -= 1
 		else:
 			timeout_seconds.append(rest.pop_back())
+
+	# accumulate timeouts
+	for i in range(2, timeout_seconds.size()):
+		timeout_seconds[i] += timeout_seconds[i - 1]
 
 	print("FINAL TIMEOUTS:")
 	print(timeout_seconds)

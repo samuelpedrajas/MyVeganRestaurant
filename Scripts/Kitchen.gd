@@ -145,3 +145,5 @@ func _on_size_changed():
 func _on_Timer_timeout():
 	time -= 1
 	$HUD.set_time(time)
+	if time == 0:
+		get_tree().set_pause(true)

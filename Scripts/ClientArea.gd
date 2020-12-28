@@ -16,12 +16,12 @@ export(int) var seconds_gained_on_delivery = 4
 
 export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
-export(float) var average_time_for_client = 3.0
+export(float) var average_time_for_client = 6.0
 export(float) var average_reward_for_client = 150.0
 export(Array) var category_probabilities = [0.4, 0.8, 0.5]
 export(int) var max_orders = 4
 
-export(float) var patience = 7.0 * average_time_for_client
+export(float) var patience = 3.0 * average_time_for_client
 export(float) var base_variability = 0.5
 export(float) var added_variability = 3.0
 export(float) var added_variability_percentage = 0.4
@@ -160,15 +160,15 @@ func _build_timeouts():
 	var clients_per_minimum = floor(num_added_var / minimums.size() / 2.0)
 	for maximum in maximums:
 		max_start.append(
-			floor(
+			min(floor(
 				(maximum * timeout_seconds.size()) - (clients_per_maximum / 2.0)
-			)
+			), usable_time)
 		)
 	for minimum in minimums:
 		min_start.append(
-			floor(
+			max(floor(
 				(minimum * timeout_seconds.size()) - (clients_per_minimum / 2.0)
-			)
+			), 1)
 		)
 
 	print("MAXIMUM START: %s" % [max_start])
@@ -279,7 +279,10 @@ func select_random_dishes():
 		orders.append(dish_obj)
 
 	orders = Utils.sort_by_attribute(orders, "order", "asc")
-	return orders
+	var order_list = []
+	for _order in orders:
+		order_list.append(_order["dish"])
+	return order_list
 
 
 func client_served(client):

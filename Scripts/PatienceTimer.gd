@@ -9,17 +9,13 @@ var _count = 0
 signal angry
 
 
-func countdown():
-	_count = patience_time
-	$Timer.start()
-
-
 func start(patience):
 	patience_time = patience
 	$Timer.set_paused(false)
 	$Timer.set_wait_time(self.resolution)
 	$Progress.show()
-	countdown()
+	_count = patience_time
+	$Timer.start()
 
 
 func add_patience(seconds):
@@ -38,9 +34,32 @@ func _on_Timer_timeout():
 
 	$Progress.set_value(ellapsed_fraction * 100)
 
-	if _count < resolution:
+	if _testing_ai():
+		print("AI killed a Client!!!")
+	elif _count < resolution:
 		print("Client is angry!")
 		emit_signal("angry")
 		stop()
 	else:
 		$Timer.start()
+
+
+# TESTING
+
+
+func _testing_ai():
+	var enabled = true
+	var threshold = 0.5
+	if not enabled:
+		return false
+	var client = get_parent()
+	var average_time_for_client = client.get_parent().average_time_for_client
+	var current_time = patience_time - _count
+	if current_time - threshold > average_time_for_client:
+		return false
+	if current_time + threshold > average_time_for_client:
+		for dish in client.dishes:
+			client.get_parent().get_parent().get_parent().add_score(dish.profit)
+			client.remove_dish(dish)
+		return true
+	return false

@@ -54,8 +54,7 @@ var timeout_seconds = []
 func start():
 	rng.randomize()
 	self.usable_time = (
-		max_time - average_time_for_client - 
-		max_arrival_time - added_variability
+		max_time - average_time_for_client - max_arrival_time
 	)
 	_prepare_game()
 #	for _i in range(max_n_clients):
@@ -75,7 +74,7 @@ func _prepare_game():
 
 	# TODO: revisar si podría quedarse colgado: asignar demasiadas bebidas
 	# y complementos y ya no poder superar el goal
-	var average_client_number = usable_time / average_time_for_client
+	var average_client_number = ceil(usable_time / average_time_for_client)
 	var calculated_goal = average_client_number * average_reward_for_client
 	var orders = []
 	for _i in range(0, average_client_number):

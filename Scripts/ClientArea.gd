@@ -88,37 +88,98 @@ func _prepare_game():
 
 	# build timeout_seconds
 	average_time_for_client = usable_time / order_lists.size()
-	timeout_seconds = [0]
-	for _i in range(1, order_lists.size()):
+	timeout_seconds = []
+	for _i in range(0, order_lists.size() - 1):
 		timeout_seconds.append(average_time_for_client)
 
-	var num_added_var = floor(added_variability_percentage * order_lists.size())
+	var num_added_var = floor(
+		added_variability_percentage * timeout_seconds.size()
+	)
 	if int(num_added_var) % 2 != 0:
 		num_added_var -= 1
 
 	var addition = 0
-	var var_limit = min(order_lists.size() - 1, num_added_var + 1)
+	var var_limit = min(floor(timeout_seconds.size() / 2.0) * 2, num_added_var)
 	# first is time 0
-	for i in range(1, var_limit):
-		if i % 2 != 0:
+	for i in range(0, var_limit):
+		if i % 2 == 0:
 			addition = rng.randf_range(base_variability, added_variability)
 			timeout_seconds[i] += addition
 		else:
 			timeout_seconds[i] -= addition
 
-	var num_var = order_lists.size()
+	var num_var = timeout_seconds.size()
 	if int(num_var - var_limit) % 2 != 0:
 		num_var -= 1
 
 	for i in range(var_limit, num_var):
-		if i % 2 != 0:
+		if i % 2 == 0:
 			addition = rng.randf_range(0, base_variability)
 			timeout_seconds[i] += addition
 		else:
 			timeout_seconds[i] -= addition
 
-	# accumulate timeout_seconds
+	# maximums and minimums
+	var max_start = []
+	var clients_per_maximum = floor(var_limit / maximums.size() / 2.0)
+	var min_start = []
+	var clients_per_minimum = floor(var_limit / minimums.size() / 2.0)
+	for maximum in maximums:
+		max_start.append(
+			floor(
+				(maximum * timeout_seconds.size()) - (clients_per_maximum / 2.0)
+			)
+		)
+	for minimum in minimums:
+		min_start.append(
+			floor(
+				(minimum * timeout_seconds.size()) - (clients_per_minimum / 2.0)
+			)
+		)
+
+	timeout_seconds.sort()
+	var total_highests = clients_per_maximum * maximums.size()
+	var highests = timeout_seconds.slice(0, total_highests - 1)
+	var total_lowests = clients_per_minimum * minimums.size()
+	var starting_lowests = timeout_seconds.size() - total_lowests
+	var lowests = timeout_seconds.slice(
+		starting_lowests, timeout_seconds.size()
+	)
+	var rest = timeout_seconds.slice(total_highests, starting_lowests - 1)
+
+	rest.shuffle()
+
 	print(timeout_seconds)
+	print("HIGHESTS")
+	print(total_highests)
+	print(highests)
+	print("LOWESTS")
+	print(total_lowests)
+	print(lowests)
+	print("REST")
+	print(rest)
+
+	var num_clients = timeout_seconds.size() + 1
+	timeout_seconds = [0]
+	var max_countdown = 0
+	var min_countdown = 0
+	for i in range(1, num_clients):
+		if i in max_start:
+			max_countdown = clients_per_maximum
+		elif i in min_start:
+			min_countdown = clients_per_minimum
+		if max_countdown > 0:
+			timeout_seconds.append(highests.pop_back())
+			max_countdown -= 1
+		elif min_countdown > 0:
+			timeout_seconds.append(lowests.pop_back())
+			min_countdown -= 1
+		else:
+			timeout_seconds.append(rest.pop_back())
+
+	print("FINAL TIMEOUTS:")
+	print(timeout_seconds)
+	print("TOTAL: %s" % [timeout_seconds.size()])
 
 	print("CALCULATED GOAL: %s" % [str(calculated_goal)])
 	print("GUARANTEED COINS: %s" % [str(guaranteed_coins)])
@@ -137,6 +198,10 @@ func _prepare_game():
 				]
 			)
 		print("Total: %s, References: %s" % [str(total), str(references)])
+	print("MAXIMUM START: %s" % [max_start])
+	print("MINIMUM START: %s" % [min_start])
+	print("CLIENTS PER MAXIMUM: %s" % [str(clients_per_maximum)])
+	print("CLIENTS PER MINIMUM: %s" % [str(clients_per_minimum)])
 
 
 func new_client():

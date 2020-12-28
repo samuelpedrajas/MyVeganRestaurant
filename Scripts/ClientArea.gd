@@ -16,24 +16,24 @@ export(int) var seconds_gained_on_delivery = 4
 
 export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
-export(float) var average_time_for_client = 6.0
-export(float) var average_reward_for_client = 150.0
-export(Array) var category_probabilities = [0.4, 0.8, 0.5]
+export(float) var average_time_for_client = 3.0
+export(float) var average_reward_for_client = 120.0
+export(Array) var category_probabilities = [0.6, 0.8, 0.6]
 export(int) var max_orders = 4
 
 export(float) var patience = 3.0 * average_time_for_client
 export(float) var base_variability = 0.5
-export(float) var added_variability = 3.0
+export(float) var added_variability = 2.0
 export(float) var added_variability_percentage = 0.4
 export(Array) var maximums = [0.8]
 export(Array) var minimums = [0.2]
 
 export(Dictionary) var price_override = {
 	"Fries": 50,
-	"SimpleBurger": 100,
-	"TomatoBurger": 150,
-	"LettuceBurger": 150,
-	"CompleteBurger": 200,
+	"SimpleBurger": 75,
+	"TomatoBurger": 100,
+	"LettuceBurger": 100,
+	"CompleteBurger": 125,
 	"Cola": 25
 }
 export(Dictionary) var discard_price_override = {

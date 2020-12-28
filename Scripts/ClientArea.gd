@@ -7,19 +7,21 @@ export(NodePath) onready var menu = get_node(menu)
 var client_scene = preload("res://Scenes/Client.tscn")
 
 var rng = RandomNumberGenerator.new()
-var pending_clients = 0
+var num_clients = 0
+var current_time = 0
 var position_availability = []
+var current_n_clients = 0
 
 export(int) var seconds_gained_on_delivery = 4
 
 export(float) var max_time = 90
 export(float) var max_arrival_time = 3.0
-export(float) var average_time_for_client = 6.0
+export(float) var average_time_for_client = 3.0
 export(float) var average_reward_for_client = 150.0
 export(Array) var category_probabilities = [0.4, 0.8, 0.5]
 export(int) var max_orders = 4
 
-export(float) var patience = 3.0 * average_time_for_client
+export(float) var patience = 7.0 * average_time_for_client
 export(float) var base_variability = 0.5
 export(float) var added_variability = 3.0
 export(float) var added_variability_percentage = 0.4
@@ -54,12 +56,11 @@ var calculated_goal = null
 
 
 func start():
-	pass
-#	for _i in range(max_n_clients):
-#		position_availability.append(true)
-#	for _i in range(max_n_clients):
-#		new_client()
-#		yield(get_tree().create_timer(2.0), "timeout")
+	for _i in range(max_n_clients):
+		position_availability.append(true)
+	new_client()
+	$Timer.start()
+	print("SECONDS: %s" % [current_time])
 
 
 func _override_prices():
@@ -256,18 +257,75 @@ func prepare_game():
 	print("TOTAL: %s" % [timeout_seconds.size()])
 
 
+func select_random_dishes():
+	var categories = menu.get_children()
+	var n_categories = menu.get_child_count()
+	var n_orders = rng.randi_range(1, max_orders)
+	var orders = []
+	for _unused in range(n_orders):
+		var i = rng.randi_range(0, n_categories - 1)
+		var category = categories[i]
+		# get deliverable dishes
+		var dishes = []
+		for dish in category.get_children():
+			if dish.deliverable:
+				dishes.append(dish)
+		var n_dishes = dishes.size()
+		var j = rng.randi_range(0, n_dishes - 1)
+		var dish_obj = {
+			"dish": dishes[j].duplicate(),
+			"order": i
+		}
+		orders.append(dish_obj)
+
+	orders = Utils.sort_by_attribute(orders, "order", "asc")
+	return orders
+
+
+func client_served(client):
+	position_availability[client.idx] = true
+	current_n_clients -= 1
+	if current_n_clients < 1:
+		new_client()
+
+
+func client_angry(client):
+	position_availability[client.idx] = true
+	current_n_clients -= 1
+	if current_n_clients < 1:
+		new_client()
+
+
 func new_client():
+	var idx = _get_new_client_position()
+	if idx == null:
+		print("THERE'S NO SPACE FOR NEW CLIENTS!")
+		return
+	var new_client_position = aval_position_to_vector(idx)
+	var dishes
+	if not order_lists:
+		dishes = select_random_dishes()
+		print("RANDOMLY SELECTED DISHES: %s" % [dishes])
+	else:
+		dishes = order_lists.pop_front()
+		timeout_seconds.pop_front()
+		print("DISHES SELECTED FROM ORDER LIST: %s" % [dishes])
+
 	var client = client_scene.instance()
 	client.setup(
-		menu, max_arrival_time, patience, 
+		idx, dishes, max_arrival_time, patience, 
 		seconds_gained_on_delivery, rng
 	)
 	add_child(client)
-	client.walk_in(_get_new_client_position())
+	client.connect("served", self, "client_served")
+	client.connect("leaving_angry", self, "client_angry")
+	client.walk_in(new_client_position)
+	num_clients += 1
+	current_n_clients += 1
+	print("NEW CLIENT (TOTAL: %s)" % [num_clients])
 
 
 func _get_new_client_position():
-	var area_size = get_size()
 	var available_positions = []
 	for i in range(max_n_clients):
 		var available = position_availability[i]
@@ -280,7 +338,20 @@ func _get_new_client_position():
 	var i = rng.randi_range(0, available_positions.size() - 1)
 	var pos = available_positions[i]
 	position_availability[pos] = false
+	return pos
+
+
+func aval_position_to_vector(pos):
+	var area_size = get_size()
 	var x_pos = area_size.x / (max_n_clients + 1) * (pos + 1)
 	return Vector2(
 		x_pos, area_size.y
 	)
+
+
+func _on_Timer_timeout():
+	current_time += 1
+	if int(current_time) in timeout_seconds:
+		print("TIMEOUT SECOND! %s" % [timeout_seconds])
+		new_client()
+	print("SECONDS: %s" % [current_time])

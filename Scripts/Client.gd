@@ -1,16 +1,26 @@
 extends Node2D
 
 
+signal served
+signal leaving_angry
+
 onready var bubble = $Sprite/Bubble
 var max_orders = 4
 var separation = 30
 var patience
 var seconds_gained_on_delivery
 
-var menu
 var rng
 
+var idx
 var bubble_initial_position = null
+var dishes
+
+
+func _ready():
+	for _dish in dishes:
+		bubble.add_child(_dish)
+	_resize()
 
 
 func walk_in(destination):
@@ -29,12 +39,13 @@ func die():
 	queue_free()
 
 
-func setup(_menu, _max_arrival_time, _patience,
+func setup(_idx, _dishes, _max_arrival_time, _patience,
 		_seconds_gained_on_delivery, _rng):
+	self.idx = _idx
 	self.seconds_gained_on_delivery = _seconds_gained_on_delivery
 	self.patience = _patience
-	self.menu = _menu
 	self.rng = _rng
+	self.dishes = _dishes
 	$AnimationPlayer.arrival_time = _max_arrival_time
 
 
@@ -60,37 +71,10 @@ func remove_dish(_dish):
 	bubble.remove_child(_dish)
 	_dish.queue_free()
 	if bubble.get_child_count() < 1:
+		emit_signal("served", self)
 		walk_out()
 	else:
 		_resize()
-
-
-func select_dishes():
-	var categories = menu.get_children()
-	var n_categories = menu.get_child_count()
-	var n_orders = rng.randi_range(1, max_orders)
-	var orders = []
-	for _unused in range(n_orders):
-		var i = rng.randi_range(0, n_categories - 1)
-		var category = categories[i]
-		# get deliverable dishes
-		var dishes = []
-		for dish in category.get_children():
-			if dish.deliverable:
-				dishes.append(dish)
-		var n_dishes = dishes.size()
-		var j = rng.randi_range(0, n_dishes - 1)
-		var dish_obj = {
-			"dish": dishes[j].duplicate(),
-			"order": i
-		}
-		orders.append(dish_obj)
-
-	orders = Utils.sort_by_attribute(orders, "order", "asc")
-
-	for dish_obj in orders:
-		bubble.add_child(dish_obj["dish"])
-	_resize()
 
 
 func _increase_patience():
@@ -122,7 +106,6 @@ func _resize():
 
 
 func _on_AnimationPlayer_arrived():
-	select_dishes()
 	bubble.show()
 	$PatienceTimer.start(patience)
 
@@ -131,3 +114,4 @@ func _on_PatienceTimer_angry():
 	bubble.hide()
 	$PatienceTimer.stop()
 	$AnimationPlayer.walk_out_angry()
+	emit_signal("leaving_angry", self)

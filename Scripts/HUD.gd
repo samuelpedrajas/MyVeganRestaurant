@@ -34,3 +34,8 @@ func _on_size_changed():
 #	set_size(viewport_size)
 #	set_position(position_offset)
 	pass
+
+
+func _on_Pause_pressed():
+	var b = get_tree().is_paused()
+	get_tree().set_pause(not b)

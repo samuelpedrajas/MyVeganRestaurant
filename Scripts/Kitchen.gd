@@ -39,8 +39,7 @@ func send_to_destination(item, origin):
 	)
 
 
-func _select_plate(item):
-	var menu = $Menu
+func _get_clients_sorted_by_patience():
 	var clients_info = []
 	for client in get_tree().get_nodes_in_group("Client"):
 		clients_info.append({
@@ -51,7 +50,13 @@ func _select_plate(item):
 	var clients = []
 	for client_info in clients_info:
 		clients.append(client_info['client'])
+	return clients
 
+
+func _select_plate(item):
+	var menu = $Menu
+
+	var clients = _get_clients_sorted_by_patience()
 	var plates = get_tree().get_nodes_in_group(item.get_destination())
 	var escenarios = {}
 	var created_dishes = []
@@ -109,6 +114,7 @@ func _select_plate(item):
 				new_escenarios[winner] = escenarios[winner]
 			escenarios = new_escenarios
 
+	print("POSSIBLE ASSIGNATIONS: %s" % [str(possible_assignations)])
 	for dish in created_dishes:
 		dish.free()
 
@@ -166,8 +172,7 @@ func use_item(item, origin):
 
 
 func _select_client(dish):
-	# TODO: Complete
-	var clients = get_tree().get_nodes_in_group("Client")
+	var clients = _get_clients_sorted_by_patience()
 	for client in clients:
 		if client.accepts_dish(dish):
 			return client

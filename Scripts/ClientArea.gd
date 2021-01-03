@@ -14,14 +14,14 @@ var current_n_clients = 0
 
 export(int) var seconds_gained_on_delivery = 200
 
-export(float) var max_time = 600
+export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
 export(float) var average_time_for_client = 3.0
 export(float) var average_reward_for_client = 120.0
 export(Array) var category_probabilities = [0.6, 0.8, 0.6]
 export(int) var max_orders = 4
 
-export(float) var patience = 60.0 * average_time_for_client
+export(float) var patience = 6.0 * average_time_for_client
 export(float) var base_variability = 0.5
 export(float) var added_variability = 2.0
 export(float) var added_variability_percentage = 0.4
@@ -356,6 +356,6 @@ func aval_position_to_vector(pos):
 func _on_Timer_timeout():
 	current_time += 1
 	if int(current_time) in timeout_seconds:
-		print("TIMEOUT SECOND! %s" % [timeout_seconds])
+		print("TIMEOUT SECOND!")
 		new_client()
 	print("SECONDS: %s" % [current_time])

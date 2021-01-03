@@ -178,21 +178,36 @@ position = Vector2( -45.6652, -202.561 )
 texture = ExtResource( 3 )
 
 [node name="Bubble" type="NinePatchRect" parent="Sprite"]
-anchor_left = 1.088
-anchor_top = 0.379
-anchor_right = 1.088
-anchor_bottom = 0.379
-margin_left = -193.456
-margin_top = -207.6
-margin_right = 6.54399
-margin_bottom = -189.6
-rect_scale = Vector2( 0.5, 0.5 )
-rect_pivot_offset = Vector2( 100, 9 )
+anchor_left = 1.12834
+anchor_top = -0.3875
+anchor_right = 1.83155
+anchor_bottom = 0.38
+margin_left = -159.0
+margin_top = -200.0
+margin_right = -159.5
+margin_bottom = -200.0
+rect_pivot_offset = Vector2( 131, 0 )
 texture = ExtResource( 2 )
 patch_margin_left = 9
 patch_margin_top = 9
 patch_margin_right = 9
 patch_margin_bottom = 9
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="PatienceTimer" parent="Sprite/Bubble" instance=ExtResource( 4 )]
+position = Vector2( 13.8109, 154.025 )
+scale = Vector2( 2, 2 )
+
+[node name="Dishes" type="Control" parent="Sprite/Bubble"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -94.0
+margin_right = 95.0
+margin_bottom = 292.0
+rect_scale = Vector2( 0.5, 0.5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -206,9 +221,6 @@ anims/walking_out_angry = SubResource( 3 )
 script = SubResource( 4 )
 
 [node name="Tween" type="Tween" parent="AnimationPlayer"]
-
-[node name="PatienceTimer" parent="." instance=ExtResource( 4 )]
-position = Vector2( 135.637, -349.106 )
 
 [node name="ArrivalTime" type="Label" parent="."]
 margin_left = -104.963
@@ -224,6 +236,6 @@ clip_text = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="angry" from="Sprite/Bubble/PatienceTimer" to="." method="_on_PatienceTimer_angry"]
 [connection signal="arrived" from="AnimationPlayer" to="." method="_on_AnimationPlayer_arrived"]
 [connection signal="tween_all_completed" from="AnimationPlayer/Tween" to="AnimationPlayer" method="_on_Tween_tween_all_completed"]
-[connection signal="angry" from="PatienceTimer" to="." method="_on_PatienceTimer_angry"]

@@ -1,7 +1,7 @@
 extends Control
 
 
-export(int) var max_n_clients = 5
+export(int) var max_n_clients = 4
 export(NodePath) onready var menu = get_node(menu)
 
 var client_scene = preload("res://Scenes/Client.tscn")
@@ -16,8 +16,8 @@ var current_n_clients = 0
 export(float) var max_time = 600
 export(float) var max_arrival_time = 3.0
 export(float) var average_time_for_client = 3.0
-export(float) var average_reward_for_client = 120.0
-export(Array) var category_probabilities = [0.4, 0.9, 0.5]
+export(float) var average_reward_for_client = 130.0
+export(Array) var category_probabilities = [0.5, 0.8, 0.5]
 export(int) var max_orders = 4
 
 export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client

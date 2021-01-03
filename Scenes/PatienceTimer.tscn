@@ -14,12 +14,12 @@ script = ExtResource( 1 )
 one_shot = true
 
 [node name="Progress" type="ProgressBar" parent="."]
-visible = false
-margin_left = -70.0
-margin_right = 73.0
-margin_bottom = 14.0
+margin_left = -138.59
+margin_top = -82.0754
+margin_right = 6.4097
+margin_bottom = -75.0754
 rect_rotation = -90.0
-rect_pivot_offset = Vector2( 71, 7 )
+rect_pivot_offset = Vector2( 145, 10 )
 mouse_filter = 2
 custom_styles/fg = SubResource( 1 )
 custom_styles/bg = SubResource( 2 )

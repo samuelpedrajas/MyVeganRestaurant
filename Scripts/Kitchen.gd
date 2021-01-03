@@ -97,7 +97,7 @@ func _select_plate(item):
 			for _dish in client.get_dishes():
 				for dish in escenario.duplicate():
 					if dish.reference == _dish.reference:
-						reward_deliveries[plate] += dish.profit
+						reward_deliveries[plate] += client_area.prices[dish.reference]
 						escenario.erase(dish)
 						break
 		var winners = []
@@ -191,7 +191,7 @@ func deliver(dish, origin):
 	client.receive_dish(dish)
 	$Main.add_child(dish)
 	dish.deliver(origin.get_throw_position())
-	add_score(dish.profit)
+	add_score(client_area.prices[dish.reference])
 
 
 func add_score(inc):

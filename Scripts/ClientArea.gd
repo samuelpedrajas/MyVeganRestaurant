@@ -13,10 +13,10 @@ var position_availability = []
 var current_n_clients = 0
 
 
-export(float) var max_time = 600
+export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
 export(float) var average_time_for_client = 3.0
-export(float) var average_reward_for_client = 130.0
+export(float) var average_reward_for_client = 120.0
 export(Array) var category_probabilities = [0.5, 0.8, 0.5]
 export(int) var max_orders = 4
 
@@ -24,11 +24,11 @@ export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client
 export(float) var patience = 10.0 * average_time_for_client
 export(float) var base_variability = 0.5
 export(float) var added_variability = 2.0
-export(float) var added_variability_percentage = 0.1 #  0.4
+export(float) var added_variability_percentage = 0.2 #  0.4
 export(Array) var maximums = [0.5]  # [0.8]
 export(Array) var minimums = [0.1]  # [0.2]
 
-export(Dictionary) var price_override = {
+export(Dictionary) var prices = {
 	"Fries": 50,
 	"SimpleBurger": 75,
 	"TomatoBurger": 100,
@@ -36,7 +36,7 @@ export(Dictionary) var price_override = {
 	"CompleteBurger": 125,
 	"Cola": 25
 }
-export(Dictionary) var discard_price_override = {
+export(Dictionary) var discard_prices = {
 	"Fries": 25,
 	"BurgerBread": 10,
 	"SimpleBurger": 50,
@@ -61,14 +61,6 @@ func start():
 	new_client()
 	$Timer.start()
 	print("SECONDS: %s" % [current_time])
-
-
-func _override_prices():
-	for category in menu.get_children():
-		for dish in category.get_children():
-			if dish.deliverable:
-				dish.profit = price_override[dish.reference]
-			dish.discard_price = discard_price_override[dish.reference]
 
 
 func _build_order_lists():
@@ -99,7 +91,7 @@ func _build_order_lists():
 					"order": j
 				}
 				orders[i].append(dish_obj)
-				guaranteed_coins += dish_obj["dish"].profit
+				guaranteed_coins += prices[dish_obj["dish"].reference]
 			if guaranteed_coins >= calculated_goal:
 				break
 
@@ -189,10 +181,8 @@ func _build_timeouts():
 
 	rest.shuffle()
 
-	print(timeout_seconds)
-	print("FASTESTS (%s): %s" % [total_fastests, fastests])
-	print("SLOWESTS (%s): %s" % [total_slowests, slowests])
-	print("REST: %s" % [rest])
+	print("FASTESTS (%s)" % [total_fastests])
+	print("SLOWESTS (%s)" % [total_slowests])
 
 	timeout_seconds = [0]
 	var max_countdown = 0
@@ -217,8 +207,6 @@ func _build_timeouts():
 			timeout_seconds.append(rest.pop_back())
 			i += 1
 
-	print("NOT ACCUMULATED TIMEOUTS: %s" % [timeout_seconds])
-
 	# accumulate timeouts
 	for _i in range(1, timeout_seconds.size()):
 		timeout_seconds[_i] = round(timeout_seconds[_i])
@@ -231,7 +219,6 @@ func prepare_game():
 	self.average_client_number = ceil(usable_time / average_time_for_client)
 	self.calculated_goal = average_client_number * average_reward_for_client
 
-	_override_prices()
 	_build_order_lists()
 	_build_timeouts()
 
@@ -245,10 +232,10 @@ func prepare_game():
 		var references = []
 		var total = 0.0
 		for _order in _orders:
-			total += _order.profit
+			total += prices[_order.reference]
 			references.append(
 				"%s = %s" % [
-					_order.reference, str(_order.profit)
+					_order.reference, str(prices[_order.reference])
 				]
 			)
 		print("Total: %s, References: %s" % [str(total), str(references)])

@@ -67,7 +67,7 @@ func _testing_ai():
 	var threshold = 0.5
 	if not enabled:
 		return false
-	var client = get_parent()
+	var client = get_parent().get_parent().get_parent()
 	var client_area = client.get_parent()
 	if average_time_for_client == null:
 		average_time_for_client = client_area.average_time_for_client
@@ -77,7 +77,7 @@ func _testing_ai():
 	if current_time - threshold > average_time_for_client:
 		return false
 	if current_time + threshold > average_time_for_client:
-		for dish in client.dishes:
+		for dish in client.get_dishes():
 			client_area.get_parent().get_parent().add_score(dish.profit)
 			client.remove_dish(dish)
 		return true

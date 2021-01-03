@@ -9,6 +9,7 @@ var max_orders = 4
 var separation = 30
 var patience
 var seconds_gained_on_delivery
+var time_of_arrival
 
 var rng
 
@@ -39,9 +40,16 @@ func die():
 	queue_free()
 
 
-func setup(_idx, _dishes, _max_arrival_time, _patience,
+func get_dishes():
+	if not bubble.is_visible():
+		return []
+	return bubble.get_children()
+
+
+func setup(_idx, _current_time, _dishes, _max_arrival_time, _patience,
 		_seconds_gained_on_delivery, _rng):
 	self.idx = _idx
+	self.time_of_arrival = _current_time
 	self.seconds_gained_on_delivery = _seconds_gained_on_delivery
 	self.patience = _patience
 	self.rng = _rng
@@ -75,6 +83,10 @@ func remove_dish(_dish):
 		walk_out()
 	else:
 		_resize()
+
+
+func is_red():
+	return $PatienceTimer.red
 
 
 func get_patience_percentage():

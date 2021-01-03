@@ -12,16 +12,16 @@ var current_time = 0
 var position_availability = []
 var current_n_clients = 0
 
-export(int) var seconds_gained_on_delivery = 200
 
-export(float) var max_time = 60
+export(float) var max_time = 600
 export(float) var max_arrival_time = 3.0
 export(float) var average_time_for_client = 3.0
 export(float) var average_reward_for_client = 120.0
 export(Array) var category_probabilities = [0.6, 0.8, 0.6]
 export(int) var max_orders = 4
 
-export(float) var patience = 6.0 * average_time_for_client
+export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client
+export(float) var patience = 10.0 * average_time_for_client
 export(float) var base_variability = 0.5
 export(float) var added_variability = 2.0
 export(float) var added_variability_percentage = 0.4
@@ -316,7 +316,7 @@ func new_client():
 
 	var client = client_scene.instance()
 	client.setup(
-		idx, dishes, max_arrival_time, patience, 
+		idx, current_time, dishes, max_arrival_time, patience,
 		seconds_gained_on_delivery, rng
 	)
 	add_child(client)

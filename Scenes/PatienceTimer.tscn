@@ -3,7 +3,7 @@
 [ext_resource path="res://Scripts/PatienceTimer.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0.627451, 0.0392157, 1 )
+bg_color = Color( 0, 0.627451, 0, 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 

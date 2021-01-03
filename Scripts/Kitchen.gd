@@ -39,24 +39,25 @@ func send_to_destination(item, origin):
 	)
 
 
-func _get_clients_sorted_by_patience():
-	var clients_info = []
-	for client in get_tree().get_nodes_in_group("Client"):
-		clients_info.append({
-			"client": client,
-			"order": client.get_patience_percentage()
-		})
-	clients_info = Utils.sort_by_attribute(clients_info, "order", "asc")
-	var clients = []
-	for client_info in clients_info:
-		clients.append(client_info['client'])
+func _custom_client_sort(c1, c2):
+	if c1.is_red() and c2.is_red():
+		return c1.time_of_arrival <= c2.time_of_arrival
+	elif c1.is_red() or c2.is_red():
+		return c1.is_red()
+	else:
+		return c1.time_of_arrival <= c2.time_of_arrival
+
+
+func _get_clients_sorted_by_priority():
+	var clients = get_tree().get_nodes_in_group("Client")
+	clients.sort_custom(self, "_custom_client_sort")
 	return clients
 
 
 func _select_plate(item):
 	var menu = $Menu
 
-	var clients = _get_clients_sorted_by_patience()
+	var clients = _get_clients_sorted_by_priority()
 	var plates = get_tree().get_nodes_in_group(item.get_destination())
 	var escenarios = {}
 	var created_dishes = []
@@ -72,35 +73,23 @@ func _select_plate(item):
 		escenarios[plate] = escenario
 
 	var selected_plates = escenarios.keys()
-	var possible_assignations = {}
 	for client in clients:
 		var winners = []
+		var num_deliveries = {}
 		for plate in escenarios.keys():
 			var escenario = escenarios[plate]
-			var accepted_dishes = []
-			for dish in escenario:
-				if client.accepts_dish(dish):
-					accepted_dishes.append(dish)
-
-			if accepted_dishes == []:
-				continue
-
-			if not plate in possible_assignations:
-				possible_assignations[plate] = []
-				for dish in accepted_dishes:
-					possible_assignations[plate].append([dish])
-				winners.append(plate)
-			else:
-				var new_possible_assignations = []
-				for assignation in possible_assignations[plate]:
-					for dish in accepted_dishes:
-						if not dish in assignation:
-							var new_assignation = assignation.duplicate()
-							new_assignation.append(dish)
-							new_possible_assignations.append(new_assignation)
-				if new_possible_assignations == []:
-					continue
-				possible_assignations[plate] = new_possible_assignations
+			num_deliveries[plate] = 0
+			var dishes_to_delete = []
+			for _dish in client.get_dishes():
+				for dish in escenario.duplicate():
+					if dish.reference == _dish.reference:
+						num_deliveries[plate] += 1
+						dishes_to_delete.append(dish)
+						escenario.erase(dish)
+		var max_num_deliveries = num_deliveries.values().max()
+		for plate in num_deliveries:
+			var n = num_deliveries[plate]
+			if n == max_num_deliveries:
 				winners.append(plate)
 
 		if winners != []:
@@ -114,12 +103,13 @@ func _select_plate(item):
 				new_escenarios[winner] = escenarios[winner]
 			escenarios = new_escenarios
 
-	print("POSSIBLE ASSIGNATIONS: %s" % [str(possible_assignations)])
 	for dish in created_dishes:
 		dish.free()
 
 	if not selected_plates:
 		return null
+	elif selected_plates.size() > 1:
+		pass
 
 	return selected_plates[0]
 
@@ -172,7 +162,7 @@ func use_item(item, origin):
 
 
 func _select_client(dish):
-	var clients = _get_clients_sorted_by_patience()
+	var clients = _get_clients_sorted_by_priority()
 	for client in clients:
 		if client.accepts_dish(dish):
 			return client

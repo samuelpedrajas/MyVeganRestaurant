@@ -2,6 +2,8 @@ extends Node2D
 
 
 export var patience_time = 15
+var red_area_portion = 0.4
+var red = false
 
 var resolution = 0.1
 var _count = 0
@@ -36,7 +38,15 @@ func _on_Timer_timeout():
 	_count -= resolution
 	var ellapsed_fraction = _count / patience_time
 
+	var new_style = StyleBoxFlat.new()
 	$Progress.set_value(ellapsed_fraction * 100)
+	if $Progress.get_value() <= red_area_portion * 100.0:
+		new_style.set_bg_color(Color("#ff0000"))
+		red = true
+	else:
+		new_style.set_bg_color(Color("#00a000"))
+		red = false
+	$Progress.set('custom_styles/fg', new_style) #
 
 	if _testing_ai():
 		print("AI killed a Client!!!")

@@ -54,6 +54,7 @@ func setup(_idx, _current_time, _dishes, _max_arrival_time, _patience,
 	self.patience = _patience
 	self.rng = _rng
 	self.dishes = _dishes
+	$ArrivalTime.set_text(str(_current_time))
 	$AnimationPlayer.arrival_time = _max_arrival_time
 
 

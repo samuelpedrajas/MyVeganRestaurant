@@ -60,36 +60,51 @@ func _select_plate(item):
 	var clients = _get_clients_sorted_by_priority()
 	var plates = get_tree().get_nodes_in_group(item.get_destination())
 	var escenarios = {}
+	var useless_new_item_escenarios = {}
 	var created_dishes = []
 	for plate in plates:
 		var new_dish = menu.get_new_dish(plate.dish, item)
 		if new_dish == null:
 			continue
+
 		created_dishes.append(new_dish)
 		var escenario = [new_dish]
 		for _plate in plates:
 			if _plate.dish != null and _plate != plate:
 				escenario.append(_plate.dish)
-		escenarios[plate] = escenario
+
+		var useless = true
+		for client in clients:
+			if client.accepts_dish(new_dish):
+				useless = false
+				break
+		if useless:
+			useless_new_item_escenarios[plate] = escenario
+		else:
+			escenarios[plate] = escenario
+
+	if escenarios.size() == 0:
+		escenarios = useless_new_item_escenarios
+	elif escenarios.size() == 1:
+		return escenarios.keys()[0]
 
 	var selected_plates = escenarios.keys()
 	for client in clients:
-		var winners = []
-		var num_deliveries = {}
+		var reward_deliveries = {}
 		for plate in escenarios.keys():
 			var escenario = escenarios[plate]
-			num_deliveries[plate] = 0
-			var dishes_to_delete = []
+			reward_deliveries[plate] = 0.0
 			for _dish in client.get_dishes():
 				for dish in escenario.duplicate():
 					if dish.reference == _dish.reference:
-						num_deliveries[plate] += 1
-						dishes_to_delete.append(dish)
+						reward_deliveries[plate] += dish.profit
 						escenario.erase(dish)
-		var max_num_deliveries = num_deliveries.values().max()
-		for plate in num_deliveries:
-			var n = num_deliveries[plate]
-			if n == max_num_deliveries:
+						break
+		var winners = []
+		var max_reward_deliveries = reward_deliveries.values().max()
+		for plate in reward_deliveries:
+			var n = reward_deliveries[plate]
+			if n == max_reward_deliveries:
 				winners.append(plate)
 
 		if winners != []:
@@ -108,8 +123,6 @@ func _select_plate(item):
 
 	if not selected_plates:
 		return null
-	elif selected_plates.size() > 1:
-		pass
 
 	return selected_plates[0]
 

@@ -41,7 +41,16 @@ func send_to_destination(item, origin):
 
 func _select_plate(item):
 	var menu = $Menu
-	var clients = get_tree().get_nodes_in_group("Client")
+	var clients_info = []
+	for client in get_tree().get_nodes_in_group("Client"):
+		clients_info.append({
+			"client": client,
+			"order": client.get_patience_percentage()
+		})
+	clients_info = Utils.sort_by_attribute(clients_info, "order", "asc")
+	var clients = []
+	for client_info in clients_info:
+		clients.append(client_info['client'])
 
 	var plates = get_tree().get_nodes_in_group(item.get_destination())
 	var escenarios = {}
@@ -53,11 +62,11 @@ func _select_plate(item):
 		created_dishes.append(new_dish)
 		var escenario = [new_dish]
 		for _plate in plates:
-			if _plate != plate:
+			if _plate.dish != null and _plate != plate:
 				escenario.append(_plate.dish)
 		escenarios[plate] = escenario
 
-	var selected_plates = []
+	var selected_plates = escenarios.keys()
 	var possible_assignations = {}
 	for client in clients:
 		var winners = []
@@ -102,6 +111,9 @@ func _select_plate(item):
 
 	for dish in created_dishes:
 		dish.free()
+
+	if not selected_plates:
+		return null
 
 	return selected_plates[0]
 

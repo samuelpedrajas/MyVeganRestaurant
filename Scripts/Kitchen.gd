@@ -39,14 +39,78 @@ func send_to_destination(item, origin):
 	)
 
 
-func send_to_plate(item, origin):
-	var plates = get_tree().get_nodes_in_group(item.get_destination())
+func _select_plate(item):
 	var menu = $Menu
-	print("select_plate_strategy not implemented yet")
+	var clients = get_tree().get_nodes_in_group("Client")
+
+	var plates = get_tree().get_nodes_in_group(item.get_destination())
+	var escenarios = {}
+	var created_dishes = []
 	for plate in plates:
-		var dish = menu.get_new_dish(plate.dish, item)
-		if dish == null:
+		var new_dish = menu.get_new_dish(plate.dish, item)
+		if new_dish == null:
 			continue
+		created_dishes.append(new_dish)
+		var escenario = [new_dish]
+		for _plate in plates:
+			if _plate != plate:
+				escenario.append(_plate.dish)
+		escenarios[plate] = escenario
+
+	var selected_plates = []
+	var possible_assignations = {}
+	for client in clients:
+		var winners = []
+		for plate in escenarios.keys():
+			var escenario = escenarios[plate]
+			var accepted_dishes = []
+			for dish in escenario:
+				if client.accepts_dish(dish):
+					accepted_dishes.append(dish)
+
+			if accepted_dishes == []:
+				continue
+
+			if not plate in possible_assignations:
+				possible_assignations[plate] = []
+				for dish in accepted_dishes:
+					possible_assignations[plate].append([dish])
+				winners.append(plate)
+			else:
+				var new_possible_assignations = []
+				for assignation in possible_assignations[plate]:
+					for dish in accepted_dishes:
+						if not dish in assignation:
+							var new_assignation = assignation.duplicate()
+							new_assignation.append(dish)
+							new_possible_assignations.append(new_assignation)
+				if new_possible_assignations == []:
+					continue
+				possible_assignations[plate] = new_possible_assignations
+				winners.append(plate)
+
+		if winners != []:
+			selected_plates = winners
+
+		if winners.size() == 1:
+			break
+		else:
+			var new_escenarios = {}
+			for winner in winners:
+				new_escenarios[winner] = escenarios[winner]
+			escenarios = new_escenarios
+
+	for dish in created_dishes:
+		dish.free()
+
+	return selected_plates[0]
+
+
+func send_to_plate(item, origin):
+	var menu = $Menu
+	var plate = _select_plate(item)
+	if plate != null:
+		var dish = menu.get_new_dish(plate.dish, item)
 		origin.drop_item()
 		plate.add_dish(dish)
 		return
@@ -90,6 +154,7 @@ func use_item(item, origin):
 
 
 func _select_client(dish):
+	# TODO: Complete
 	var clients = get_tree().get_nodes_in_group("Client")
 	for client in clients:
 		if client.accepts_dish(dish):

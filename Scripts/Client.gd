@@ -77,6 +77,10 @@ func remove_dish(_dish):
 		_resize()
 
 
+func get_patience_percentage():
+	return $PatienceTimer.get_percentage()
+
+
 func _increase_patience():
 	$PatienceTimer.add_patience(seconds_gained_on_delivery)
 

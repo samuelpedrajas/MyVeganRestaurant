@@ -22,6 +22,10 @@ func add_patience(seconds):
 	_count = min(patience_time, _count + seconds)
 
 
+func get_percentage():
+	return $Progress.get_value()
+
+
 func stop():
 	$Timer.stop()
 	$Progress.hide()

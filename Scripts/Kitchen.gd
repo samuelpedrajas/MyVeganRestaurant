@@ -168,6 +168,7 @@ func throw_to_bin(item, origin):
 	print("%s points losed" % item.discard_price)
 	substract_score(item.discard_price)
 	origin.drop_item()
+	$Main.add_child(item)
 	$Main/Bin.throw_item(item, origin)
 
 

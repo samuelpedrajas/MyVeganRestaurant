@@ -4,6 +4,7 @@ extends Node2D
 var level = 0
 
 export(int) var discard_price = 0
+export(bool) var throwable = true
 
 
 func get_reference():

@@ -19,6 +19,11 @@ margin_left = -118.0
 margin_top = -67.0
 margin_right = 116.0
 margin_bottom = 63.0
+
+[node name="DoubleClick" type="Timer" parent="."]
+one_shot = true
 [connection signal="pressed" from="ClickableArea" to="." method="_on_ClickableArea_pressed"]
+[connection signal="ready" from="DoubleClick" to="." method="_on_DoubleClick_ready"]
+[connection signal="timeout" from="DoubleClick" to="." method="_on_DoubleClick_timeout"]
 
 [editable path="ClickableArea"]

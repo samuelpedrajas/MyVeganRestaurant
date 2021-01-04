@@ -2,8 +2,11 @@ extends Node2D
 
 
 export(NodePath) onready var kitchen = get_node(kitchen)
+export(bool) var is_platform = false
 
 var dish = null
+var double_click_threshold = 0.5
+var double_click = false
 
 
 func add_dish(_dish):
@@ -27,5 +30,25 @@ func drop_item():
 
 
 func _on_ClickableArea_pressed():
-	if dish != null:
+	if dish == null:
+		pass
+	elif double_click:
+		kitchen.throw_to_bin(dish, self)
+		double_click = false
+	elif is_platform:
 		kitchen.deliver(dish, self)
+	else:
+		var useless = kitchen.is_useless(dish)
+		if useless and dish.throwable:
+			double_click = true
+			$DoubleClick.start()
+		else:
+			kitchen.deliver(dish, self)
+
+
+func _on_DoubleClick_timeout():
+	double_click = false
+
+
+func _on_DoubleClick_ready():
+	$DoubleClick.set_wait_time(double_click_threshold)

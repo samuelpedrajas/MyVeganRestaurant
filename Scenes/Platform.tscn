@@ -5,6 +5,7 @@
 
 [node name="Platform" type="Node2D"]
 script = ExtResource( 1 )
+is_platform = true
 
 [node name="Placeholder" type="Node2D" parent="."]
 position = Vector2( 0, 14 )

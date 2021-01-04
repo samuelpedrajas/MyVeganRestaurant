@@ -54,6 +54,14 @@ func _get_clients_sorted_by_priority():
 	return clients
 
 
+func is_useless(dish):
+	var clients = get_tree().get_nodes_in_group("Client")
+	for client in clients:
+		if client.accepts_dish(dish):
+			return false
+	return true
+
+
 func _select_plate(item):
 	var menu = $Menu
 
@@ -73,7 +81,7 @@ func _select_plate(item):
 			if _plate.dish != null and _plate != plate:
 				escenario.append(_plate.dish)
 
-		var useless = true
+		var useless = is_useless(new_dish)
 		for client in clients:
 			if client.accepts_dish(new_dish):
 				useless = false
@@ -152,6 +160,17 @@ func send_to_platform(item, origin):
 	)
 
 
+func throw_to_bin(item, origin):
+	if not item.throwable:
+		print("This item is not throwable")
+		return
+
+	print("%s points losed" % item.discard_price)
+	substract_score(item.discard_price)
+	origin.drop_item()
+	$Main/Bin.throw_item(item)
+
+
 func use_item(item, origin):
 	print("Using item: %s" % [item.get_reference()])
 	var destination_name = item.get_destination()
@@ -166,10 +185,7 @@ func use_item(item, origin):
 	elif destination_name == "Platform":
 		send_to_platform(item, origin)
 	elif destination_name == "Bin":
-		print("%s points losed" % item.discard_price)
-		substract_score(item.discard_price)
-		origin.drop_item()
-		$Main/Bin.throw_item(item)
+		throw_to_bin(item, origin)
 	else:
 		send_to_destination(item, origin)
 

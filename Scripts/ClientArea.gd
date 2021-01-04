@@ -15,7 +15,7 @@ var current_n_clients = 0
 
 export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
-export(float) var average_time_for_client = 3.0
+export(float) var average_time_for_client = 10.0
 export(float) var average_reward_for_client = 120.0
 export(Array) var category_probabilities = [0.5, 0.8, 0.5]
 export(int) var max_orders = 4
@@ -23,9 +23,9 @@ export(int) var max_orders = 4
 export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client
 export(float) var patience = 10.0 * average_time_for_client
 export(float) var base_variability = 0.5
-export(float) var added_variability = 2.0
-export(float) var added_variability_percentage = 0.2 #  0.4
-export(Array) var maximums = [0.5]  # [0.8]
+export(float) var added_variability = 0.0
+export(float) var added_variability_percentage = 0.8 #  0.4
+export(Array) var maximums = [0.7]  # [0.8]
 export(Array) var minimums = [0.1]  # [0.2]
 
 export(Dictionary) var prices = {

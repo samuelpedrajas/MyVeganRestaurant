@@ -10,6 +10,7 @@ reference = "BurgerBread"
 discard_price = 10
 ingredients = [ "BurgerBread" ]
 v_limits = Vector2( -70, 34.5 )
+throwable = false
 
 [node name="Sprites" type="Node2D" parent="."]
 

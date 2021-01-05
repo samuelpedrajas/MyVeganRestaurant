@@ -31,15 +31,17 @@ script/source = "extends Node
 
 var max_time = 60
 
+# clients
 var max_arrival_time = 3.0
-var average_time_for_client = 5.0
+var average_time_for_client = 6.0
 var average_reward_for_client = 120.0
-var seconds_gained_on_delivery = 2.0 * average_time_for_client
 var patience = 6.0 * average_time_for_client
+var seconds_gained_on_delivery = patience * 0.20
 
+# variability
 var base_variability = 0.5
-var added_variability = 1.5
-var added_variability_percentage = 0.4
+var added_variability = 3.0
+var added_variability_percentage = 0.60
 var maximums = [0.0, 1.0]
 
 var prices = {

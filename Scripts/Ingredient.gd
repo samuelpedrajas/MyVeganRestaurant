@@ -2,7 +2,7 @@ extends Node2D
 
 
 var level = 0
-
+export(String) var reference
 export(bool) var throwable = true
 
 

@@ -15,9 +15,8 @@ var current_n_clients = 0
 
 export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
-export(float) var average_time_for_client = 4.0
+export(float) var average_time_for_client = 10.0
 export(float) var average_reward_for_client = 120.0
-export(Array) var category_probabilities = [0.3, 0.4, 0.3]
 export(int) var max_orders = 4
 
 export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client
@@ -39,20 +38,33 @@ export(Dictionary) var discard_prices = {
 	"TomatoBurger": 75,
 	"LettuceBurger": 75,
 	"CompleteBurger": 100,
+	"BurgerIngredient": 50
+}
+
+export(Dictionary) var category_order = {
+	"Complement": 0,
+	"Main": 1,
+	"Drink": 2
+}
+
+export(Dictionary) var category_probability = {
+	"Complement": 30,
+	"Main": 40,
+	"Drink": 30
 }
 export(Dictionary) var dishes_probability = {
-	0: [
-		{"reference": "Fries", "probability": 1.0}
-	],
-	1: [
-		{"reference": "SimpleBurger", "probability": 0.25},
-		{"reference": "TomatoBurger", "probability": 0.25},
-		{"reference": "LettuceBurger", "probability": 0.25},
-		{"reference": "CompleteBurger", "probability": 0.25}
-	],
-	2: [
-		{"reference": "Cola", "probability": 1.0}
-	]
+	"Complement": {
+		"Fries": 100
+	},
+	"Main": {
+		"SimpleBurger": 25,
+		"TomatoBurger": 25,
+		"LettuceBurger": 25,
+		"CompleteBurger": 25
+	},
+	"Drink": {
+		"Cola": 100
+	}
 }
 
 # calculated
@@ -72,109 +84,78 @@ func start():
 	print("SECONDS: %s" % [current_time])
 
 
-func _get_random_dish_from_category(cat_idx):
-	# get deliverable dishes
-	var selected_dish = null
-	var _dishes_probability = dishes_probability[cat_idx]
-	_dishes_probability.shuffle()
-	for dish_info in _dishes_probability:
-		var p = rng.randf()
-		if p <= dish_info['probability']:
-			var dish_reference = dish_info["reference"]
-			selected_dish = menu.get_dish(dish_reference)
-			break
-	if selected_dish == null:
-		for dish_info in _dishes_probability:
-			if dish_info["probability"] == 0.0:
-				continue
-			selected_dish = menu.get_dish(
-				dish_info["reference"]
-			)
-			break
-	return selected_dish
+func _get_random_dish_from_category(cat):
+	var probabilities = dishes_probability[cat]
+	return Utils.weighted_random(
+		probabilities.keys(), probabilities, rng
+	)
+
+
+func _get_random_category():
+	return Utils.weighted_random(
+		category_probability.keys(), category_probability, rng
+	)
+
+
+func _sort_dishes_by_category(order):
+	var orders_aux = []
+	for dish_ref in order:
+		var cat = menu.get_dish_category(dish_ref)
+		orders_aux.append({
+			"dish": dish_ref,
+			"order": category_order[cat]
+		})
+	orders_aux = Utils.sort_by_attribute(orders_aux, "order", "asc")
+
+	var result = []
+	for _order in orders_aux:
+		result.append(_order["dish"])
+
+	return result
 
 
 func _build_order_lists():
 	var orders = Utils.initialise_array(average_client_number, [])
-	var n_categories = menu.get_child_count()
 
 	guaranteed_coins = 0
-	var cat_idx = 0
-	var cat_probability = category_probabilities[cat_idx]
-	for i in range(0, average_client_number):
-		var progress = float(i) / average_client_number
-		if cat_probability <= progress:
-			cat_idx += 1
-			if n_categories - 1 <= cat_idx:
-				cat_probability = 1.0
-			else:
-				cat_probability += category_probabilities[cat_idx]
-		var selected_dish = _get_random_dish_from_category(cat_idx)
-		var dish_obj = {
-			"dish": selected_dish.duplicate(),
-			"order": cat_idx
-		}
-		orders[i].append(dish_obj)
-		guaranteed_coins += prices[dish_obj["dish"].reference]
 
 	# dish distribution
 	while guaranteed_coins < calculated_goal:
 		for i in range(0, average_client_number):
-			if orders[i].size() >= max_orders:
-				continue
-			cat_idx = 0
-			cat_probability = category_probabilities[cat_idx]
-			for j in range(0, n_categories):
-				var p = rng.randf()
-				if p <= cat_probability:
-					cat_idx = j
-					break
-				else:
-					cat_probability += category_probabilities[j]
+			var cat = _get_random_category()
+			var selected_dish_ref = _get_random_dish_from_category(cat)
+			var profit = prices[selected_dish_ref]
 
-			var selected_dish = _get_random_dish_from_category(cat_idx)
-			var dish_obj = {
-				"dish": selected_dish.duplicate(),
-				"order": cat_idx
-			}
-			orders[i].append(dish_obj)
-			var price = prices[dish_obj["dish"].reference]
-			guaranteed_coins += price
-			if guaranteed_coins == calculated_goal:
-				break
-			elif guaranteed_coins > calculated_goal:
-				orders[i].pop_back()
-				guaranteed_coins -= price
-				var available_dishes = []
-				for dish_reference in prices.keys():
-					available_dishes.append({
-						"reference": dish_reference,
-						"price": prices[dish_reference]
-					})
-				available_dishes = Utils.sort_by_attribute(
-					available_dishes, "price", "asc"
+			if guaranteed_coins + profit > calculated_goal:
+				var diff = (guaranteed_coins + profit) - calculated_goal
+				var sorted_dish_refs = Utils.dict_to_sorted_tuple_list(
+					prices, "asc"
 				)
-				for dish_info in available_dishes:
-					price = dish_info["price"]
-					if guaranteed_coins + price >= calculated_goal:
-						var dish = menu.get_dish(dish_info["reference"])
-						dish_obj = {
-							"dish": dish.duplicate(),
-							"order": dish.get_parent().get_position_in_parent()
-						}
-						orders[i].append(dish_obj)
-						guaranteed_coins += price
+				for t in sorted_dish_refs:
+					var dish_ref = t[0]
+					cat = menu.get_dish_category(dish_ref)
+					if dishes_probability[cat][dish_ref] == 0:
+						continue
+					var new_profit = prices[dish_ref]
+					if new_profit > diff:
+						selected_dish_ref = dish_ref
 						break
+
+			orders[i].append(selected_dish_ref)
+			guaranteed_coins += profit
+			if guaranteed_coins >= calculated_goal:
 				break
 
 	# sort and assign to order_lists
 	for i in range(0, average_client_number):
 		if orders[i] == []:
 			continue
-		orders[i] = Utils.sort_by_attribute(orders[i], "order", "asc")
-		order_lists.append([])
-		for _order in orders[i]:
-			order_lists[-1].append(_order["dish"])
+
+		var final_order = []
+		for dish_ref in _sort_dishes_by_category(orders[i]):
+			final_order.append(menu.get_dish(dish_ref).duplicate())
+
+		order_lists.append(final_order)
 	order_lists.shuffle()
 
 
@@ -295,31 +276,18 @@ func prepare_game():
 
 
 func select_random_dishes():
-	var categories = menu.get_children()
-	var n_categories = menu.get_child_count()
 	var n_orders = rng.randi_range(1, max_orders)
-	var orders = []
+	var order = []
 	for _unused in range(n_orders):
-		var i = rng.randi_range(0, n_categories - 1)
-		var category = categories[i]
-		# get deliverable dishes
-		var dishes = []
-		for dish in category.get_children():
-			if dish.deliverable:
-				dishes.append(dish)
-		var n_dishes = dishes.size()
-		var j = rng.randi_range(0, n_dishes - 1)
-		var dish_obj = {
-			"dish": dishes[j].duplicate(),
-			"order": i
-		}
-		orders.append(dish_obj)
+		var cat = _get_random_category()
+		var dish_ref = _get_random_dish_from_category(cat)
+		order.append(dish_ref)
 
-	orders = Utils.sort_by_attribute(orders, "order", "asc")
-	var order_list = []
-	for _order in orders:
-		order_list.append(_order["dish"])
-	return order_list
+	var final_order = []
+	for dish_ref in _sort_dishes_by_category(order):
+		final_order.append(menu.get_dish(dish_ref).duplicate())
+
+	return final_order
 
 
 func client_served(client):

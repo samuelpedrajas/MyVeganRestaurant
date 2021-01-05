@@ -3,7 +3,6 @@ extends Node2D
 
 export(String) var reference
 export(Array) var ingredients
-export(bool) var deliverable
 export(Vector2) var v_limits
 export(bool) var throwable = true
 

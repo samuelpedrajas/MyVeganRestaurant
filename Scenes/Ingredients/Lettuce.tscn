@@ -5,6 +5,7 @@
 
 [node name="Lettuce" type="Node2D"]
 script = ExtResource( 1 )
+reference = "LettuceIngredient"
 
 [node name="Lettuce" type="Sprite" parent="."]
 script = ExtResource( 2 )

@@ -5,6 +5,7 @@
 
 [node name="Tomato" type="Node2D"]
 script = ExtResource( 1 )
+reference = "TomatoIngredient"
 
 [node name="Tomato" type="Sprite" parent="."]
 script = ExtResource( 2 )

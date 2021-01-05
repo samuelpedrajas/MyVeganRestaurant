@@ -1,6 +1,53 @@
 extends Node
 
 
+func weighted_random(list, distribution_dict, rng):
+	var total = 0
+	for n in distribution_dict.values():
+		total += n
+
+	var r = rng.randi_range(0, total - 1)
+	for item in list:
+		var w = distribution_dict[item]
+		if r < w:
+			return item
+		r -= w
+	assert("weighted_random ERROR")
+
+
+func dict_to_sorted_tuple_list(d, _order):
+	var l = []
+	for k in d.keys():
+		l.append([k, d[k]])
+	if _order == "desc":
+		l.sort_custom(self, "_tuple_comparison_desc")
+	else:
+		l.sort_custom(self, "_tuple_comparison_asc")
+	return l
+
+
+func _tuple_comparison_asc(t1, t2):
+	return t1[-1] < t2[-1]
+
+
+func _tuple_comparison_desc(t1, t2):
+	return t1[-1] > t2[-1]
+
+
+#func sort_by_value_in_dict(l, d, _order):
+#	var l_aux = []
+#	for item in l:
+#		l_aux.append({
+#			"object": item,
+#			"value": d[item]
+#		})
+#	l_aux = sort_by_attribute(l_aux, "value", _order)
+#	var result = []
+#	for item in l_aux:
+#		result.append(item["object"])
+#	return result
+
+
 func arrays_have_same_content(array1, array2):
 	if array1.size() != array2.size(): return false
 	for item in array1:

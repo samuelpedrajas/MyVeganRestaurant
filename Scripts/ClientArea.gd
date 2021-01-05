@@ -15,18 +15,17 @@ var current_n_clients = 0
 
 export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
-export(float) var average_time_for_client = 10.0
+export(float) var average_time_for_client = 5.0
 export(float) var average_reward_for_client = 120.0
 export(Array) var category_probabilities = [0.5, 0.8, 0.5]
 export(int) var max_orders = 4
 
 export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client
 export(float) var patience = 10.0 * average_time_for_client
-export(float) var base_variability = 0.5
+export(float) var base_variability = 0.0
 export(float) var added_variability = 0.0
-export(float) var added_variability_percentage = 0.8 #  0.4
-export(Array) var maximums = [0.7]  # [0.8]
-export(Array) var minimums = [0.1]  # [0.2]
+export(float) var added_variability_percentage = 0.0 #  0.4
+export(Array) var maximums = [0.0, 1.0]  # [0.8]
 
 export(Dictionary) var prices = {
 	"Fries": 50,
@@ -118,94 +117,71 @@ func _build_timeouts():
 		added_variability_percentage * timeout_seconds.size()
 	)
 
-	# we need it to be even
-	if int(num_added_var) % 2 != 0:
-		num_added_var -= 1
-
 	# apply additional variability
-	var addition = 0
+	var total = 0
 	for i in range(0, num_added_var):
-		if i % 2 == 0:
-			addition = rng.randf_range(base_variability, added_variability)
-			timeout_seconds[i] += addition
-		else:
-			timeout_seconds[i] -= addition
+		var substraction = rng.randf_range(base_variability, added_variability)
+		timeout_seconds[i] -= substraction
+		total += substraction
 
-	# calculate base variability upper limit (must be even too)
 	var limit_base_var = timeout_seconds.size()
-	if int(limit_base_var - num_added_var) % 2 != 0:
-		limit_base_var -= 1
+	var num_remaining = int(limit_base_var - num_added_var)
+	if num_remaining > 0:
+		# apply base variability
+		var addition = null
+		var compensation = float(total) / float(num_remaining)
+		for i in range(num_added_var, limit_base_var):
+			if addition == null:
+				addition = rng.randf_range(0, base_variability)
+				timeout_seconds[i] += addition
+			else:
+				timeout_seconds[i] -= addition
+				addition = null
+			timeout_seconds[i] += compensation
 
-	# apply base variability
-	addition = 0
-	for i in range(num_added_var, limit_base_var):
-		if i % 2 == 0:
-			addition = rng.randf_range(0, base_variability)
-			timeout_seconds[i] += addition
-		else:
-			timeout_seconds[i] -= addition
-
-	# maximums and minimums
+	# maximums
 	var max_start = []
-	var clients_per_maximum = floor(num_added_var / maximums.size() / 2.0)
-	var min_start = []
-	var clients_per_minimum = floor(num_added_var / minimums.size() / 2.0)
-	for maximum in maximums:
-		max_start.append(
-			min(floor(
-				(maximum * timeout_seconds.size()) - (clients_per_maximum / 2.0)
-			), usable_time)
-		)
-	for minimum in minimums:
-		min_start.append(
-			max(floor(
-				(minimum * timeout_seconds.size()) - (clients_per_minimum / 2.0)
-			), 1)
-		)
+	var clients_per_maximum = 0
+	if maximums.size() > 0:
+		clients_per_maximum = floor(num_added_var / maximums.size())
+	if clients_per_maximum > 0:
+		for maximum in maximums:
+			max_start.append(
+				max(min(floor(
+					(maximum * timeout_seconds.size()) - (clients_per_maximum / 2.0)
+				), usable_time), 1)
+			)
 
 	print("MAXIMUM START: %s" % [max_start])
-	print("MINIMUM START: %s" % [min_start])
 	print("CLIENTS PER MAXIMUM: %s" % [str(clients_per_maximum)])
-	print("CLIENTS PER MINIMUM: %s" % [str(clients_per_minimum)])
 
 	# get fastests, slowests and rest
 	timeout_seconds.sort()
 	var total_fastests = clients_per_maximum * maximums.size()
-	var fastests = timeout_seconds.slice(0, total_fastests - 1)
-	var total_slowests = clients_per_minimum * minimums.size()
-	var starting_slowests = timeout_seconds.size() - total_slowests
-	var slowests = timeout_seconds.slice(
-		starting_slowests, timeout_seconds.size()
-	)
-	var rest = timeout_seconds.slice(total_fastests, starting_slowests - 1)
-
+	var fastests
+	var rest
+	if total_fastests > 0:
+		fastests = timeout_seconds.slice(0, total_fastests - 1)
+		rest = timeout_seconds.slice(total_fastests, timeout_seconds.size())
+	else:
+		fastests = []
+		rest = timeout_seconds
 	rest.shuffle()
 
 	print("FASTESTS (%s)" % [total_fastests])
-	print("SLOWESTS (%s)" % [total_slowests])
 
 	timeout_seconds = [0]
 	var max_countdown = 0
-	var min_countdown = 0
 	var i = 1  # 0 is skipped
-	while fastests or slowests or rest:
+	while fastests or rest:
 		if i in max_start:
 			max_countdown += clients_per_maximum
-		if i in min_start:
-			min_countdown += clients_per_minimum
 		if max_countdown > 0 and fastests:
 			timeout_seconds.append(fastests.pop_back())
 			max_countdown -= 1
-			i += 1
-			continue
-		if min_countdown > 0 and slowests:
-			timeout_seconds.append(slowests.pop_back())
-			min_countdown -= 1
-			i += 1
-			continue
-		if rest:
+		elif rest:
 			timeout_seconds.append(rest.pop_back())
-			i += 1
+		i += 1
 
 	# accumulate timeouts
 	for _i in range(1, timeout_seconds.size()):

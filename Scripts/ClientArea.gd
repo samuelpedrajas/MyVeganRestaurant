@@ -78,6 +78,7 @@ func _build_order_lists():
 	var orders = Utils.initialise_array(average_client_number, [])
 	var prices = $LevelConfig.prices
 	var dishes_probability = $LevelConfig.dishes_probability
+	var category_probability = $LevelConfig.category_probability
 
 	guaranteed_coins = 0
 
@@ -96,6 +97,8 @@ func _build_order_lists():
 				for t in sorted_dish_refs:
 					var dish_ref = t[0]
 					cat = menu.get_dish_category(dish_ref)
+					if category_probability[cat] == 0:
+						continue
 					if dishes_probability[cat][dish_ref] == 0:
 						continue
 					var new_profit = prices[dish_ref]

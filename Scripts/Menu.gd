@@ -15,6 +15,14 @@ func get_new_dish(dish, ingredient):
 	return new_dish.duplicate()
 
 
+func get_dish(reference):
+	for category in get_children():
+		for _dish in category.get_children():
+			if _dish.reference == reference:
+				return _dish
+	return null
+
+
 func _get_new_dish(dish, ingredient):
 	var ingredients = []
 	if dish != null:

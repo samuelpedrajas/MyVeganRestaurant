@@ -15,9 +15,9 @@ var current_n_clients = 0
 
 export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
-export(float) var average_time_for_client = 5.0
+export(float) var average_time_for_client = 4.0
 export(float) var average_reward_for_client = 120.0
-export(Array) var category_probabilities = [0.5, 0.8, 0.5]
+export(Array) var category_probabilities = [0.2, 0.6, 0.2]
 export(int) var max_orders = 4
 
 export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client
@@ -63,35 +63,90 @@ func start():
 
 
 func _build_order_lists():
-	# TODO: revisar si podría quedarse colgado: asignar demasiadas bebidas
-	# y complementos y ya no poder superar el goal
 	var orders = Utils.initialise_array(average_client_number, [])
+	var categories = menu.get_children()
+	var n_categories = menu.get_child_count()
 
 	guaranteed_coins = 0
+	var cat_idx = 0
+	var cat_probability = category_probabilities[cat_idx]
+	for i in range(0, average_client_number):
+		var progress = float(i) / average_client_number
+		if cat_probability <= progress:
+			cat_idx += 1
+			if n_categories - 1 <= cat_idx:
+				cat_probability = 1.0
+			else:
+				cat_probability += category_probabilities[cat_idx]
+		# get deliverable dishes
+		var dishes = []
+		for dish in categories[cat_idx].get_children():
+			if dish.deliverable:
+				dishes.append(dish)
+		var n_dishes = dishes.size()
+		var selected = rng.randi_range(0, n_dishes - 1)
+		var dish_obj = {
+			"dish": dishes[selected].duplicate(),
+			"order": cat_idx
+		}
+		orders[i].append(dish_obj)
+		guaranteed_coins += prices[dish_obj["dish"].reference]
+
 	# dish distribution
 	while guaranteed_coins < calculated_goal:
-		var categories = menu.get_children()
-		var n_categories = menu.get_child_count()
 		for i in range(0, average_client_number):
+			if orders[i].size() >= max_orders:
+				continue
+			cat_idx = 0
+			cat_probability = category_probabilities[cat_idx]
 			for j in range(0, n_categories):
-				var skip = rng.randf() < 1.0 - category_probabilities[j]
-				if skip or orders[i].size() >= max_orders:
-					continue
-				var category = categories[j]
-				# get deliverable dishes
-				var dishes = []
-				for dish in category.get_children():
-					if dish.deliverable:
-						dishes.append(dish)
-				var n_dishes = dishes.size()
-				var selected = rng.randi_range(0, n_dishes - 1)
-				var dish_obj = {
-					"dish": dishes[selected].duplicate(),
-					"order": j
-				}
-				orders[i].append(dish_obj)
-				guaranteed_coins += prices[dish_obj["dish"].reference]
-			if guaranteed_coins >= calculated_goal:
+				var p = rng.randf()
+				if p <= cat_probability:
+					cat_idx = j
+					break
+				else:
+					cat_probability += category_probabilities[j]
+
+			var category = categories[cat_idx]
+			# get deliverable dishes
+			var dishes = []
+			for dish in category.get_children():
+				if dish.deliverable:
+					dishes.append(dish)
+			var n_dishes = dishes.size()
+			var selected = rng.randi_range(0, n_dishes - 1)
+			var dish_obj = {
+				"dish": dishes[selected].duplicate(),
+				"order": cat_idx
+			}
+			orders[i].append(dish_obj)
+			var price = prices[dish_obj["dish"].reference]
+			guaranteed_coins += price
+			if guaranteed_coins == calculated_goal:
+				break
+			elif guaranteed_coins > calculated_goal:
+				orders[i].pop_back()
+				guaranteed_coins -= price
+				var available_dishes = []
+				for dish_reference in prices.keys():
+					available_dishes.append({
+						"reference": dish_reference,
+						"price": prices[dish_reference]
+					})
+				available_dishes = Utils.sort_by_attribute(
+					available_dishes, "price", "asc"
+				)
+				for dish_info in available_dishes:
+					price = dish_info["price"]
+					if guaranteed_coins + price >= calculated_goal:
+						var dish = menu.get_dish(dish_info["reference"])
+						dish_obj = {
+							"dish": dish.duplicate(),
+							"order": dish.get_parent().get_position_in_parent()
+						}
+						orders[i].append(dish_obj)
+						guaranteed_coins += price
+						break
 				break
 
 	# sort and assign to order_lists
@@ -102,6 +157,7 @@ func _build_order_lists():
 		order_lists.append([])
 		for _order in orders[i]:
 			order_lists[-1].append(_order["dish"])
+	order_lists.shuffle()
 
 
 func _build_timeouts():

@@ -15,8 +15,8 @@ var current_n_clients = 0
 
 export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
-export(float) var average_time_for_client = 10.0
-export(float) var average_reward_for_client = 120.0
+export(float) var average_time_for_client = 3.0
+export(float) var average_reward_for_client = 220.0
 export(int) var max_orders = 4
 
 export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client
@@ -24,7 +24,7 @@ export(float) var patience = 10.0 * average_time_for_client
 export(float) var base_variability = 0.5
 export(float) var added_variability = 1.5
 export(float) var added_variability_percentage = 0.4 #  0.4
-export(Array) var maximums = [1.0]  # [0.8]
+export(Array) var maximums = [0.0, 1.0]  # [0.8]
 
 export(Dictionary) var prices = {
 	"Fries": 50,
@@ -138,6 +138,7 @@ func _build_order_lists():
 						continue
 					var new_profit = prices[dish_ref]
 					if new_profit > diff:
+						profit = new_profit
 						selected_dish_ref = dish_ref
 						break
 

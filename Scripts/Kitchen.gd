@@ -7,7 +7,7 @@ onready var client_area = $Main/ClientArea
 
 func _ready():
 	client_area.prepare_game()
-	self.time = $Main/ClientArea.max_time
+	self.time = $Main/ClientArea/LevelConfig.max_time
 	get_tree().set_pause(true)
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 	$HUD.set_time(time)
@@ -105,7 +105,7 @@ func _select_plate(item):
 			for _dish in client.get_dishes():
 				for dish in escenario.duplicate():
 					if dish.reference == _dish.reference:
-						reward_deliveries[plate] += client_area.prices[dish.reference]
+						reward_deliveries[plate] += client_area.get_price(dish.reference)
 						escenario.erase(dish)
 						break
 		var winners = []
@@ -165,8 +165,8 @@ func throw_to_bin(item, origin):
 		print("This item is not throwable")
 		return
 
-	print("%s points losed" % client_area.discard_prices[item.reference])
-	substract_score(client_area.discard_prices[item.reference])
+	print("%s points losed" % client_area.get_discard_price(item.reference))
+	substract_score(client_area.get_discard_price(item.reference))
 	origin.drop_item()
 	$Main.add_child(item)
 	$Main/Bin.throw_item(item, origin)
@@ -208,7 +208,7 @@ func deliver(dish, origin):
 	client.receive_dish(dish)
 	$Main.add_child(dish)
 	dish.deliver(origin.get_throw_position())
-	add_score(client_area.prices[dish.reference])
+	add_score(client_area.get_price(dish.reference))
 
 
 func add_score(inc):

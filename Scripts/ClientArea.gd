@@ -11,61 +11,7 @@ var num_clients = 0
 var current_time = 0
 var position_availability = []
 var current_n_clients = 0
-
-
-export(float) var max_time = 60
-export(float) var max_arrival_time = 3.0
-export(float) var average_time_for_client = 3.0
-export(float) var average_reward_for_client = 220.0
-export(int) var max_orders = 4
-
-export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client
-export(float) var patience = 10.0 * average_time_for_client
-export(float) var base_variability = 0.5
-export(float) var added_variability = 1.5
-export(float) var added_variability_percentage = 0.4 #  0.4
-export(Array) var maximums = [0.0, 1.0]  # [0.8]
-
-export(Dictionary) var prices = {
-	"Fries": 50,
-	"SimpleBurger": 75,
-	"TomatoBurger": 100,
-	"LettuceBurger": 100,
-	"CompleteBurger": 125,
-	"Cola": 25
-}
-export(Dictionary) var discard_prices = {
-	"TomatoBurger": 75,
-	"LettuceBurger": 75,
-	"CompleteBurger": 100,
-	"BurgerIngredient": 50
-}
-
-export(Dictionary) var category_order = {
-	"Complement": 0,
-	"Main": 1,
-	"Drink": 2
-}
-
-export(Dictionary) var category_probability = {
-	"Complement": 30,
-	"Main": 40,
-	"Drink": 30
-}
-export(Dictionary) var dishes_probability = {
-	"Complement": {
-		"Fries": 100
-	},
-	"Main": {
-		"SimpleBurger": 25,
-		"TomatoBurger": 25,
-		"LettuceBurger": 25,
-		"CompleteBurger": 25
-	},
-	"Drink": {
-		"Cola": 100
-	}
-}
+var max_orders = 4
 
 # calculated
 var usable_time = null
@@ -74,6 +20,7 @@ var order_lists = []
 var timeout_seconds = []
 var average_client_number = null
 var calculated_goal = null
+var average_time_for_client = null
 
 
 func start():
@@ -84,16 +31,29 @@ func start():
 	print("SECONDS: %s" % [current_time])
 
 
+func get_price(dish_ref):
+	return $LevelConfig.prices[dish_ref]
+
+
+func get_discard_price(dish_ref):
+	return $LevelConfig.discard_prices[dish_ref]
+
+
 func _get_random_dish_from_category(cat):
-	var probabilities = dishes_probability[cat]
+	var probabilities = $LevelConfig.dishes_probability[cat]
 	return Utils.weighted_random(
-		probabilities.keys(), probabilities, rng
+		probabilities.keys(),
+		probabilities,
+		rng
 	)
 
 
 func _get_random_category():
+	var probabilities = $LevelConfig.category_probability
 	return Utils.weighted_random(
-		category_probability.keys(), category_probability, rng
+		probabilities.keys(),
+		probabilities,
+		rng
 	)
 
 
@@ -103,7 +63,7 @@ func _sort_dishes_by_category(order):
 		var cat = menu.get_dish_category(dish_ref)
 		orders_aux.append({
 			"dish": dish_ref,
-			"order": category_order[cat]
+			"order": $LevelConfig.category_order[cat]
 		})
 	orders_aux = Utils.sort_by_attribute(orders_aux, "order", "asc")
 
@@ -116,6 +76,8 @@ func _sort_dishes_by_category(order):
 
 func _build_order_lists():
 	var orders = Utils.initialise_array(average_client_number, [])
+	var prices = $LevelConfig.prices
+	var dishes_probability = $LevelConfig.dishes_probability
 
 	guaranteed_coins = 0
 
@@ -162,6 +124,8 @@ func _build_order_lists():
 
 func _build_timeouts():
 	average_time_for_client = usable_time / order_lists.size()
+	var base_variability = $LevelConfig.base_variability
+	var added_variability = $LevelConfig.added_variability
 
 	# exclude 0
 	timeout_seconds = Utils.initialise_array(
@@ -170,13 +134,15 @@ func _build_timeouts():
 
 	# num clients with additional variability
 	var num_added_var = floor(
-		added_variability_percentage * timeout_seconds.size()
+		$LevelConfig.added_variability_percentage * timeout_seconds.size()
 	)
 
 	# apply additional variability
 	var total = 0
 	for i in range(0, num_added_var):
-		var substraction = rng.randf_range(base_variability, added_variability)
+		var substraction = rng.randf_range(
+			base_variability, added_variability
+		)
 		timeout_seconds[i] -= substraction
 		total += substraction
 
@@ -196,6 +162,7 @@ func _build_timeouts():
 			timeout_seconds[i] += compensation
 
 	# maximums
+	var maximums = $LevelConfig.maximums
 	var max_start = []
 	var clients_per_maximum = 0
 	if maximums.size() > 0:
@@ -246,8 +213,15 @@ func _build_timeouts():
 
 
 func prepare_game():
+	var max_time = $LevelConfig.max_time
+	var max_arrival_time = $LevelConfig.max_arrival_time
+	var average_reward_for_client = $LevelConfig.average_reward_for_client
+	average_time_for_client = $LevelConfig.average_time_for_client
+
 	rng.randomize()
-	self.usable_time = (max_time - average_time_for_client - max_arrival_time)
+	self.usable_time = (
+		max_time - average_time_for_client - max_arrival_time
+	)
 	self.average_client_number = ceil(usable_time / average_time_for_client)
 	self.calculated_goal = average_client_number * average_reward_for_client
 
@@ -260,6 +234,7 @@ func prepare_game():
 	print("AVG. TIME FOR CLIENT: %s" % [str(average_time_for_client)])
 	print("FINAL ORDER LIST NUMBER: %s" % [str(order_lists.size())])
 	print("FINAL ORDER LISTS:")
+	var prices = $LevelConfig.prices
 	for _orders in order_lists:
 		var references = []
 		var total = 0.0
@@ -322,8 +297,8 @@ func new_client():
 
 	var client = client_scene.instance()
 	client.setup(
-		idx, current_time, dishes, max_arrival_time, patience,
-		seconds_gained_on_delivery, rng
+		idx, current_time, dishes, $LevelConfig.max_arrival_time,
+		$LevelConfig.patience, $LevelConfig.seconds_gained_on_delivery, rng
 	)
 	add_child(client)
 	client.connect("served", self, "client_served")

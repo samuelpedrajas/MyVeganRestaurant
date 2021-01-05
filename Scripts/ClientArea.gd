@@ -17,15 +17,15 @@ export(float) var max_time = 60
 export(float) var max_arrival_time = 3.0
 export(float) var average_time_for_client = 4.0
 export(float) var average_reward_for_client = 120.0
-export(Array) var category_probabilities = [0.2, 0.6, 0.2]
+export(Array) var category_probabilities = [0.3, 0.4, 0.3]
 export(int) var max_orders = 4
 
 export(float) var seconds_gained_on_delivery = 3.0 * average_time_for_client
 export(float) var patience = 10.0 * average_time_for_client
-export(float) var base_variability = 0.0
-export(float) var added_variability = 0.0
-export(float) var added_variability_percentage = 0.0 #  0.4
-export(Array) var maximums = [0.0, 1.0]  # [0.8]
+export(float) var base_variability = 0.5
+export(float) var added_variability = 1.5
+export(float) var added_variability_percentage = 0.4 #  0.4
+export(Array) var maximums = [1.0]  # [0.8]
 
 export(Dictionary) var prices = {
 	"Fries": 50,
@@ -36,13 +36,23 @@ export(Dictionary) var prices = {
 	"Cola": 25
 }
 export(Dictionary) var discard_prices = {
-	"Fries": 25,
-	"BurgerBread": 10,
-	"SimpleBurger": 50,
 	"TomatoBurger": 75,
 	"LettuceBurger": 75,
 	"CompleteBurger": 100,
-	"Cola": 12
+}
+export(Dictionary) var dishes_probability = {
+	0: [
+		{"reference": "Fries", "probability": 1.0}
+	],
+	1: [
+		{"reference": "SimpleBurger", "probability": 0.25},
+		{"reference": "TomatoBurger", "probability": 0.25},
+		{"reference": "LettuceBurger", "probability": 0.25},
+		{"reference": "CompleteBurger", "probability": 0.25}
+	],
+	2: [
+		{"reference": "Cola", "probability": 1.0}
+	]
 }
 
 # calculated
@@ -62,9 +72,30 @@ func start():
 	print("SECONDS: %s" % [current_time])
 
 
+func _get_random_dish_from_category(cat_idx):
+	# get deliverable dishes
+	var selected_dish = null
+	var _dishes_probability = dishes_probability[cat_idx]
+	_dishes_probability.shuffle()
+	for dish_info in _dishes_probability:
+		var p = rng.randf()
+		if p <= dish_info['probability']:
+			var dish_reference = dish_info["reference"]
+			selected_dish = menu.get_dish(dish_reference)
+			break
+	if selected_dish == null:
+		for dish_info in _dishes_probability:
+			if dish_info["probability"] == 0.0:
+				continue
+			selected_dish = menu.get_dish(
+				dish_info["reference"]
+			)
+			break
+	return selected_dish
+
+
 func _build_order_lists():
 	var orders = Utils.initialise_array(average_client_number, [])
-	var categories = menu.get_children()
 	var n_categories = menu.get_child_count()
 
 	guaranteed_coins = 0
@@ -78,15 +109,9 @@ func _build_order_lists():
 				cat_probability = 1.0
 			else:
 				cat_probability += category_probabilities[cat_idx]
-		# get deliverable dishes
-		var dishes = []
-		for dish in categories[cat_idx].get_children():
-			if dish.deliverable:
-				dishes.append(dish)
-		var n_dishes = dishes.size()
-		var selected = rng.randi_range(0, n_dishes - 1)
+		var selected_dish = _get_random_dish_from_category(cat_idx)
 		var dish_obj = {
-			"dish": dishes[selected].duplicate(),
+			"dish": selected_dish.duplicate(),
 			"order": cat_idx
 		}
 		orders[i].append(dish_obj)
@@ -107,16 +132,9 @@ func _build_order_lists():
 				else:
 					cat_probability += category_probabilities[j]
 
-			var category = categories[cat_idx]
-			# get deliverable dishes
-			var dishes = []
-			for dish in category.get_children():
-				if dish.deliverable:
-					dishes.append(dish)
-			var n_dishes = dishes.size()
-			var selected = rng.randi_range(0, n_dishes - 1)
+			var selected_dish = _get_random_dish_from_category(cat_idx)
 			var dish_obj = {
-				"dish": dishes[selected].duplicate(),
+				"dish": selected_dish.duplicate(),
 				"order": cat_idx
 			}
 			orders[i].append(dish_obj)

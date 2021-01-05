@@ -165,8 +165,8 @@ func throw_to_bin(item, origin):
 		print("This item is not throwable")
 		return
 
-	print("%s points losed" % item.discard_price)
-	substract_score(item.discard_price)
+	print("%s points losed" % client_area.discard_prices[item.reference])
+	substract_score(client_area.discard_prices[item.reference])
 	origin.drop_item()
 	$Main.add_child(item)
 	$Main/Bin.throw_item(item, origin)

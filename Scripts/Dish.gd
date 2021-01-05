@@ -2,7 +2,6 @@ extends Node2D
 
 
 export(String) var reference
-export(int) var discard_price
 export(Array) var ingredients
 export(bool) var deliverable
 export(Vector2) var v_limits

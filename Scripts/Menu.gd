@@ -35,7 +35,7 @@ func _get_new_dish(dish, ingredient):
 	var ingredients = []
 	if dish != null:
 		ingredients += dish.ingredients
-	ingredients.append(ingredient.get_reference())
+	ingredients.append(ingredient.get_level_reference())
 
 	for category in get_children():
 		for _dish in category.get_children():

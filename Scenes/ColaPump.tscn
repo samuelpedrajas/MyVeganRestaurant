@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/DishProvider.gd" type="Script" id=1]
 [ext_resource path="res://Images/Kitchen/VasoLleno.png" type="Texture" id=2]
 [ext_resource path="res://Images/Kitchen/VasoLlenandose.png" type="Texture" id=3]
 [ext_resource path="res://Images/Kitchen/MaquinaBebidasVacia.png" type="Texture" id=4]
-[ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Dishes/FastFood/Cola.tscn" type="PackedScene" id=7]
 
@@ -120,13 +119,4 @@ anims/preparing_animation = SubResource( 3 )
 [node name="Timer" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, -110 )
 burning_time = -1
-
-[node name="ClickableArea" parent="." instance=ExtResource( 5 )]
-margin_left = -95.0
-margin_top = -93.0
-margin_right = 95.0
-margin_bottom = 93.0
 [connection signal="food_cooked" from="Timer" to="." method="_on_Timer_food_cooked"]
-[connection signal="pressed" from="ClickableArea" to="." method="_on_ClickableArea_pressed"]
-
-[editable path="ClickableArea"]

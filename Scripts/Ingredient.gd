@@ -6,7 +6,7 @@ export(String) var reference
 export(bool) var throwable = true
 
 
-func get_reference():
+func get_level_reference():
 	return get_child(self.level).reference
 
 

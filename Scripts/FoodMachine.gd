@@ -1,45 +1,50 @@
 extends Node2D
 
 
-export(String) var reference = ""
-export(bool) var hide_ingredient = false
 export(NodePath) onready var kitchen = get_node(kitchen)
-export(NodePath) var platform
-export(bool) var serve_automatically = false
 
 var ingredient = null
+var burned = false
 
 
 func _ready():
-	self.platform = get_node_or_null(platform)
 	$AnimationPlayer.play("default_animation")
 
 
 func is_busy():
-	var platform_is_full = false
-	if self.platform != null:
-		platform_is_full = self.platform.dish != null
-	return self.ingredient != null or platform_is_full
+	return self.ingredient != null
 
 
 func add_item(_ingredient):
 	if is_busy():
 		print("ERROR: machine is busy!!!")
 		return
-	_ingredient.evolve()
 	self.ingredient = _ingredient
-	if not self.hide_ingredient:
-		$Placeholder.add_child(_ingredient)
+	$Placeholder.add_child(_ingredient)
 	$AnimationPlayer.play("preparing_animation")
 	$Timer.start()
 
 
 func drop_item():
-	if not hide_ingredient:
-		$Placeholder.remove_child(self.ingredient)
+	self.burned = false
 	self.ingredient = null
 	$AnimationPlayer.play("default_animation")
 	$Timer.stop()
+
+
+func send_to_plate():
+	var plate = kitchen.select_plate(self.ingredient)
+	if plate != null:
+		$Placeholder.remove_child(self.ingredient)
+		plate.add_ingredient(self.ingredient)
+		drop_item()
+	else:
+		print("No plates available for %s" % [get_name()])
+
+
+func send_to_bin():
+	$Placeholder.remove_child(self.ingredient)
+	kitchen.throw_to_bin(self.ingredient, self)
 
 
 func get_throw_position():
@@ -48,16 +53,17 @@ func get_throw_position():
 
 func _on_Timer_food_cooked():
 	self.ingredient.evolve()
-	if self.serve_automatically:
-		kitchen.use_item(self.ingredient, self)
 
 
 func _on_Timer_food_burned():
 	self.ingredient.evolve()
+	self.burned = true
+	print("%s burned!" % [get_name()])
 
 
 func _on_ClickableArea_pressed():
 	if self.ingredient != null:
-		kitchen.use_item(self.ingredient, self)
-	elif self.platform != null and platform.dish != null:
-		kitchen.deliver(platform.dish, platform)
+		if burned:
+			send_to_bin()
+		else:
+			send_to_plate()

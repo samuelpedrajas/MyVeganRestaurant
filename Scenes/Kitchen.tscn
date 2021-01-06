@@ -187,31 +187,31 @@ position = Vector2( 1343, 190.585 )
 kitchen = NodePath("../..")
 
 [node name="Fryer1" parent="Main" instance=ExtResource( 19 )]
-position = Vector2( 116.526, 72.873 )
-kitchen = NodePath("../..")
-platform = NodePath("../../Main/Platform1")
+position = Vector2( 116.526, 71.873 )
+platform = NodePath("../Platform1")
 
 [node name="Fryer2" parent="Main" instance=ExtResource( 19 )]
 position = Vector2( 116.526, 199 )
-kitchen = NodePath("../..")
-platform = NodePath("../../Main/Platform2")
+platform = NodePath("../Platform2")
 
 [node name="Fryer3" parent="Main" instance=ExtResource( 19 )]
 position = Vector2( 116.526, 328 )
-kitchen = NodePath("../..")
-platform = NodePath("../../Main/Platform3")
+platform = NodePath("../Platform3")
 
 [node name="Platform1" parent="Main" instance=ExtResource( 20 )]
 position = Vector2( 314.92, 71.429 )
 kitchen = NodePath("../..")
+placeholder_position = Vector2( 0, 25 )
 
 [node name="Platform2" parent="Main" instance=ExtResource( 20 )]
-position = Vector2( 314.92, 201.429 )
+position = Vector2( 314.92, 198.429 )
 kitchen = NodePath("../..")
+placeholder_position = Vector2( 0, 25 )
 
 [node name="Platform3" parent="Main" instance=ExtResource( 20 )]
-position = Vector2( 314.92, 330.429 )
+position = Vector2( 314.92, 326.429 )
 kitchen = NodePath("../..")
+placeholder_position = Vector2( 0, 25 )
 
 [node name="Bin" parent="Main" instance=ExtResource( 17 )]
 position = Vector2( 1691.15, 498.46 )
@@ -223,6 +223,7 @@ texture = ExtResource( 18 )
 [node name="FriesSource" parent="Main/Saliente1" instance=ExtResource( 5 )]
 position = Vector2( -2.33453, -12.4128 )
 kitchen = NodePath("../../..")
+destination_group = "Fryer"
 
 [node name="Saliente2" type="Sprite" parent="Main"]
 position = Vector2( 707.702, 472.075 )
@@ -231,6 +232,7 @@ texture = ExtResource( 18 )
 [node name="BurgerSource" parent="Main/Saliente2" instance=ExtResource( 4 )]
 position = Vector2( -3.10797, -17.8473 )
 kitchen = NodePath("../../..")
+destination_group = "Grill"
 
 [node name="Saliente3" type="Sprite" parent="Main"]
 position = Vector2( 1215.7, 472.075 )
@@ -242,7 +244,6 @@ kitchen = NodePath("../../..")
 
 [node name="ColaPump" parent="Main" instance=ExtResource( 24 )]
 position = Vector2( 1815.51, 186.447 )
-kitchen = NodePath("../..")
 platforms = [ NodePath("../ColaPlatform1"), NodePath("../ColaPlatform2"), NodePath("../ColaPlatform3") ]
 
 [node name="ColaPlatform1" parent="Main" instance=ExtResource( 20 )]

@@ -4,6 +4,7 @@ extends Control
 var time = 90
 var score = 0
 onready var client_area = $Main/ClientArea
+onready var menu = $Menu
 
 func _ready():
 	client_area.prepare_game()
@@ -14,29 +15,6 @@ func _ready():
 	$HUD.set_goal(client_area.calculated_goal)
 	$Timer.start()
 	_on_size_changed()
-
-
-func send_to_destination(item, origin):
-	var destination_name = item.get_destination()
-	var reference = item.get_reference()
-	var destination = null
-	var destinations = get_tree().get_nodes_in_group(destination_name)
-	for _destination in destinations:
-		if not _destination.is_busy():
-			destination = _destination
-			break
-
-	if destination == null:
-		print("No destination is available")
-		return null
-
-	origin.drop_item()
-	destination.add_item(item)
-	print(
-		"%s was added to %s" % [
-			reference, destination_name
-		]
-	)
 
 
 func _custom_client_sort(c1, c2):
@@ -62,11 +40,9 @@ func is_useless(dish):
 	return true
 
 
-func _select_plate(item):
-	var menu = $Menu
-
+func select_plate(item):
 	var clients = _get_clients_sorted_by_priority()
-	var plates = get_tree().get_nodes_in_group(item.get_destination())
+	var plates = get_tree().get_nodes_in_group("Plate")
 	var escenarios = {}
 	var useless_new_item_escenarios = {}
 	var created_dishes = []
@@ -135,62 +111,6 @@ func _select_plate(item):
 	return selected_plates[0]
 
 
-func send_to_plate(item, origin):
-	var menu = $Menu
-	var plate = _select_plate(item)
-	if plate != null:
-		var dish = menu.get_new_dish(plate.dish, item)
-		origin.drop_item()
-		plate.add_dish(dish)
-		return
-	print("No plates available for this item")
-
-
-func send_to_platform(item, origin):
-	var destination_name = item.get_destination()
-	var reference = item.get_reference()
-	var menu = $Menu
-	var dish = menu.get_new_dish(null, item)
-	origin.drop_item()
-	origin.platform.add_dish(dish)
-	print(
-		"%s was added to %s" % [
-			reference, destination_name
-		]
-	)
-
-
-func throw_to_bin(item, origin):
-	if not item.throwable:
-		print("This item is not throwable")
-		return
-
-	print("%s points losed" % client_area.get_discard_price(item.reference))
-	substract_score(client_area.get_discard_price(item.reference))
-	origin.drop_item()
-	$Main.add_child(item)
-	$Main/Bin.throw_item(item, origin)
-
-
-func use_item(item, origin):
-	print("Using item: %s" % [item.get_reference()])
-	var destination_name = item.get_destination()
-	if destination_name == "None":
-		print("Item %s has no destination" % item.get_reference())
-		return
-
-	if destination_name == "None":
-		print("No destination available for %s" % item.get_reference())
-	elif destination_name == "Plate":
-		send_to_plate(item, origin)
-	elif destination_name == "Platform":
-		send_to_platform(item, origin)
-	elif destination_name == "Bin":
-		throw_to_bin(item, origin)
-	else:
-		send_to_destination(item, origin)
-
-
 func _select_client(dish):
 	var clients = _get_clients_sorted_by_priority()
 	for client in clients:
@@ -209,6 +129,18 @@ func deliver(dish, origin):
 	$Main.add_child(dish)
 	dish.deliver(origin.get_throw_position())
 	add_score(client_area.get_price(dish.reference))
+
+
+func throw_to_bin(item, origin):
+	if not item.throwable:
+		print("This item is not throwable")
+		return
+
+	print("%s points losed" % client_area.get_discard_price(item.reference))
+	substract_score(client_area.get_discard_price(item.reference))
+	origin.drop_item()
+	$Main.add_child(item)
+	$Main/Bin.throw_item(item, origin)
 
 
 func add_score(inc):

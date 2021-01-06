@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Scripts/FoodMachine.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Fryer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Images/Kitchen/Freidora.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=4]
@@ -39,9 +39,6 @@ tracks/0/keys = {
 "Fryer",
 ]]
 script = ExtResource( 1 )
-reference = "Fryer"
-hide_ingredient = true
-serve_automatically = true
 
 [node name="Fryer" type="Sprite" parent="."]
 texture = ExtResource( 3 )

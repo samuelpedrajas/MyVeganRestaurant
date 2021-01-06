@@ -15,6 +15,11 @@ func _ready():
 		$Placeholder.set_position(placeholder_position)
 
 
+func add_ingredient(ingredient):
+	var new_dish = kitchen.menu.get_new_dish(dish, ingredient)
+	add_dish(new_dish)
+
+
 func add_dish(_dish):
 	for child in $Placeholder.get_children():
 		child.queue_free()
@@ -36,6 +41,10 @@ func drop_item():
 
 
 func _on_ClickableArea_pressed():
+	deliver()
+
+
+func deliver():
 	if dish == null:
 		pass
 	elif double_click:

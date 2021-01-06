@@ -1,8 +1,6 @@
 extends Node2D
 
 
-export(NodePath) onready var kitchen = get_node(kitchen)
-export(bool) var autohide_timer = true
 export(Array, NodePath) var platforms = []
 
 
@@ -18,8 +16,7 @@ func get_throw_position():
 
 func _on_Timer_food_cooked():
 	$AnimationPlayer.play("prepared_animation")
-	if autohide_timer:
-		$Timer.hide()
+	$Timer.hide()
 	for platform in platforms:
 		if platform.dish == null:
 			var dish = $Placeholder/Cola.duplicate()

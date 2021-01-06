@@ -34,7 +34,7 @@ var max_time = 60
 # clients
 var max_arrival_time = 3.0
 var average_time_for_client = 6.0
-var average_reward_for_client = 120.0
+var average_reward_for_client = 100.0
 var patience = 6.0 * average_time_for_client
 var seconds_gained_on_delivery = patience * 0.25
 
@@ -66,9 +66,9 @@ var category_order = {
 }
 
 var category_probability = {
-	\"Complement\": 30,
-	\"Main\": 40,
-	\"Drink\": 30
+	\"Complement\": 0,
+	\"Main\": 0,
+	\"Drink\": 100
 }
 var dishes_probability = {
 	\"Complement\": {
@@ -147,43 +147,43 @@ menu = NodePath("../../Menu")
 script = SubResource( 1 )
 
 [node name="TomatoSource" parent="Main" instance=ExtResource( 7 )]
-position = Vector2( 1547.71, 266.547 )
+position = Vector2( 1101.01, 303.057 )
 kitchen = NodePath("../..")
 
 [node name="LettuceSource" parent="Main" instance=ExtResource( 8 )]
-position = Vector2( 1545.42, 110 )
+position = Vector2( 1323.53, 303.663 )
 kitchen = NodePath("../..")
 
 [node name="Grill1" parent="Main" instance=ExtResource( 9 )]
-position = Vector2( 620.541, 109.551 )
+position = Vector2( 569.541, 93.551 )
 kitchen = NodePath("../..")
 
 [node name="Grill2" parent="Main" instance=ExtResource( 9 )]
-position = Vector2( 836.755, 110.438 )
+position = Vector2( 816.755, 93.438 )
 kitchen = NodePath("../..")
 
 [node name="Grill3" parent="Main" instance=ExtResource( 9 )]
-position = Vector2( 620.541, 286.551 )
+position = Vector2( 569.541, 276.551 )
 kitchen = NodePath("../..")
 
 [node name="Grill4" parent="Main" instance=ExtResource( 9 )]
-position = Vector2( 836.755, 287.438 )
+position = Vector2( 816.755, 275.438 )
 kitchen = NodePath("../..")
 
 [node name="Plate1" parent="Main" instance=ExtResource( 16 )]
-position = Vector2( 1082.03, 104.93 )
+position = Vector2( 1086.03, 62.93 )
 kitchen = NodePath("../..")
 
 [node name="Plate2" parent="Main" instance=ExtResource( 16 )]
-position = Vector2( 1320.4, 99.862 )
+position = Vector2( 1341.4, 62.862 )
 kitchen = NodePath("../..")
 
 [node name="Plate3" parent="Main" instance=ExtResource( 16 )]
-position = Vector2( 1083.09, 262.473 )
+position = Vector2( 1085.09, 190.473 )
 kitchen = NodePath("../..")
 
 [node name="Plate4" parent="Main" instance=ExtResource( 16 )]
-position = Vector2( 1325, 261.585 )
+position = Vector2( 1343, 190.585 )
 kitchen = NodePath("../..")
 
 [node name="Fryer1" parent="Main" instance=ExtResource( 19 )]
@@ -225,7 +225,7 @@ position = Vector2( -2.33453, -12.4128 )
 kitchen = NodePath("../../..")
 
 [node name="Saliente2" type="Sprite" parent="Main"]
-position = Vector2( 725.702, 472.075 )
+position = Vector2( 707.702, 472.075 )
 texture = ExtResource( 18 )
 
 [node name="BurgerSource" parent="Main/Saliente2" instance=ExtResource( 4 )]
@@ -237,20 +237,28 @@ position = Vector2( 1215.7, 472.075 )
 texture = ExtResource( 18 )
 
 [node name="BreadSource" parent="Main/Saliente3" instance=ExtResource( 6 )]
-position = Vector2( -2.58289, -39.6017 )
+position = Vector2( -2.58289, -32.6017 )
 kitchen = NodePath("../../..")
 
-[node name="ColaPump1" parent="Main" instance=ExtResource( 24 )]
-position = Vector2( 1749.99, 5.01807 )
+[node name="ColaPump" parent="Main" instance=ExtResource( 24 )]
+position = Vector2( 1815.51, 186.447 )
 kitchen = NodePath("../..")
+platforms = [ NodePath("../ColaPlatform1"), NodePath("../ColaPlatform2"), NodePath("../ColaPlatform3") ]
 
-[node name="ColaPump2" parent="Main" instance=ExtResource( 24 )]
-position = Vector2( 1786.99, 156.018 )
+[node name="ColaPlatform1" parent="Main" instance=ExtResource( 20 )]
+position = Vector2( 1586.56, 330.28 )
 kitchen = NodePath("../..")
+placeholder_position = Vector2( 0, -40 )
 
-[node name="ColaPump3" parent="Main" instance=ExtResource( 24 )]
-position = Vector2( 1824.99, 301.018 )
+[node name="ColaPlatform2" parent="Main" instance=ExtResource( 20 )]
+position = Vector2( 1586.56, 197.248 )
 kitchen = NodePath("../..")
+placeholder_position = Vector2( 0, -40 )
+
+[node name="ColaPlatform3" parent="Main" instance=ExtResource( 20 )]
+position = Vector2( 1585.56, 64.7362 )
+kitchen = NodePath("../..")
+placeholder_position = Vector2( 0, -40 )
 
 [node name="HUD" parent="." instance=ExtResource( 2 )]
 

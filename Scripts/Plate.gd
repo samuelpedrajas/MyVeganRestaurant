@@ -3,10 +3,16 @@ extends Node2D
 
 export(NodePath) onready var kitchen = get_node(kitchen)
 export(bool) var is_platform = false
+export(Vector2) var placeholder_position
 
 var dish = null
 var double_click_threshold = 0.5
 var double_click = false
+
+
+func _ready():
+	if placeholder_position != null:
+		$Placeholder.set_position(placeholder_position)
 
 
 func add_dish(_dish):

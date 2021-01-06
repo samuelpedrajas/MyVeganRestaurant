@@ -85,6 +85,8 @@ func _build_order_lists():
 	# dish distribution
 	while guaranteed_coins < calculated_goal:
 		for i in range(0, average_client_number):
+			if orders[i].size() == max_orders:
+				continue
 			var cat = _get_random_category()
 			var selected_dish_ref = _get_random_dish_from_category(cat)
 			var profit = prices[selected_dish_ref]

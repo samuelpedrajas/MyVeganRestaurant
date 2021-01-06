@@ -1,6 +1,8 @@
 extends Node2D
 
 
+signal delivered
+
 export(String) var reference
 export(Array) var ingredients
 export(Vector2) var v_limits
@@ -22,6 +24,7 @@ func set_client(_client, _dish):
 
 
 func deliver(from):
+	emit_signal("delivered", self)
 	var duration = 0.4
 	tween.interpolate_method(
 		self, "set_global_position", from,

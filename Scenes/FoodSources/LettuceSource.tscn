@@ -14,10 +14,10 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 
 [node name="ClickableArea" parent="." instance=ExtResource( 3 )]
-margin_left = -101.0
-margin_top = -72.0
-margin_right = 102.0
-margin_bottom = 72.0
+margin_left = -89.0
+margin_top = -52.0
+margin_right = 90.0
+margin_bottom = 52.0
 [connection signal="pressed" from="ClickableArea" to="." method="_on_ClickableArea_pressed"]
 
 [editable path="ClickableArea"]

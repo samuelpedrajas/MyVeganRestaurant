@@ -183,17 +183,17 @@ func _build_timeouts():
 	print("MAXIMUM START: %s" % [max_start])
 	print("CLIENTS PER MAXIMUM: %s" % [str(clients_per_maximum)])
 
-	# get fastests, slowests and rest
+	# get fastests and rest
 	timeout_seconds.sort()
 	var total_fastests = clients_per_maximum * maximums.size()
-	var fastests
+	var fastests = []
 	var rest
 	if total_fastests > 0:
 		fastests = timeout_seconds.slice(0, total_fastests - 1)
 		rest = timeout_seconds.slice(total_fastests, timeout_seconds.size())
+		fastests.append(fastests.pop_front())  # better shuffle ...
 		fastests.shuffle()
 	else:
-		fastests = []
 		rest = timeout_seconds
 	rest.shuffle()
 

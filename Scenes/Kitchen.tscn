@@ -36,12 +36,12 @@ var max_arrival_time = 3.0
 var average_time_for_client = 6.0
 var average_reward_for_client = 120.0
 var patience = 6.0 * average_time_for_client
-var seconds_gained_on_delivery = patience * 0.20
+var seconds_gained_on_delivery = patience * 0.25
 
 # variability
 var base_variability = 0.5
 var added_variability = 3.0
-var added_variability_percentage = 0.60
+var added_variability_percentage = 0.50
 var maximums = [0.0, 1.0]
 
 var prices = {

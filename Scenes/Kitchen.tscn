@@ -34,7 +34,7 @@ var max_time = 60
 # clients
 var max_arrival_time = 3.0
 var average_time_for_client = 6.0
-var average_reward_for_client = 100.0
+var average_reward_for_client = 120.0
 var patience = 6.0 * average_time_for_client
 var seconds_gained_on_delivery = patience * 0.25
 
@@ -66,9 +66,9 @@ var category_order = {
 }
 
 var category_probability = {
-	\"Complement\": 0,
-	\"Main\": 0,
-	\"Drink\": 100
+	\"Complement\": 30,
+	\"Main\": 40,
+	\"Drink\": 30
 }
 var dishes_probability = {
 	\"Complement\": {

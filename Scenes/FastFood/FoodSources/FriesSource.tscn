@@ -1,9 +1,11 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/IngredientSource.gd" type="Script" id=1]
-[ext_resource path="res://Images/Kitchen/FuentePatatas.png" type="Texture" id=2]
+[ext_resource path="res://Images/FastFood/FuentePatatas.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/Ingredients/Fries.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/FastFood/Ingredients/Fries.tscn" type="PackedScene" id=4]
+
+
 
 
 [node name="FriesSource" type="Node2D"]

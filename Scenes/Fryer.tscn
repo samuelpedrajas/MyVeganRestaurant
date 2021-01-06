@@ -2,9 +2,10 @@
 
 [ext_resource path="res://Scripts/Fryer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Images/Kitchen/Freidora.png" type="Texture" id=3]
+[ext_resource path="res://Images/FastFood/Freidora.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Images/Kitchen/PatatasAceite.png" type="Texture" id=5]
+[ext_resource path="res://Images/FastFood/PatatasAceite.png" type="Texture" id=5]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "default_animation"

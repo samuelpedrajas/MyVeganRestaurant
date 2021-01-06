@@ -3,12 +3,12 @@
 [ext_resource path="res://Images/FastFood/Mueble.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Kitchen.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/FastFood/FoodSources/BurgerSource.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/FastFood/FoodSources/FriesSource.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scenes/FastFood/FoodSources/BreadSource.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/FastFood/FoodSources/TomatoSource.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Scenes/FastFood/FoodSources/LettuceSource.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Scenes/Grill.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/FastFood/IngredientSources/BurgerSource.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/FastFood/IngredientSources/FriesSource.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/FastFood/IngredientSources/BreadSource.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/FastFood/IngredientSources/TomatoSource.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/FastFood/IngredientSources/LettuceSource.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/FastFood/Machines/Grill.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/FastFood/Deliveries/BurgerBread.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scripts/Menu.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/FastFood/Deliveries/LettuceBurger.tscn" type="PackedScene" id=12]
@@ -18,12 +18,14 @@
 [ext_resource path="res://Scenes/Plate.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Scenes/Bin.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Images/FastFood/Saliente.png" type="Texture" id=18]
-[ext_resource path="res://Scenes/Fryer.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Scenes/FastFood/Machines/Fryer.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/Platform.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/FastFood/Deliveries/Fries.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Scenes/ClientArea.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/FastFood/Deliveries/Cola.tscn" type="PackedScene" id=23]
-[ext_resource path="res://Scenes/ColaPump.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Scenes/FastFood/Machines/ColaPump.tscn" type="PackedScene" id=24]
+
+
 
 
 

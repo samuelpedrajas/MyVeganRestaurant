@@ -39,7 +39,7 @@ export(Dictionary) var category_probability = {
 	"Main": 40,
 	"Drink": 30
 }
-export(Dictionary) var dishes_probability = {
+export(Dictionary) var delivery_probability = {
 	"Complement": {
 		"Fries": 100
 	},

@@ -77,8 +77,8 @@ func _testing_ai():
 	if current_time - threshold > average_time_for_client:
 		return false
 	if current_time + threshold > average_time_for_client:
-		for dish in client.get_dishes():
-			client_area.get_parent().get_parent().add_score(dish.profit)
-			client.remove_dish(dish)
+		for delivery in client.get_deliveries():
+			client_area.get_parent().get_parent().add_score(delivery.profit)
+			client.remove_delivery(delivery)
 		return true
 	return false

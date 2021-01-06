@@ -12,7 +12,7 @@ func _ready():
 
 
 func is_busy():
-	return self.ingredient != null or self.platform.dish != null
+	return self.ingredient != null or self.platform.delivery != null
 
 
 func add_item(_ingredient):
@@ -36,5 +36,5 @@ func _on_Timer_food_cooked():
 
 
 func _on_ClickableArea_pressed():
-	if platform.dish != null:
+	if platform.delivery != null:
 		platform.deliver()

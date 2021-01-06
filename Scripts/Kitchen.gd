@@ -32,10 +32,10 @@ func _get_clients_sorted_by_priority():
 	return clients
 
 
-func is_useless(dish):
+func is_useless(delivery):
 	var clients = get_tree().get_nodes_in_group("Client")
 	for client in clients:
-		if client.accepts_dish(dish):
+		if client.accepts_delivery(delivery):
 			return false
 	return true
 
@@ -45,21 +45,21 @@ func select_plate(item):
 	var plates = get_tree().get_nodes_in_group("Plate")
 	var escenarios = {}
 	var useless_new_item_escenarios = {}
-	var created_dishes = []
+	var created_deliveries = []
 	for plate in plates:
-		var new_dish = menu.get_new_dish(plate.dish, item)
-		if new_dish == null:
+		var new_delivery = menu.get_new_delivery(plate.delivery, item)
+		if new_delivery == null:
 			continue
 
-		created_dishes.append(new_dish)
-		var escenario = [new_dish]
+		created_deliveries.append(new_delivery)
+		var escenario = [new_delivery]
 		for _plate in plates:
-			if _plate.dish != null and _plate != plate:
-				escenario.append(_plate.dish)
+			if _plate.delivery != null and _plate != plate:
+				escenario.append(_plate.delivery)
 
-		var useless = is_useless(new_dish)
+		var useless = is_useless(new_delivery)
 		for client in clients:
-			if client.accepts_dish(new_dish):
+			if client.accepts_delivery(new_delivery):
 				useless = false
 				break
 		if useless:
@@ -78,11 +78,11 @@ func select_plate(item):
 		for plate in escenarios.keys():
 			var escenario = escenarios[plate]
 			reward_deliveries[plate] = 0.0
-			for _dish in client.get_dishes():
-				for dish in escenario.duplicate():
-					if dish.reference == _dish.reference:
-						reward_deliveries[plate] += client_area.get_price(dish.reference)
-						escenario.erase(dish)
+			for _delivery in client.get_deliveries():
+				for delivery in escenario.duplicate():
+					if delivery.reference == _delivery.reference:
+						reward_deliveries[plate] += client_area.get_price(delivery.reference)
+						escenario.erase(delivery)
 						break
 		var winners = []
 		var max_reward_deliveries = reward_deliveries.values().max()
@@ -102,8 +102,8 @@ func select_plate(item):
 				new_escenarios[winner] = escenarios[winner]
 			escenarios = new_escenarios
 
-	for dish in created_dishes:
-		dish.free()
+	for delivery in created_deliveries:
+		delivery.free()
 
 	if not selected_plates:
 		return null
@@ -111,24 +111,24 @@ func select_plate(item):
 	return selected_plates[0]
 
 
-func _select_client(dish):
+func _select_client(delivery):
 	var clients = _get_clients_sorted_by_priority()
 	for client in clients:
-		if client.accepts_dish(dish):
+		if client.accepts_delivery(delivery):
 			return client
 	return null
 
 
-func deliver(dish, origin):
-	var client = _select_client(dish)
+func deliver(delivery, origin):
+	var client = _select_client(delivery)
 	if client == null:
-		print("No client accepts this dish")
+		print("No client accepts this delivery")
 		return
 	origin.drop_item()
-	client.receive_dish(dish)
-	$Main.add_child(dish)
-	dish.deliver(origin.get_throw_position())
-	add_score(client_area.get_price(dish.reference))
+	client.receive_delivery(delivery)
+	$Main.add_child(delivery)
+	delivery.deliver(origin.get_throw_position())
+	add_score(client_area.get_price(delivery.reference))
 
 
 func throw_to_bin(item, origin):

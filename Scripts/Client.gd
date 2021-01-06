@@ -6,7 +6,7 @@ signal leaving_angry
 
 onready var patience_timer = $Sprite/Bubble/PatienceTimer
 onready var bubble = $Sprite/Bubble
-onready var dishes = $Sprite/Bubble/Dishes
+onready var deliveries = $Sprite/Bubble/Deliveries
 var max_orders = 4
 var separation = 30
 var patience
@@ -17,12 +17,12 @@ var rng
 
 var idx
 var bubble_initial_position = null
-var __dishes
+var __deliveries
 
 
 func _ready():
-	for _dish in __dishes:
-		dishes.add_child(_dish)
+	for _delivery in __deliveries:
+		deliveries.add_child(_delivery)
 	_resize()
 
 
@@ -42,44 +42,44 @@ func die():
 	queue_free()
 
 
-func get_dishes():
+func get_deliveries():
 	if not bubble.is_visible():
 		return []
-	return dishes.get_children()
+	return deliveries.get_children()
 
 
-func setup(_idx, _current_time, _dishes, _max_arrival_time, _patience,
+func setup(_idx, _current_time, _deliveries, _max_arrival_time, _patience,
 		_seconds_gained_on_delivery, _rng):
 	self.idx = _idx
 	self.time_of_arrival = _current_time
 	self.seconds_gained_on_delivery = _seconds_gained_on_delivery
 	self.patience = _patience
 	self.rng = _rng
-	self.__dishes = _dishes
+	self.__deliveries = _deliveries
 	$ArrivalTime.set_text(str(_current_time))
 	$AnimationPlayer.arrival_time = _max_arrival_time
 
 
-func accepts_dish(dish):
-	for _dish in get_dishes():
-		if _dish.reference == dish.reference and _dish.served == false:
+func accepts_delivery(delivery):
+	for _delivery in get_deliveries():
+		if _delivery.reference == delivery.reference and _delivery.served == false:
 			return true
 	return false
 
 
-func receive_dish(dish):
-	for _dish in get_dishes():
-		if _dish.reference == dish.reference and _dish.served == false:
-			dish.set_client(self, _dish)
-			_dish.served = true
+func receive_delivery(delivery):
+	for _delivery in get_deliveries():
+		if _delivery.reference == delivery.reference and _delivery.served == false:
+			delivery.set_client(self, _delivery)
+			_delivery.served = true
 			_increase_patience()
 			break
 
 
-func remove_dish(_dish):
-	dishes.remove_child(_dish)
-	_dish.queue_free()
-	if get_dishes().size() < 1:
+func remove_delivery(_delivery):
+	deliveries.remove_child(_delivery)
+	_delivery.queue_free()
+	if get_deliveries().size() < 1:
 		emit_signal("served", self)
 		walk_out()
 	else:
@@ -103,13 +103,13 @@ func _resize():
 	var x_center = bubble_size.x / 2.0
 
 	var acc = 0
-	for child in get_dishes():
+	for child in get_deliveries():
 		var half = child.get_height() / 2.0
 		acc += half + separation + child.get_y_offset() / 2.0
 		child.set_position(Vector2(x_center, acc))
 		acc += half - child.get_y_offset() / 2.0
-	var remaining_space = dishes.get_size().y - acc
-	for child in get_dishes():
+	var remaining_space = deliveries.get_size().y - acc
+	for child in get_deliveries():
 		child.position.y += remaining_space / 2.0
 
 

@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Scripts/DishProvider.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/DrinkProvider.gd" type="Script" id=1]
 [ext_resource path="res://Images/Kitchen/VasoLleno.png" type="Texture" id=2]
 [ext_resource path="res://Images/Kitchen/VasoLlenandose.png" type="Texture" id=3]
 [ext_resource path="res://Images/Kitchen/MaquinaBebidasVacia.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Dishes/FastFood/Cola.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Deliverables/FastFood/Cola.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default_animation"

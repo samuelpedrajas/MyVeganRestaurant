@@ -31,16 +31,16 @@ func start():
 	print("SECONDS: %s" % [current_time])
 
 
-func get_price(dish_ref):
-	return $LevelConfig.prices[dish_ref]
+func get_price(delivery_ref):
+	return $LevelConfig.prices[delivery_ref]
 
 
-func get_discard_price(dish_ref):
-	return $LevelConfig.discard_prices[dish_ref]
+func get_discard_price(delivery_ref):
+	return $LevelConfig.discard_prices[delivery_ref]
 
 
-func _get_random_dish_from_category(cat):
-	var probabilities = $LevelConfig.dishes_probability[cat]
+func _get_random_delivery_from_category(cat):
+	var probabilities = $LevelConfig.delivery_probability[cat]
 	return Utils.weighted_random(
 		probabilities.keys(),
 		probabilities,
@@ -57,19 +57,19 @@ func _get_random_category():
 	)
 
 
-func _sort_dishes_by_category(order):
+func _sort_deliveries_by_category(order):
 	var orders_aux = []
-	for dish_ref in order:
-		var cat = menu.get_dish_category(dish_ref)
+	for delivery_ref in order:
+		var cat = menu.get_delivery_category(delivery_ref)
 		orders_aux.append({
-			"dish": dish_ref,
+			"delivery": delivery_ref,
 			"order": $LevelConfig.category_order[cat]
 		})
 	orders_aux = Utils.sort_by_attribute(orders_aux, "order", "asc")
 
 	var result = []
 	for _order in orders_aux:
-		result.append(_order["dish"])
+		result.append(_order["delivery"])
 
 	return result
 
@@ -77,39 +77,39 @@ func _sort_dishes_by_category(order):
 func _build_order_lists():
 	var orders = Utils.initialise_array(average_client_number, [])
 	var prices = $LevelConfig.prices
-	var dishes_probability = $LevelConfig.dishes_probability
+	var delivery_probability = $LevelConfig.delivery_probability
 	var category_probability = $LevelConfig.category_probability
 
 	guaranteed_coins = 0
 
-	# dish distribution
+	# delivery distribution
 	while guaranteed_coins < calculated_goal:
 		for i in range(0, average_client_number):
 			if orders[i].size() == max_orders:
 				continue
 			var cat = _get_random_category()
-			var selected_dish_ref = _get_random_dish_from_category(cat)
-			var profit = prices[selected_dish_ref]
+			var selected_delivery_ref = _get_random_delivery_from_category(cat)
+			var profit = prices[selected_delivery_ref]
 
 			if guaranteed_coins + profit > calculated_goal:
 				var diff = (guaranteed_coins + profit) - calculated_goal
-				var sorted_dish_refs = Utils.dict_to_sorted_tuple_list(
+				var sorted_delivery_refs = Utils.dict_to_sorted_tuple_list(
 					prices, "asc"
 				)
-				for t in sorted_dish_refs:
-					var dish_ref = t[0]
-					cat = menu.get_dish_category(dish_ref)
+				for t in sorted_delivery_refs:
+					var delivery_ref = t[0]
+					cat = menu.get_delivery_category(delivery_ref)
 					if category_probability[cat] == 0:
 						continue
-					if dishes_probability[cat][dish_ref] == 0:
+					if delivery_probability[cat][delivery_ref] == 0:
 						continue
-					var new_profit = prices[dish_ref]
+					var new_profit = prices[delivery_ref]
 					if new_profit > diff:
 						profit = new_profit
-						selected_dish_ref = dish_ref
+						selected_delivery_ref = delivery_ref
 						break
 
-			orders[i].append(selected_dish_ref)
+			orders[i].append(selected_delivery_ref)
 			guaranteed_coins += profit
 			if guaranteed_coins >= calculated_goal:
 				break
@@ -120,8 +120,8 @@ func _build_order_lists():
 			continue
 
 		var final_order = []
-		for dish_ref in _sort_dishes_by_category(orders[i]):
-			final_order.append(menu.get_dish(dish_ref).duplicate())
+		for delivery_ref in _sort_deliveries_by_category(orders[i]):
+			final_order.append(menu.get_delivery(delivery_ref).duplicate())
 
 		order_lists.append(final_order)
 	order_lists.shuffle()
@@ -259,17 +259,17 @@ func prepare_game():
 	print("TOTAL: %s" % [timeout_seconds.size()])
 
 
-func select_random_dishes():
+func select_random_deliveries():
 	var n_orders = rng.randi_range(1, max_orders)
 	var order = []
 	for _unused in range(n_orders):
 		var cat = _get_random_category()
-		var dish_ref = _get_random_dish_from_category(cat)
-		order.append(dish_ref)
+		var delivery_ref = _get_random_delivery_from_category(cat)
+		order.append(delivery_ref)
 
 	var final_order = []
-	for dish_ref in _sort_dishes_by_category(order):
-		final_order.append(menu.get_dish(dish_ref).duplicate())
+	for delivery_ref in _sort_deliveries_by_category(order):
+		final_order.append(menu.get_delivery(delivery_ref).duplicate())
 
 	return final_order
 
@@ -294,18 +294,18 @@ func new_client():
 		print("THERE'S NO SPACE FOR NEW CLIENTS!")
 		return
 	var new_client_position = aval_position_to_vector(idx)
-	var dishes
+	var deliveries
 	if not order_lists:
-		dishes = select_random_dishes()
-		print("RANDOMLY SELECTED DISHES: %s" % [dishes])
+		deliveries = select_random_deliveries()
+		print("RANDOMLY SELECTED ORDERS: %s" % [deliveries])
 	else:
 		timeout_seconds.pop_front()
-		dishes = order_lists.pop_front()
-		print("DISHES SELECTED FROM ORDER LIST: %s" % [dishes])
+		deliveries = order_lists.pop_front()
+		print("ORDERS SELECTED FROM ORDER LIST: %s" % [deliveries])
 
 	var client = client_scene.instance()
 	client.setup(
-		idx, current_time, dishes, $LevelConfig.max_arrival_time,
+		idx, current_time, deliveries, $LevelConfig.max_arrival_time,
 		$LevelConfig.patience, $LevelConfig.seconds_gained_on_delivery, rng
 	)
 	add_child(client)

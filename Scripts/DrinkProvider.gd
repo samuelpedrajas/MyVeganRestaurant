@@ -18,13 +18,13 @@ func _on_Timer_food_cooked():
 	$AnimationPlayer.play("prepared_animation")
 	$Timer.hide()
 	for platform in platforms:
-		if platform.dish == null:
-			var dish = $Placeholder/Cola.duplicate()
-			dish.connect("delivered", self, "_on_Drink_delivered")
-			platform.add_dish(dish)
+		if platform.delivery == null:
+			var delivery = $Placeholder/Cola.duplicate()
+			delivery.connect("delivered", self, "_on_Drink_delivered")
+			platform.add_delivery(delivery)
 
 
-func _on_Drink_delivered(_dish):
+func _on_Drink_delivered(_delivery):
 	$Timer.stop()
 	$Timer.start()
 	$Timer.show()

@@ -9,7 +9,7 @@ export(Vector2) var v_limits
 export(bool) var throwable = true
 
 var client
-var client_dish
+var client_delivery
 var tween = Tween.new()
 var served = false
 
@@ -18,9 +18,9 @@ func _ready():
 	add_child(tween)
 
 
-func set_client(_client, _dish):
+func set_client(_client, _delivery):
 	self.client = _client
-	self.client_dish = _dish
+	self.client_delivery = _delivery
 
 
 func deliver(from):
@@ -28,11 +28,11 @@ func deliver(from):
 	var duration = 0.4
 	tween.interpolate_method(
 		self, "set_global_position", from,
-		client_dish.get_global_position(), duration,
+		client_delivery.get_global_position(), duration,
 		Tween.TRANS_CUBIC, Tween.EASE_OUT
 	)
 	tween.interpolate_method(
-		self, "set_scale", get_scale(), client_dish.get_parent().get_scale(),
+		self, "set_scale", get_scale(), client_delivery.get_parent().get_scale(),
 		duration, Tween.TRANS_CUBIC, Tween.EASE_OUT
 	)
 	tween.connect("tween_all_completed", self, "die")
@@ -49,5 +49,5 @@ func get_y_offset():
 
 func die():
 	print("%s died!" % [self.reference])
-	client.remove_dish(client_dish)
+	client.remove_delivery(client_delivery)
 	queue_free()

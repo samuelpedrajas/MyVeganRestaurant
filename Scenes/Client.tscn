@@ -200,7 +200,7 @@ __meta__ = {
 position = Vector2( 13.8109, 154.025 )
 scale = Vector2( 2, 2 )
 
-[node name="Dishes" type="Control" parent="Sprite/Bubble"]
+[node name="Deliveries" type="Control" parent="Sprite/Bubble"]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0

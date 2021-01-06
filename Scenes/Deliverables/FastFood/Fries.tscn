@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scripts/Dish.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Deliverable.gd" type="Script" id=1]
 [ext_resource path="res://Images/Kitchen/PatatasFritas.png" type="Texture" id=2]
 
 [node name="Fries" type="Node2D"]

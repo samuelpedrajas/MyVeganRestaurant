@@ -1,9 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scripts/FoodSource.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/IngredientSource.gd" type="Script" id=1]
 [ext_resource path="res://Images/Kitchen/FuentePan.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Ingredients/BurgerBread.tscn" type="PackedScene" id=4]
+
 
 [node name="BreadSource" type="Node2D"]
 script = ExtResource( 1 )

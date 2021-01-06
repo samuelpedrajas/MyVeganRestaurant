@@ -1,44 +1,44 @@
 extends Node2D
 
 
-func get_new_dish_name(dish, ingredient):
-	var new_dish = _get_new_dish(dish, ingredient)
-	if new_dish == null:
+func get_new_delivery_name(delivery, ingredient):
+	var new_delivery = _get_new_delivery(delivery, ingredient)
+	if new_delivery == null:
 		return null
-	return new_dish.reference
+	return new_delivery.reference
 
 
-func get_new_dish(dish, ingredient):
-	var new_dish = _get_new_dish(dish, ingredient)
-	if new_dish == null:
+func get_new_delivery(delivery, ingredient):
+	var new_delivery = _get_new_delivery(delivery, ingredient)
+	if new_delivery == null:
 		return null
-	return new_dish.duplicate()
+	return new_delivery.duplicate()
 
 
-func get_dish(reference):
+func get_delivery(reference):
 	for category in get_children():
-		for _dish in category.get_children():
-			if _dish.reference == reference:
-				return _dish
+		for _delivery in category.get_children():
+			if _delivery.reference == reference:
+				return _delivery
 	return null
 
 
-func get_dish_category(reference):
+func get_delivery_category(reference):
 	for category in get_children():
-		for _dish in category.get_children():
-			if _dish.reference == reference:
+		for _delivery in category.get_children():
+			if _delivery.reference == reference:
 				return category.get_name()
 	return null
 
 
-func _get_new_dish(dish, ingredient):
+func _get_new_delivery(delivery, ingredient):
 	var ingredients = []
-	if dish != null:
-		ingredients += dish.ingredients
+	if delivery != null:
+		ingredients += delivery.ingredients
 	ingredients.append(ingredient.get_level_reference())
 
 	for category in get_children():
-		for _dish in category.get_children():
-			if Utils.arrays_have_same_content(ingredients, _dish.ingredients):
-				return _dish
+		for _delivery in category.get_children():
+			if Utils.arrays_have_same_content(ingredients, _delivery.ingredients):
+				return _delivery
 	return null

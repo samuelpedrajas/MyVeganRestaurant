@@ -4,8 +4,9 @@
 [ext_resource path="res://Images/Kitchen/PanInferior.png" type="Texture" id=2]
 [ext_resource path="res://Images/Kitchen/Tomate.png" type="Texture" id=3]
 [ext_resource path="res://Images/Kitchen/HamburguesaHecha.png" type="Texture" id=4]
-[ext_resource path="res://Scripts/Deliverable.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Delivery.gd" type="Script" id=5]
 [ext_resource path="res://Images/Kitchen/Lechuga.png" type="Texture" id=6]
+
 
 
 [node name="CompleteBurger" type="Node2D"]

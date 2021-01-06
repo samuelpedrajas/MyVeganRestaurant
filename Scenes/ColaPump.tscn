@@ -5,7 +5,8 @@
 [ext_resource path="res://Images/Kitchen/VasoLlenandose.png" type="Texture" id=3]
 [ext_resource path="res://Images/Kitchen/MaquinaBebidasVacia.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Deliverables/FastFood/Cola.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Deliveries/FastFood/Cola.tscn" type="PackedScene" id=7]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "default_animation"

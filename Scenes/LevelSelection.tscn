@@ -87,4 +87,5 @@ text = "BACK"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="pressed" from="Bottom/Upgrade" to="." method="_on_Upgrade_pressed"]
 [connection signal="pressed" from="Bottom/Back" to="." method="_on_Back_pressed"]

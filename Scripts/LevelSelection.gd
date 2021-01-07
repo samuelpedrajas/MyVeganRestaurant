@@ -1,6 +1,7 @@
 extends Control
 
 
+signal open_request
 signal close_request
 
 var level_button_text = "Level %s"
@@ -27,6 +28,10 @@ func close_screen():
 	for level in levels.get_children():
 		levels.remove_child(level)
 		level.queue_free()
+
+
+func _on_Upgrade_pressed():
+	emit_signal("open_request", "KitchenUpgrades")
 
 
 func _on_Back_pressed():

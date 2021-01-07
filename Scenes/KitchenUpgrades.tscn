@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Fonts/Button.tres" type="DynamicFont" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/KitchenUpgrades.gd" type="Script" id=3]
 
 [node name="KitchenUpgrades" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -16,12 +18,14 @@ anchor_bottom = 1.0
 color = Color( 0.509804, 0.509804, 0.509804, 1 )
 
 [node name="UpgradeGrid" type="GridContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 415.0
-margin_top = 70.0
-margin_right = -415.0
-margin_bottom = -200.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -545.0
+margin_top = -470.0
+margin_right = 545.0
+margin_bottom = 340.0
 custom_constants/vseparation = 30
 custom_constants/hseparation = 30
 columns = 4
@@ -145,3 +149,4 @@ text = "BACK"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]

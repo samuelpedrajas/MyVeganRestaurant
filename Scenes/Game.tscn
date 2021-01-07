@@ -22,3 +22,5 @@ visible = false
 visible = false
 [connection signal="kitchen_selected" from="KitchenSelection" to="." method="_on_KitchenSelection_kitchen_selected"]
 [connection signal="close_request" from="LevelSelection" to="." method="_on_LevelSelection_close_request"]
+[connection signal="open_request" from="LevelSelection" to="." method="_on_LevelSelection_open_request"]
+[connection signal="close_request" from="KitchenUpgrades" to="." method="_on_KitchenUpgrades_close_request"]

@@ -14,33 +14,62 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.509804, 0.509804, 0.509804, 1 )
 
-[node name="Levels" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 575.0
-margin_top = 202.0
-margin_right = -575.0
-margin_bottom = -202.0
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -385.0
+margin_top = 79.0
+margin_right = 397.0
+margin_bottom = 649.0
+scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Level1" type="Button" parent="Levels"]
+[node name="Levels" type="VBoxContainer" parent="ScrollContainer"]
+margin_right = 770.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 770, 0 )
+custom_constants/separation = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level1" type="Button" parent="ScrollContainer/Levels"]
 margin_right = 770.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 0, 120 )
 custom_fonts/font = ExtResource( 1 )
 text = "Level 1"
 
-[node name="Back" type="Button" parent="."]
+[node name="Bottom" type="VBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -385.0
-margin_top = -170.0
+margin_top = -310.0
 margin_right = 385.0
-margin_bottom = -50.0
+margin_bottom = -40.0
+custom_constants/separation = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade" type="Button" parent="Bottom"]
+margin_right = 770.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 120 )
+custom_fonts/font = ExtResource( 1 )
+text = "UPGRADE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Button" parent="Bottom"]
+margin_top = 150.0
+margin_right = 770.0
+margin_bottom = 270.0
 rect_min_size = Vector2( 0, 120 )
 custom_fonts/font = ExtResource( 1 )
 text = "BACK"

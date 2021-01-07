@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Fonts/Button.tres" type="DynamicFont" id=1]
+
+[node name="KitchenSelection" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bg" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.509804, 0.509804, 0.509804, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Kitchens" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 575.0
+margin_top = 202.0
+margin_right = -575.0
+margin_bottom = -202.0
+custom_constants/separation = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FastFood" type="Button" parent="Kitchens"]
+margin_right = 770.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 120 )
+custom_fonts/font = ExtResource( 1 )
+text = "Fast Food"
+
+[node name="FoodTrack" type="Button" parent="Kitchens"]
+margin_top = 150.0
+margin_right = 770.0
+margin_bottom = 270.0
+rect_min_size = Vector2( 0, 120 )
+custom_fonts/font = ExtResource( 1 )
+disabled = true
+text = "Food Track"

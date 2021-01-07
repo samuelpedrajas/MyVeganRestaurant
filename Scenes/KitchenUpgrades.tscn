@@ -1,0 +1,144 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Fonts/Button.tres" type="DynamicFont" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[node name="KitchenUpgrades" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bg" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.509804, 0.509804, 0.509804, 1 )
+
+[node name="UpgradeGrid" type="GridContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 415.0
+margin_top = 70.0
+margin_right = -415.0
+margin_bottom = -200.0
+custom_constants/vseparation = 30
+custom_constants/hseparation = 30
+columns = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Item1" type="Button" parent="UpgradeGrid"]
+margin_right = 250.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item2" type="Button" parent="UpgradeGrid"]
+margin_left = 280.0
+margin_right = 530.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item3" type="Button" parent="UpgradeGrid"]
+margin_left = 560.0
+margin_right = 810.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item4" type="Button" parent="UpgradeGrid"]
+margin_left = 840.0
+margin_right = 1090.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item5" type="Button" parent="UpgradeGrid"]
+margin_top = 280.0
+margin_right = 250.0
+margin_bottom = 530.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item6" type="Button" parent="UpgradeGrid"]
+margin_left = 280.0
+margin_top = 280.0
+margin_right = 530.0
+margin_bottom = 530.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item7" type="Button" parent="UpgradeGrid"]
+margin_left = 560.0
+margin_top = 280.0
+margin_right = 810.0
+margin_bottom = 530.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item8" type="Button" parent="UpgradeGrid"]
+margin_left = 840.0
+margin_top = 280.0
+margin_right = 1090.0
+margin_bottom = 530.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item9" type="Button" parent="UpgradeGrid"]
+margin_top = 560.0
+margin_right = 250.0
+margin_bottom = 810.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item10" type="Button" parent="UpgradeGrid"]
+margin_left = 280.0
+margin_top = 560.0
+margin_right = 530.0
+margin_bottom = 810.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item11" type="Button" parent="UpgradeGrid"]
+margin_left = 560.0
+margin_top = 560.0
+margin_right = 810.0
+margin_bottom = 810.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Item12" type="Button" parent="UpgradeGrid"]
+margin_left = 840.0
+margin_top = 560.0
+margin_right = 1090.0
+margin_bottom = 810.0
+rect_min_size = Vector2( 250, 250 )
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="Back" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -385.0
+margin_top = -170.0
+margin_right = 385.0
+margin_bottom = -50.0
+rect_min_size = Vector2( 0, 120 )
+custom_fonts/font = ExtResource( 1 )
+text = "BACK"

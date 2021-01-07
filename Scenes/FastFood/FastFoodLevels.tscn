@@ -6,7 +6,7 @@
 script/source = "extends Node
 
 
-var max_time = 60
+var max_time = 30
 
 # clients
 var max_arrival_time = 3.0
@@ -72,7 +72,7 @@ var unavailable_nodes = [
 script/source = "extends Node
 
 
-var max_time = 60
+var max_time = 30
 
 # clients
 var max_arrival_time = 3.0
@@ -137,7 +137,7 @@ var unavailable_nodes = [
 script/source = "extends Node
 
 
-var max_time = 60
+var max_time = 10
 
 # clients
 var max_arrival_time = 3.0

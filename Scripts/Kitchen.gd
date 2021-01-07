@@ -1,20 +1,25 @@
 extends Control
 
 
-var time = 90
+signal close_request
+
+
+var time = 90  # will be overrided
 var score = 0
 onready var client_area = $Main/ClientArea
 onready var menu = $Menu
 
-func _ready():
-	client_area.prepare_game()
-	self.time = $Main/ClientArea/LevelConfig.max_time
+
+func open_screen(level_config):
+	client_area.prepare_game(level_config)
+	self.time = level_config.max_time
 	get_tree().set_pause(true)
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 	$HUD.set_time(time)
 	$HUD.set_goal(client_area.calculated_goal)
 	$Timer.start()
 	_on_size_changed()
+	show()
 
 
 func _custom_client_sort(c1, c2):
@@ -170,4 +175,5 @@ func _on_Timer_timeout():
 	time -= 1
 	$HUD.set_time(time)
 	if time == 0:
-		get_tree().set_pause(true)
+		get_tree().get_root().set_disable_input(true)
+		emit_signal("close_request")

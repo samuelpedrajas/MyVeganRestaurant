@@ -5,6 +5,7 @@ export(int) var max_n_clients = 4
 export(NodePath) onready var menu = get_node(menu)
 
 var client_scene = preload("res://Scenes/Client.tscn")
+var level_config
 
 var rng = RandomNumberGenerator.new()
 var num_clients = 0
@@ -32,15 +33,15 @@ func start():
 
 
 func get_price(delivery_ref):
-	return $LevelConfig.prices[delivery_ref]
+	return level_config.prices[delivery_ref]
 
 
 func get_discard_price(delivery_ref):
-	return $LevelConfig.discard_prices[delivery_ref]
+	return level_config.discard_prices[delivery_ref]
 
 
 func _get_random_delivery_from_category(cat):
-	var probabilities = $LevelConfig.delivery_probability[cat]
+	var probabilities = level_config.delivery_probability[cat]
 	return Utils.weighted_random(
 		probabilities.keys(),
 		probabilities,
@@ -49,7 +50,7 @@ func _get_random_delivery_from_category(cat):
 
 
 func _get_random_category():
-	var probabilities = $LevelConfig.category_probability
+	var probabilities = level_config.category_probability
 	return Utils.weighted_random(
 		probabilities.keys(),
 		probabilities,
@@ -63,7 +64,7 @@ func _sort_deliveries_by_category(order):
 		var cat = menu.get_delivery_category(delivery_ref)
 		orders_aux.append({
 			"delivery": delivery_ref,
-			"order": $LevelConfig.category_order[cat]
+			"order": level_config.category_order[cat]
 		})
 	orders_aux = Utils.sort_by_attribute(orders_aux, "order", "asc")
 
@@ -76,9 +77,9 @@ func _sort_deliveries_by_category(order):
 
 func _build_order_lists():
 	var orders = Utils.initialise_array(average_client_number, [])
-	var prices = $LevelConfig.prices
-	var delivery_probability = $LevelConfig.delivery_probability
-	var category_probability = $LevelConfig.category_probability
+	var prices = level_config.prices
+	var delivery_probability = level_config.delivery_probability
+	var category_probability = level_config.category_probability
 
 	guaranteed_coins = 0
 
@@ -129,8 +130,8 @@ func _build_order_lists():
 
 func _build_timeouts():
 	average_time_for_client = usable_time / order_lists.size()
-	var base_variability = $LevelConfig.base_variability
-	var added_variability = $LevelConfig.added_variability
+	var base_variability = level_config.base_variability
+	var added_variability = level_config.added_variability
 
 	# exclude 0
 	timeout_seconds = Utils.initialise_array(
@@ -139,7 +140,7 @@ func _build_timeouts():
 
 	# num clients with additional variability
 	var num_added_var = floor(
-		$LevelConfig.added_variability_percentage * timeout_seconds.size()
+		level_config.added_variability_percentage * timeout_seconds.size()
 	)
 
 	# apply additional variability
@@ -167,7 +168,7 @@ func _build_timeouts():
 			timeout_seconds[i] += compensation
 
 	# maximums
-	var maximums = $LevelConfig.maximums
+	var maximums = level_config.maximums
 	var max_start = []
 	var clients_per_maximum = 0
 	if maximums.size() > 0:
@@ -220,11 +221,12 @@ func _build_timeouts():
 		timeout_seconds[_i] += int(timeout_seconds[_i - 1])
 
 
-func prepare_game():
-	var max_time = $LevelConfig.max_time
-	var max_arrival_time = $LevelConfig.max_arrival_time
-	var average_reward_for_client = $LevelConfig.average_reward_for_client
-	average_time_for_client = $LevelConfig.average_time_for_client
+func prepare_game(_level_config):
+	level_config = _level_config
+	var max_time = level_config.max_time
+	var max_arrival_time = level_config.max_arrival_time
+	var average_reward_for_client = level_config.average_reward_for_client
+	average_time_for_client = level_config.average_time_for_client
 
 	rng.randomize()
 	self.usable_time = (
@@ -242,7 +244,7 @@ func prepare_game():
 	print("AVG. TIME FOR CLIENT: %s" % [str(average_time_for_client)])
 	print("FINAL ORDER LIST NUMBER: %s" % [str(order_lists.size())])
 	print("FINAL ORDER LISTS:")
-	var prices = $LevelConfig.prices
+	var prices = level_config.prices
 	for _orders in order_lists:
 		var references = []
 		var total = 0.0
@@ -305,8 +307,8 @@ func new_client():
 
 	var client = client_scene.instance()
 	client.setup(
-		idx, current_time, deliveries, $LevelConfig.max_arrival_time,
-		$LevelConfig.patience, $LevelConfig.seconds_gained_on_delivery, rng
+		idx, current_time, deliveries, level_config.max_arrival_time,
+		level_config.patience, level_config.seconds_gained_on_delivery, rng
 	)
 	add_child(client)
 	client.connect("served", self, "client_served")

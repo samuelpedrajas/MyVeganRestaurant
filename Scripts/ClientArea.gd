@@ -23,6 +23,27 @@ var average_client_number = null
 var calculated_goal = null
 var average_time_for_client = null
 
+var prices = {
+	"Fries": 20,
+	"SimpleBurger": 30,
+	"TomatoBurger": 40,
+	"LettuceBurger": 40,
+	"CompleteBurger": 50,
+	"Cola": 10
+}
+var discard_prices = {
+	"TomatoBurger": 20,
+	"LettuceBurger": 20,
+	"CompleteBurger": 25,
+	"BurgerIngredient": 10
+}
+
+var category_order = {
+	"Complement": 0,
+	"Main": 1,
+	"Drink": 2
+}
+
 
 func start():
 	for _i in range(max_n_clients):
@@ -33,11 +54,11 @@ func start():
 
 
 func get_price(delivery_ref):
-	return level_config.prices[delivery_ref]
+	return prices[delivery_ref]
 
 
 func get_discard_price(delivery_ref):
-	return level_config.discard_prices[delivery_ref]
+	return discard_prices[delivery_ref]
 
 
 func _get_random_delivery_from_category(cat):
@@ -64,7 +85,7 @@ func _sort_deliveries_by_category(order):
 		var cat = menu.get_delivery_category(delivery_ref)
 		orders_aux.append({
 			"delivery": delivery_ref,
-			"order": level_config.category_order[cat]
+			"order": category_order[cat]
 		})
 	orders_aux = Utils.sort_by_attribute(orders_aux, "order", "asc")
 
@@ -77,7 +98,6 @@ func _sort_deliveries_by_category(order):
 
 func _build_order_lists():
 	var orders = Utils.initialise_array(average_client_number, [])
-	var prices = level_config.prices
 	var delivery_probability = level_config.delivery_probability
 	var category_probability = level_config.category_probability
 
@@ -244,7 +264,6 @@ func prepare_game(_level_config):
 	print("AVG. TIME FOR CLIENT: %s" % [str(average_time_for_client)])
 	print("FINAL ORDER LIST NUMBER: %s" % [str(order_lists.size())])
 	print("FINAL ORDER LISTS:")
-	var prices = level_config.prices
 	for _orders in order_lists:
 		var references = []
 		var total = 0.0

@@ -21,27 +21,6 @@ var added_variability = 3.0
 var added_variability_percentage = 0.0
 var maximums = []
 
-var prices = {
-	\"Fries\": 20,
-	\"SimpleBurger\": 30,
-	\"TomatoBurger\": 40,
-	\"LettuceBurger\": 40,
-	\"CompleteBurger\": 50,
-	\"Cola\": 10
-}
-var discard_prices = {
-	\"TomatoBurger\": 20,
-	\"LettuceBurger\": 20,
-	\"CompleteBurger\": 25,
-	\"BurgerIngredient\": 10
-}
-
-var category_order = {
-	\"Complement\": 0,
-	\"Main\": 1,
-	\"Drink\": 2
-}
-
 var category_probability = {
 	\"Complement\": 30,
 	\"Main\": 40,
@@ -87,27 +66,6 @@ var added_variability = 2.5
 var added_variability_percentage = 0.2
 var maximums = [1.0]
 
-var prices = {
-	\"Fries\": 20,
-	\"SimpleBurger\": 30,
-	\"TomatoBurger\": 40,
-	\"LettuceBurger\": 40,
-	\"CompleteBurger\": 50,
-	\"Cola\": 10
-}
-var discard_prices = {
-	\"TomatoBurger\": 20,
-	\"LettuceBurger\": 20,
-	\"CompleteBurger\": 25,
-	\"BurgerIngredient\": 10
-}
-
-var category_order = {
-	\"Complement\": 0,
-	\"Main\": 1,
-	\"Drink\": 2
-}
-
 var category_probability = {
 	\"Complement\": 30,
 	\"Main\": 40,
@@ -152,27 +110,6 @@ var added_variability = 2.5
 var added_variability_percentage = 0.3
 var maximums = [1.0]
 
-var prices = {
-	\"Fries\": 20,
-	\"SimpleBurger\": 30,
-	\"TomatoBurger\": 40,
-	\"LettuceBurger\": 40,
-	\"CompleteBurger\": 50,
-	\"Cola\": 10
-}
-var discard_prices = {
-	\"TomatoBurger\": 20,
-	\"LettuceBurger\": 20,
-	\"CompleteBurger\": 25,
-	\"BurgerIngredient\": 10
-}
-
-var category_order = {
-	\"Complement\": 0,
-	\"Main\": 1,
-	\"Drink\": 2
-}
-
 var category_probability = {
 	\"Complement\": 30,
 	\"Main\": 40,
@@ -215,27 +152,6 @@ var added_variability = 2.5
 var added_variability_percentage = 0.3
 var maximums = [1.0]
 
-var prices = {
-	\"Fries\": 20,
-	\"SimpleBurger\": 30,
-	\"TomatoBurger\": 40,
-	\"LettuceBurger\": 40,
-	\"CompleteBurger\": 50,
-	\"Cola\": 10
-}
-var discard_prices = {
-	\"TomatoBurger\": 20,
-	\"LettuceBurger\": 20,
-	\"CompleteBurger\": 25,
-	\"BurgerIngredient\": 10
-}
-
-var category_order = {
-	\"Complement\": 0,
-	\"Main\": 1,
-	\"Drink\": 2
-}
-
 var category_probability = {
 	\"Complement\": 30,
 	\"Main\": 40,
@@ -277,27 +193,6 @@ var base_variability = 0.5
 var added_variability = 2.5
 var added_variability_percentage = 0.4
 var maximums = [1.0]
-
-var prices = {
-	\"Fries\": 20,
-	\"SimpleBurger\": 30,
-	\"TomatoBurger\": 40,
-	\"LettuceBurger\": 40,
-	\"CompleteBurger\": 50,
-	\"Cola\": 10
-}
-var discard_prices = {
-	\"TomatoBurger\": 20,
-	\"LettuceBurger\": 20,
-	\"CompleteBurger\": 25,
-	\"BurgerIngredient\": 10
-}
-
-var category_order = {
-	\"Complement\": 0,
-	\"Main\": 1,
-	\"Drink\": 2
-}
 
 var category_probability = {
 	\"Complement\": 30,

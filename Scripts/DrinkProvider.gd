@@ -19,7 +19,7 @@ func _on_Timer_food_cooked():
 	$AnimationPlayer.play("prepared_animation")
 	$Timer.hide()
 	for platform in platforms:
-		if platform.delivery == null:
+		if platform.is_visible() and platform.delivery == null:
 			var new_delivery = delivery.duplicate()
 			new_delivery.connect("delivered", self, "_on_Drink_delivered")
 			platform.add_delivery(new_delivery)

@@ -219,10 +219,12 @@ position = Vector2( 1586.56, 330.28 )
 kitchen = NodePath("../../../FastFood")
 
 [node name="ColaPlatform2" parent="Main" instance=ExtResource( 18 )]
+visible = false
 position = Vector2( 1586.56, 197.248 )
 kitchen = NodePath("../../../FastFood")
 
 [node name="ColaPlatform3" parent="Main" instance=ExtResource( 18 )]
+visible = false
 position = Vector2( 1585.56, 64.7362 )
 kitchen = NodePath("../../../FastFood")
 

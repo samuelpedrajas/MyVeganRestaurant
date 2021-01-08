@@ -45,7 +45,7 @@ func _on_ClickableArea_pressed():
 
 
 func deliver():
-	if delivery == null:
+	if delivery == null or not is_visible():
 		pass
 	elif double_click:
 		kitchen.throw_to_bin(delivery, self)

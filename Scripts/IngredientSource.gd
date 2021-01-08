@@ -3,7 +3,7 @@ extends Node2D
 
 export(NodePath) onready var kitchen = get_node(kitchen)
 export(String) var destination_group = null
-onready var ingredient = $Ingredient
+export(NodePath) onready var ingredient = get_node(ingredient)
 
 
 func _send_to_group():

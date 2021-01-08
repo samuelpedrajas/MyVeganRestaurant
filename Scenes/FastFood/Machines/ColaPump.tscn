@@ -1,16 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/DrinkProvider.gd" type="Script" id=1]
 [ext_resource path="res://Images/FastFood/Food/VasoLleno.png" type="Texture" id=2]
 [ext_resource path="res://Images/FastFood/Food/VasoLlenandose.png" type="Texture" id=3]
 [ext_resource path="res://Images/FastFood/Machines/MaquinaBebidasVacia.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/FastFood/Deliveries/Cola.tscn" type="PackedScene" id=7]
-
-
-
-
-
 
 [sub_resource type="Animation" id=1]
 resource_name = "default_animation"
@@ -111,10 +105,6 @@ position = Vector2( -35, 30 )
 texture = ExtResource( 3 )
 
 [node name="Placeholder" type="Node2D" parent="."]
-visible = false
-
-[node name="Cola" parent="Placeholder" instance=ExtResource( 7 )]
-position = Vector2( -35, 62 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/default_animation = SubResource( 1 )

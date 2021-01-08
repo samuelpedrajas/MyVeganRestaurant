@@ -6,10 +6,6 @@
 [ext_resource path="res://Scripts/Delivery.gd" type="Script" id=4]
 [ext_resource path="res://Images/FastFood/Food/Lechuga.png" type="Texture" id=5]
 
-
-
-
-
 [node name="LettuceBurger" type="Node2D"]
 script = ExtResource( 4 )
 reference = "LettuceBurger"

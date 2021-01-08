@@ -6,18 +6,10 @@
 [ext_resource path="res://Images/FastFood/Food/HamburguesaHecha.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Delivery.gd" type="Script" id=5]
 
-
-
-
-
-
 [node name="TomatoBurger" type="Node2D"]
 script = ExtResource( 5 )
 reference = "TomatoBurger"
-profit = 120
-discard_price = 40
 ingredients = [ "BurgerBread", "CookedBurger", "Tomato" ]
-deliverable = true
 v_limits = Vector2( -87, 34.5 )
 
 [node name="Sprites" type="Node2D" parent="."]

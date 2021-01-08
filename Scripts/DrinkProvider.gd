@@ -1,6 +1,7 @@
 extends Node2D
 
 
+export(NodePath) onready var delivery = get_node(delivery)
 export(Array, NodePath) var platforms = []
 
 
@@ -19,9 +20,9 @@ func _on_Timer_food_cooked():
 	$Timer.hide()
 	for platform in platforms:
 		if platform.delivery == null:
-			var delivery = $Placeholder/Cola.duplicate()
-			delivery.connect("delivered", self, "_on_Drink_delivered")
-			platform.add_delivery(delivery)
+			var new_delivery = delivery.duplicate()
+			new_delivery.connect("delivered", self, "_on_Drink_delivered")
+			platform.add_delivery(new_delivery)
 
 
 func _on_Drink_delivered(_delivery):

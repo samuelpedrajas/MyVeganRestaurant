@@ -10,7 +10,7 @@ func _send_to_group():
 	var destination = null
 	var destinations = get_tree().get_nodes_in_group(destination_group)
 	for _destination in destinations:
-		if not _destination.is_busy():
+		if _destination.is_visible() and not _destination.is_busy():
 			destination = _destination
 			break
 

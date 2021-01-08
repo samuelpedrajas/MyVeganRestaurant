@@ -108,12 +108,16 @@ margin_right = 960.0
 margin_bottom = -362.0
 menu = NodePath("../../../FastFood/Menu")
 
-[node name="TomatoSource" parent="Main" instance=ExtResource( 20 )]
+[node name="TomatoSource" parent="Main" groups=[
+"TomatoSource",
+] instance=ExtResource( 20 )]
 position = Vector2( 1101.01, 303.057 )
 kitchen = NodePath("../../../FastFood")
 ingredient = NodePath("../../Ingredients/Tomato")
 
-[node name="LettuceSource" parent="Main" instance=ExtResource( 5 )]
+[node name="LettuceSource" parent="Main" groups=[
+"LettuceSource",
+] instance=ExtResource( 5 )]
 position = Vector2( 1323.53, 303.663 )
 kitchen = NodePath("../../../FastFood")
 ingredient = NodePath("../../Ingredients/Lettuce")
@@ -123,14 +127,17 @@ position = Vector2( 569.541, 276.551 )
 kitchen = NodePath("../../../FastFood")
 
 [node name="Grill2" parent="Main" instance=ExtResource( 14 )]
+visible = false
 position = Vector2( 816.755, 275.438 )
 kitchen = NodePath("../../../FastFood")
 
 [node name="Grill3" parent="Main" instance=ExtResource( 14 )]
+visible = false
 position = Vector2( 816.755, 93.438 )
 kitchen = NodePath("../../../FastFood")
 
 [node name="Grill4" parent="Main" instance=ExtResource( 14 )]
+visible = false
 position = Vector2( 569.541, 93.551 )
 kitchen = NodePath("../../../FastFood")
 
@@ -139,28 +146,33 @@ position = Vector2( 1085.09, 190.473 )
 kitchen = NodePath("../../../FastFood")
 
 [node name="Plate2" parent="Main" instance=ExtResource( 8 )]
+visible = false
 position = Vector2( 1343, 190.585 )
 kitchen = NodePath("../../../FastFood")
 
 [node name="Plate3" parent="Main" instance=ExtResource( 8 )]
+visible = false
 position = Vector2( 1341.4, 62.862 )
 kitchen = NodePath("../../../FastFood")
 
 [node name="Plate4" parent="Main" instance=ExtResource( 8 )]
+visible = false
 position = Vector2( 1086.03, 62.93 )
 kitchen = NodePath("../../../FastFood")
 
 [node name="Fryer1" parent="Main" instance=ExtResource( 6 )]
 position = Vector2( 116.526, 328 )
-platform = NodePath("../../../FastFood/Main/Platform3")
+platform = NodePath("../Platform1")
 
 [node name="Fryer2" parent="Main" instance=ExtResource( 6 )]
+visible = false
 position = Vector2( 116.526, 199 )
-platform = NodePath("../../../FastFood/Main/Platform2")
+platform = NodePath("../Platform2")
 
 [node name="Fryer3" parent="Main" instance=ExtResource( 6 )]
+visible = false
 position = Vector2( 116.526, 71.873 )
-platform = NodePath("../../../FastFood/Main/Platform1")
+platform = NodePath("../Platform3")
 
 [node name="Platform1" parent="Main" instance=ExtResource( 18 )]
 position = Vector2( 314.92, 326.429 )
@@ -168,11 +180,13 @@ kitchen = NodePath("../../../FastFood")
 placeholder_position = Vector2( 0, 25 )
 
 [node name="Platform2" parent="Main" instance=ExtResource( 18 )]
+visible = false
 position = Vector2( 314.92, 198.429 )
 kitchen = NodePath("../../../FastFood")
 placeholder_position = Vector2( 0, 25 )
 
 [node name="Platform3" parent="Main" instance=ExtResource( 18 )]
+visible = false
 position = Vector2( 314.92, 71.429 )
 kitchen = NodePath("../../../FastFood")
 placeholder_position = Vector2( 0, 25 )
@@ -184,7 +198,9 @@ position = Vector2( 1691.15, 498.46 )
 position = Vector2( 235.702, 472.075 )
 texture = ExtResource( 11 )
 
-[node name="FriesSource" parent="Main/Saliente1" instance=ExtResource( 4 )]
+[node name="FriesSource" parent="Main/Saliente1" groups=[
+"FriesSource",
+] instance=ExtResource( 4 )]
 position = Vector2( -2.33453, -12.4128 )
 kitchen = NodePath("../../../../FastFood")
 destination_group = "Fryer"
@@ -194,7 +210,9 @@ ingredient = NodePath("../../../Ingredients/Fries")
 position = Vector2( 707.702, 472.075 )
 texture = ExtResource( 11 )
 
-[node name="BurgerSource" parent="Main/Saliente2" instance=ExtResource( 24 )]
+[node name="BurgerSource" parent="Main/Saliente2" groups=[
+"BurgerSource",
+] instance=ExtResource( 24 )]
 position = Vector2( -3.10797, -17.8473 )
 kitchen = NodePath("../../../../FastFood")
 destination_group = "Grill"
@@ -204,12 +222,16 @@ ingredient = NodePath("../../../Ingredients/Burger")
 position = Vector2( 1215.7, 472.075 )
 texture = ExtResource( 11 )
 
-[node name="BreadSource" parent="Main/Saliente3" instance=ExtResource( 16 )]
+[node name="BreadSource" parent="Main/Saliente3" groups=[
+"BreadSource",
+] instance=ExtResource( 16 )]
 position = Vector2( -2.58289, -32.6017 )
 kitchen = NodePath("../../../../FastFood")
 ingredient = NodePath("../../../Ingredients/BurgerBread")
 
-[node name="ColaPump" parent="Main" instance=ExtResource( 13 )]
+[node name="ColaPump" parent="Main" groups=[
+"ColaPump",
+] instance=ExtResource( 13 )]
 position = Vector2( 1815.51, 186.447 )
 delivery = NodePath("../../Menu/Drink/Cola")
 platforms = [ NodePath("../ColaPlatform1"), NodePath("../ColaPlatform2"), NodePath("../ColaPlatform3") ]

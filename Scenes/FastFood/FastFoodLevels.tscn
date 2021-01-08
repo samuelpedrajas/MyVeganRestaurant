@@ -24,7 +24,7 @@ var maximums = []
 var category_probability = {
 	\"Complement\": 30,
 	\"Main\": 40,
-	\"Drink\": 300000
+	\"Drink\": 30
 }
 var delivery_probability = {
 	\"Complement\": {

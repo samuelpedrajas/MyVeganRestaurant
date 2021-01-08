@@ -11,6 +11,10 @@ onready var menu = $Menu
 
 
 func open_screen(level_config):
+	for group_name in level_config.unavailable_nodes:
+		var nodes = get_tree().get_nodes_in_group(group_name)
+		for node in nodes:
+			node.hide()
 	client_area.prepare_game(level_config)
 	self.time = level_config.max_time
 	get_tree().set_pause(true)
@@ -45,9 +49,17 @@ func is_useless(delivery):
 	return true
 
 
+func _get_plates():
+	var plates = []
+	for plate in get_tree().get_nodes_in_group("Plate"):
+		if plate.is_visible():
+			plates.append(plate)
+	return plates
+
+
 func select_plate(item):
 	var clients = _get_clients_sorted_by_priority()
-	var plates = get_tree().get_nodes_in_group("Plate")
+	var plates = _get_plates()
 	var escenarios = {}
 	var useless_new_item_escenarios = {}
 	var created_deliveries = []

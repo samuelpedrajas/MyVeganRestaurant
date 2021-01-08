@@ -12,6 +12,7 @@ var client
 var client_delivery
 var tween = Tween.new()
 var served = false
+var upgrade = 0
 
 
 func _ready():
@@ -51,3 +52,7 @@ func die():
 	print("%s died!" % [self.reference])
 	client.remove_delivery(client_delivery)
 	queue_free()
+
+func set_upgrade(machine_level, machine_upgrades):
+	self.upgrade = machine_level
+	print("Delivery upgraded")

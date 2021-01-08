@@ -2,6 +2,7 @@ extends Node2D
 
 
 var level = 0
+var upgrade = 0
 export(String) var reference
 export(bool) var throwable = true
 
@@ -18,3 +19,8 @@ func evolve():
 
 func get_destination():
 	return get_child(self.level).destination
+
+
+func set_upgrade(machine_level, machine_upgrades):
+	self.upgrade = machine_level
+	print("Ingredient upgraded")

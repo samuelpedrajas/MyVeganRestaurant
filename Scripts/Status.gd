@@ -1,7 +1,6 @@
 extends Node
 
 
-var coins = 0
 var kitchen_upgrades = {
 	"FastFood": {
 		"Machines": {
@@ -28,3 +27,7 @@ var kitchen_upgrades = {
 		"Plate": 0
 	}
 }
+
+
+func get_kitchen_upgrade_status(kitchen_name):
+	return kitchen_upgrades[kitchen_name]

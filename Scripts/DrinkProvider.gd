@@ -4,15 +4,24 @@ extends Node2D
 export(NodePath) onready var delivery = get_node(delivery)
 export(Array, NodePath) var platforms = []
 
-
-func _ready():
-	for i in range(platforms.size()):
-		platforms[i] = get_node(platforms[i])
-	_on_Timer_food_cooked()
+var upgrade = 0
 
 
 func get_throw_position():
 	return $Placeholder.get_global_position()
+
+
+func set_upgrade(machine_level, machine_upgrades):
+	self.upgrade = machine_level
+	var n_platforms = machine_upgrades[machine_level]["Platforms"]
+	for i in range(platforms.size()):
+		platforms[i] = get_node(platforms[i])
+		if n_platforms <= i:
+			platforms[i].hide()
+		else:
+			platforms[i].show()
+	_on_Timer_food_cooked()
+	print("DrinkProvider upgraded")
 
 
 func _on_Timer_food_cooked():

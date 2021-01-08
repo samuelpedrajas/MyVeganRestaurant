@@ -5,6 +5,7 @@ export(NodePath) onready var platform = get_node(platform)
 
 
 var ingredient = null
+var upgrade = 0
 
 
 func _ready():
@@ -29,6 +30,11 @@ func send_item():
 	self.ingredient = null
 	$AnimationPlayer.play("default_animation")
 	$Timer.stop()
+
+
+func set_upgrade(machine_level, machine_upgrades):
+	self.upgrade = machine_level
+	print("Fryer upgraded")
 
 
 func _on_Timer_food_cooked():

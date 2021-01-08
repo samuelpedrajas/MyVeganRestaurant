@@ -3,8 +3,10 @@ extends Control
 
 signal close_request
 
+var item_categories = ["Machines", "Deliveries", "IngredientSources"]
 
-func open_screen():
+
+func open_screen(kitchen, upgrades, status):
 	show()
 
 

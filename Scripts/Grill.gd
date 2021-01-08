@@ -3,6 +3,7 @@ extends Node2D
 
 export(NodePath) onready var kitchen = get_node(kitchen)
 
+var upgrade = 0
 var ingredient = null
 var burned = false
 
@@ -49,6 +50,11 @@ func send_to_bin():
 
 func get_throw_position():
 	return $Placeholder.get_global_position()
+
+
+func set_upgrade(machine_level, machine_upgrades):
+	self.upgrade = machine_level
+	print("Grill upgraded")
 
 
 func _on_Timer_food_cooked():

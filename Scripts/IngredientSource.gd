@@ -5,6 +5,8 @@ export(NodePath) onready var kitchen = get_node(kitchen)
 export(String) var destination_group = null
 export(NodePath) onready var ingredient = get_node(ingredient)
 
+var upgrade = 0
+
 
 func _send_to_group():
 	var destination = null
@@ -35,3 +37,8 @@ func _on_ClickableArea_pressed():
 			print("No plates available for %s" % [get_name()])
 	else:
 		_send_to_group()
+
+
+func set_upgrade(machine_level, machine_upgrades):
+	self.upgrade = machine_level
+	print("IngredientSource upgraded")

@@ -2,7 +2,7 @@ extends Control
 
 
 signal game_request
-signal open_request
+signal open_upgrades_request
 signal close_request
 
 var level_list = []
@@ -41,7 +41,7 @@ func _on_level_selected(i):
 
 
 func _on_Upgrade_pressed():
-	emit_signal("open_request", "KitchenUpgrades")
+	emit_signal("open_upgrades_request")
 
 
 func _on_Back_pressed():

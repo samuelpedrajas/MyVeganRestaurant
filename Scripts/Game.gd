@@ -4,12 +4,16 @@ extends Control
 var kitchen_scenes = {
 	"FastFood": "res://Scenes/FastFood/FastFood.tscn"
 }
-var selected_kitchen_name = null
+
+onready var kitchen_upgrades_status = $Status
+onready var kitchen_upgrades = $Upgrades
 var kitchen = null
 
 
 func _on_KitchenSelection_kitchen_selected(kitchen_name):
-	self.selected_kitchen_name = kitchen_name
+	kitchen = load(kitchen_scenes[kitchen_name]).instance()
+	kitchen.hide()
+	kitchen.connect("close_request", self, "_on_Kitchen_close_request")
 	$KitchenSelection.close_screen()
 	$LevelSelection.open_screen(kitchen_name)
 
@@ -19,8 +23,13 @@ func _on_LevelSelection_close_request():
 	$KitchenSelection.open_screen()
 
 
-func _on_LevelSelection_open_request(screen_name):
-	get_node(screen_name).open_screen()
+func _on_LevelSelection_open_upgrades_request():
+	var kitchen_name = kitchen.get_name()
+	$KitchenUpgrades.open_screen(
+		kitchen,
+		kitchen_upgrades.get_kitchen_upgrades(kitchen_name),
+		kitchen_upgrades_status.get_kitchen_upgrade_status(kitchen_name)
+	)
 
 
 func _on_KitchenUpgrades_close_request():
@@ -28,11 +37,14 @@ func _on_KitchenUpgrades_close_request():
 
 
 func _on_LevelSelection_game_request(level):
-	kitchen = load(kitchen_scenes[selected_kitchen_name]).instance()
-	kitchen.hide()
-	kitchen.connect("close_request", self, "_on_Kitchen_close_request")
 	add_child(kitchen)
-	kitchen.call_deferred("open_screen", level)
+	var kitchen_name = kitchen.get_name()
+	kitchen.call_deferred(
+		"open_screen",
+		level,
+		kitchen_upgrades.get_kitchen_upgrades(kitchen_name),
+		kitchen_upgrades_status.get_kitchen_upgrade_status(kitchen_name)
+	)
 
 
 func _on_Kitchen_close_request():

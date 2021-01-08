@@ -10,11 +10,12 @@ onready var client_area = $Main/ClientArea
 onready var menu = $Menu
 
 
-func open_screen(level_config):
+func open_screen(level_config, upgrades, status):
 	for group_name in level_config.unavailable_nodes:
 		var nodes = get_tree().get_nodes_in_group(group_name)
 		for node in nodes:
 			node.hide()
+	_configure_upgrades(upgrades, status)
 	client_area.prepare_game(level_config)
 	self.time = level_config.max_time
 	get_tree().set_pause(true)
@@ -24,6 +25,40 @@ func open_screen(level_config):
 	$Timer.start()
 	_on_size_changed()
 	show()
+
+
+func _upgrade_group(group_name, status, upgrades_dict=null):
+	var upgrades = null
+	var n_slots = 99
+	if upgrades_dict != null:
+		upgrades = upgrades_dict[group_name]
+		if "Slots" in upgrades[status]:
+			n_slots = upgrades[status]["Slots"]
+
+	var nodes = get_tree().get_nodes_in_group(group_name)
+	for i in range(nodes.size()):
+		if i == n_slots:
+			break
+		var node = nodes[i]
+		if group_name != "Plate":
+			node.set_upgrade(status, upgrades)
+		node.show()
+
+
+func _configure_upgrades(upgrades, status):
+	# Upgrade machines and ingredient providers
+	var group_names = ["Machines", "IngredientSources"]
+	for group_name in group_names:
+		var upgrades_dict = null
+		if group_name in upgrades:
+			upgrades_dict = upgrades[group_name]
+		var status_dict = status[group_name]
+		for item_name in status_dict.keys():
+			var _status = status_dict[item_name]
+			_upgrade_group(item_name, _status, upgrades_dict)
+
+	# Unlock plates
+	_upgrade_group("Plate", status["Plate"], upgrades)
 
 
 func _custom_client_sort(c1, c2):

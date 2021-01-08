@@ -1,10 +1,12 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Ingredient.gd" type="Script" id=1]
-[ext_resource path="res://Images/FastFood/HamurguesaCruda.png" type="Texture" id=2]
-[ext_resource path="res://Images/FastFood/HamburguesaHecha.png" type="Texture" id=3]
-[ext_resource path="res://Images/FastFood/HamburguesaQuemada.png" type="Texture" id=4]
+[ext_resource path="res://Images/FastFood/Food/HamurguesaCruda.png" type="Texture" id=2]
+[ext_resource path="res://Images/FastFood/Food/HamburguesaHecha.png" type="Texture" id=3]
+[ext_resource path="res://Images/FastFood/Food/HamburguesaQuemada.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Stage.gd" type="Script" id=5]
+
+
 
 
 [node name="Burger" type="Node2D"]

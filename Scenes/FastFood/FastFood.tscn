@@ -10,7 +10,7 @@
 [ext_resource path="res://Scenes/Plate.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/FastFood/Deliveries/TomatoBurger.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/FastFood/Deliveries/SimpleBurger.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Images/FastFood/Saliente.png" type="Texture" id=11]
+[ext_resource path="res://Images/FastFood/Furniture/Saliente.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/FastFood/Deliveries/LettuceBurger.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scenes/FastFood/Machines/ColaPump.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scenes/FastFood/Machines/Grill.tscn" type="PackedScene" id=14]
@@ -18,12 +18,13 @@
 [ext_resource path="res://Scenes/FastFood/IngredientSources/BreadSource.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Scenes/FastFood/Deliveries/Fries.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Scenes/Platform.tscn" type="PackedScene" id=18]
-[ext_resource path="res://Images/FastFood/Mueble.png" type="Texture" id=19]
+[ext_resource path="res://Images/FastFood/Furniture/Mueble.png" type="Texture" id=19]
 [ext_resource path="res://Scenes/FastFood/IngredientSources/TomatoSource.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/Bin.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Scenes/FastFood/Deliveries/BurgerBread.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/FastFood/Deliveries/CompleteBurger.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Scenes/FastFood/IngredientSources/BurgerSource.tscn" type="PackedScene" id=24]
+
 
 [node name="FastFood" type="Control"]
 anchor_right = 1.0

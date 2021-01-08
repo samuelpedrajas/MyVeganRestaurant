@@ -1,9 +1,11 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Delivery.gd" type="Script" id=1]
-[ext_resource path="res://Images/FastFood/PanSuperior.png" type="Texture" id=2]
-[ext_resource path="res://Images/FastFood/PanInferior.png" type="Texture" id=3]
-[ext_resource path="res://Images/FastFood/HamburguesaHecha.png" type="Texture" id=4]
+[ext_resource path="res://Images/FastFood/Food/PanSuperior.png" type="Texture" id=2]
+[ext_resource path="res://Images/FastFood/Food/PanInferior.png" type="Texture" id=3]
+[ext_resource path="res://Images/FastFood/Food/HamburguesaHecha.png" type="Texture" id=4]
+
+
 
 
 

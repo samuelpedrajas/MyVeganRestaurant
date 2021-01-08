@@ -1,8 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Images/FastFood/BasuraAbierta.png" type="Texture" id=1]
-[ext_resource path="res://Images/FastFood/BasuraCerrada.png" type="Texture" id=2]
+[ext_resource path="res://Images/FastFood/Furniture/BasuraAbierta.png" type="Texture" id=1]
+[ext_resource path="res://Images/FastFood/Furniture/BasuraCerrada.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Bin.gd" type="Script" id=3]
+
 
 
 [sub_resource type="Animation" id=1]

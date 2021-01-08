@@ -1,9 +1,10 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Grill.gd" type="Script" id=1]
-[ext_resource path="res://Images/FastFood/Parrilla.png" type="Texture" id=2]
+[ext_resource path="res://Images/FastFood/Machines/Parrilla.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/ClickableArea.tscn" type="PackedScene" id=4]
+
 
 
 

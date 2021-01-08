@@ -3,9 +3,10 @@
 [ext_resource path="res://Scripts/DrinkProvider.gd" type="Script" id=1]
 [ext_resource path="res://Images/FastFood/Food/VasoLleno.png" type="Texture" id=2]
 [ext_resource path="res://Images/FastFood/Food/VasoLlenandose.png" type="Texture" id=3]
-[ext_resource path="res://Images/FastFood/MaquinaBebidasVacia.png" type="Texture" id=4]
+[ext_resource path="res://Images/FastFood/Machines/MaquinaBebidasVacia.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Timer.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/FastFood/Deliveries/Cola.tscn" type="PackedScene" id=7]
+
 
 
 

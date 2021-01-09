@@ -20,12 +20,23 @@ func set_config(machine_level, machine_upgrades):
 			platforms[i].hide()
 		else:
 			platforms[i].show()
+	$Timer.cooking_time = machine_upgrades["CookingTime"]
 	_on_Timer_food_cooked()
 	print("DrinkProvider upgraded")
 
 
+func _play_default_animation():
+	var anim_name = "default_animation_%s" % [str(self.upgrade)]
+	$AnimationPlayer.play(anim_name)
+
+
+func _play_preparing_animation():
+	var anim_name = "preparing_animation_%s" % [str(self.upgrade)]
+	$AnimationPlayer.play(anim_name)
+
+
 func _on_Timer_food_cooked():
-	$AnimationPlayer.play("prepared_animation")
+	_play_default_animation()
 	$Timer.hide()
 	for platform in platforms:
 		if platform.is_visible() and platform.delivery == null:
@@ -38,4 +49,4 @@ func _on_Drink_delivered(_delivery):
 	$Timer.stop()
 	$Timer.start()
 	$Timer.show()
-	$AnimationPlayer.play("preparing_animation")
+	_play_preparing_animation()

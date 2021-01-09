@@ -23,27 +23,6 @@ var average_client_number = null
 var calculated_goal = null
 var average_time_for_client = null
 
-var prices = {
-	"Fries": 20,
-	"SimpleBurger": 30,
-	"TomatoBurger": 40,
-	"LettuceBurger": 40,
-	"CompleteBurger": 50,
-	"Cola": 10
-}
-var discard_prices = {
-	"TomatoBurger": 20,
-	"LettuceBurger": 20,
-	"CompleteBurger": 25,
-	"BurgerIngredient": 10
-}
-
-var category_order = {
-	"Complement": 0,
-	"Main": 1,
-	"Drink": 2
-}
-
 
 func start():
 	for _i in range(max_n_clients):
@@ -51,14 +30,6 @@ func start():
 	new_client()
 	$Timer.start()
 	print("SECONDS: %s" % [current_time])
-
-
-func get_price(delivery_ref):
-	return prices[delivery_ref]
-
-
-func get_discard_price(delivery_ref):
-	return discard_prices[delivery_ref]
 
 
 func _get_random_delivery_from_category(cat):
@@ -85,7 +56,7 @@ func _sort_deliveries_by_category(order):
 		var cat = menu.get_delivery_category(delivery_ref)
 		orders_aux.append({
 			"delivery": delivery_ref,
-			"order": category_order[cat]
+			"order": menu.get_order(cat)
 		})
 	orders_aux = Utils.sort_by_attribute(orders_aux, "order", "asc")
 
@@ -110,12 +81,12 @@ func _build_order_lists():
 				continue
 			var cat = _get_random_category()
 			var selected_delivery_ref = _get_random_delivery_from_category(cat)
-			var profit = prices[selected_delivery_ref]
+			var profit = menu.get_base_price(selected_delivery_ref)
 
 			if guaranteed_coins + profit > calculated_goal:
 				var diff = (guaranteed_coins + profit) - calculated_goal
 				var sorted_delivery_refs = Utils.dict_to_sorted_tuple_list(
-					prices, "asc"
+					menu.get_base_prices(), "asc"
 				)
 				for t in sorted_delivery_refs:
 					var delivery_ref = t[0]
@@ -124,7 +95,7 @@ func _build_order_lists():
 						continue
 					if delivery_probability[cat][delivery_ref] == 0:
 						continue
-					var new_profit = prices[delivery_ref]
+					var new_profit = menu.get_base_price(delivery_ref)
 					if new_profit > diff:
 						profit = new_profit
 						selected_delivery_ref = delivery_ref
@@ -268,10 +239,11 @@ func prepare_game(_level_config):
 		var references = []
 		var total = 0.0
 		for _order in _orders:
-			total += prices[_order.reference]
+			var profit = menu.get_base_price(_order.reference)
+			total += profit
 			references.append(
 				"%s = %s" % [
-					_order.reference, str(prices[_order.reference])
+					_order.reference, str(profit)
 				]
 			)
 		print("Total: %s, References: %s" % [str(total), str(references)])

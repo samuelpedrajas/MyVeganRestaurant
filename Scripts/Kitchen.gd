@@ -10,13 +10,13 @@ onready var client_area = $Main/ClientArea
 onready var menu = $Menu
 
 
-func open_screen(level_config, upgrades, status):
-	for group_name in level_config.unavailable_nodes:
-		var nodes = get_tree().get_nodes_in_group(group_name)
-		for node in nodes:
-			node.hide()
-	_configure_upgrades(upgrades, status)
+func open_screen(level_config, kitchen_config, kitchen_status):
+	_configure_instruments(kitchen_config, kitchen_status)
+	_hide_unused_nodes(level_config)
+
+	menu.configure_deliverables(kitchen_config, kitchen_status)
 	client_area.prepare_game(level_config)
+
 	self.time = level_config.max_time
 	get_tree().set_pause(true)
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
@@ -27,38 +27,28 @@ func open_screen(level_config, upgrades, status):
 	show()
 
 
-func _upgrade_group(group_name, status, upgrades_dict=null):
-	var upgrades = null
-	var n_slots = 99
-	if upgrades_dict != null:
-		upgrades = upgrades_dict[group_name]
-		if "Slots" in upgrades[status]:
-			n_slots = upgrades[status]["Slots"]
-
-	var nodes = get_tree().get_nodes_in_group(group_name)
-	for i in range(nodes.size()):
-		if i == n_slots:
-			break
-		var node = nodes[i]
-		if group_name != "Plate":
-			node.set_upgrade(status, upgrades)
-		node.show()
+func _hide_unused_nodes(level_config):
+	for group_name in level_config.unavailable_nodes:
+		var nodes = get_tree().get_nodes_in_group(group_name)
+		for node in nodes:
+			node.hide()
 
 
-func _configure_upgrades(upgrades, status):
-	# Upgrade machines and ingredient providers
-	var group_names = ["Machines", "IngredientSources"]
-	for group_name in group_names:
-		var upgrades_dict = null
-		if group_name in upgrades:
-			upgrades_dict = upgrades[group_name]
-		var status_dict = status[group_name]
-		for item_name in status_dict.keys():
-			var _status = status_dict[item_name]
-			_upgrade_group(item_name, _status, upgrades_dict)
-
-	# Unlock plates
-	_upgrade_group("Plate", status["Plate"], upgrades)
+func _configure_instruments(kitchen_config, kitchen_status):
+	var instruments = kitchen_config["Instruments"]
+	var status = kitchen_status["Instruments"]
+	for instrument_name in instruments.keys():
+		var instrument_level = status[instrument_name]
+		var instrument_info = instruments[instrument_name][instrument_level]
+		var n_slots = instrument_info["Slots"]
+		var nodes = get_tree().get_nodes_in_group(instrument_name)
+		for i in range(nodes.size()):
+			if i == n_slots:
+				break
+			var node = nodes[i]
+			if instrument_info.size() > 1:
+				node.set_config(instrument_level, instrument_info)
+			node.show()
 
 
 func _custom_client_sort(c1, c2):
@@ -133,7 +123,7 @@ func select_plate(item):
 			for _delivery in client.get_deliveries():
 				for delivery in escenario.duplicate():
 					if delivery.reference == _delivery.reference:
-						reward_deliveries[plate] += client_area.get_price(delivery.reference)
+						reward_deliveries[plate] += menu.get_price(delivery.reference)
 						escenario.erase(delivery)
 						break
 		var winners = []
@@ -180,7 +170,7 @@ func deliver(delivery, origin):
 	client.receive_delivery(delivery)
 	$Main.add_child(delivery)
 	delivery.deliver(origin.get_throw_position())
-	add_score(client_area.get_price(delivery.reference))
+	add_score(menu.get_price(delivery.reference))
 
 
 func throw_to_bin(item, origin):
@@ -188,8 +178,8 @@ func throw_to_bin(item, origin):
 		print("This item is not throwable")
 		return
 
-	print("%s points losed" % client_area.get_discard_price(item.reference))
-	substract_score(client_area.get_discard_price(item.reference))
+	print("%s points losed" % [menu.get_discard_price(item.reference)])
+	substract_score(menu.get_discard_price(item.reference))
 	origin.drop_item()
 	$Main.add_child(item)
 	$Main/Bin.throw_item(item, origin)

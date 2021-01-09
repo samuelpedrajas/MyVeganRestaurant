@@ -124,11 +124,15 @@ ingredient = NodePath("../../Ingredients/Lettuce")
 
 [node name="Grill1" parent="Main" instance=ExtResource( 14 )]
 position = Vector2( 569.541, 276.551 )
+z_index = 1
+z_as_relative = false
 kitchen = NodePath("../../../FastFood")
 
 [node name="Grill2" parent="Main" instance=ExtResource( 14 )]
 visible = false
 position = Vector2( 816.755, 275.438 )
+z_index = 1
+z_as_relative = false
 kitchen = NodePath("../../../FastFood")
 
 [node name="Grill3" parent="Main" instance=ExtResource( 14 )]
@@ -162,11 +166,15 @@ kitchen = NodePath("../../../FastFood")
 
 [node name="Fryer1" parent="Main" instance=ExtResource( 6 )]
 position = Vector2( 116.526, 328 )
+z_index = 2
+z_as_relative = false
 platform = NodePath("../Platform1")
 
 [node name="Fryer2" parent="Main" instance=ExtResource( 6 )]
 visible = false
 position = Vector2( 116.526, 199 )
+z_index = 1
+z_as_relative = false
 platform = NodePath("../Platform2")
 
 [node name="Fryer3" parent="Main" instance=ExtResource( 6 )]
@@ -176,12 +184,16 @@ platform = NodePath("../Platform3")
 
 [node name="Platform1" parent="Main" instance=ExtResource( 18 )]
 position = Vector2( 314.92, 326.429 )
+z_index = 2
+z_as_relative = false
 kitchen = NodePath("../../../FastFood")
 placeholder_position = Vector2( 0, 25 )
 
 [node name="Platform2" parent="Main" instance=ExtResource( 18 )]
 visible = false
 position = Vector2( 314.92, 198.429 )
+z_index = 1
+z_as_relative = false
 kitchen = NodePath("../../../FastFood")
 placeholder_position = Vector2( 0, 25 )
 

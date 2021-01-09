@@ -11,9 +11,9 @@ func get_throw_position():
 	return $Placeholder.get_global_position()
 
 
-func set_upgrade(machine_level, machine_upgrades):
+func set_config(machine_level, machine_upgrades):
 	self.upgrade = machine_level
-	var n_platforms = machine_upgrades[machine_level]["Platforms"]
+	var n_platforms = machine_upgrades["Platforms"]
 	for i in range(platforms.size()):
 		platforms[i] = get_node(platforms[i])
 		if n_platforms <= i:

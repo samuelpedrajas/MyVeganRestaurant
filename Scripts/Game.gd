@@ -5,8 +5,8 @@ var kitchen_scenes = {
 	"FastFood": "res://Scenes/FastFood/FastFood.tscn"
 }
 
-onready var kitchen_upgrades_status = $Status
-onready var kitchen_upgrades = $Upgrades
+onready var status = $Status
+onready var kitchen_configurations = $KitchenConfigurations
 var kitchen = null
 
 
@@ -27,8 +27,8 @@ func _on_LevelSelection_open_upgrades_request():
 	var kitchen_name = kitchen.get_name()
 	$KitchenUpgrades.open_screen(
 		kitchen,
-		kitchen_upgrades.get_kitchen_upgrades(kitchen_name),
-		kitchen_upgrades_status.get_kitchen_upgrade_status(kitchen_name)
+		kitchen_configurations.get_kitchen_configuration(kitchen_name),
+		status.get_kitchen_status(kitchen_name)
 	)
 
 
@@ -42,8 +42,8 @@ func _on_LevelSelection_game_request(level):
 	kitchen.call_deferred(
 		"open_screen",
 		level,
-		kitchen_upgrades.get_kitchen_upgrades(kitchen_name),
-		kitchen_upgrades_status.get_kitchen_upgrade_status(kitchen_name)
+		kitchen_configurations.get_kitchen_configuration(kitchen_name),
+		status.get_kitchen_status(kitchen_name)
 	)
 
 

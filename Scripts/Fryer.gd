@@ -32,7 +32,7 @@ func send_item():
 	$Timer.stop()
 
 
-func set_upgrade(machine_level, machine_upgrades):
+func set_config(machine_level, machine_upgrades):
 	self.upgrade = machine_level
 	print("Fryer upgraded")
 

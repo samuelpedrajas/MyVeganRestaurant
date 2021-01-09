@@ -21,6 +21,6 @@ func get_destination():
 	return get_child(self.level).destination
 
 
-func set_upgrade(machine_level, machine_upgrades):
+func set_config(machine_level):
 	self.upgrade = machine_level
 	print("Ingredient upgraded")

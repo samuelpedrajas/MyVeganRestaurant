@@ -39,6 +39,6 @@ func _on_ClickableArea_pressed():
 		_send_to_group()
 
 
-func set_upgrade(machine_level, machine_upgrades):
+func set_config(machine_level):
 	self.upgrade = machine_level
 	print("IngredientSource upgraded")

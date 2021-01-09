@@ -53,6 +53,6 @@ func die():
 	client.remove_delivery(client_delivery)
 	queue_free()
 
-func set_upgrade(machine_level, machine_upgrades):
-	self.upgrade = machine_level
+func set_config(level):
+	self.upgrade = level
 	print("Delivery upgraded")

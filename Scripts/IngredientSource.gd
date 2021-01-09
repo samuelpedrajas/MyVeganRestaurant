@@ -8,6 +8,12 @@ export(NodePath) onready var ingredient = get_node(ingredient)
 var upgrade = 0
 
 
+func set_config(ingredient_level):
+	self.upgrade = ingredient_level
+	_play_default_animation()
+	print("%s upgraded" % [get_name()])
+
+
 func _send_to_group():
 	var destination = null
 	var destinations = get_tree().get_nodes_in_group(destination_group)
@@ -39,6 +45,6 @@ func _on_ClickableArea_pressed():
 		_send_to_group()
 
 
-func set_config(machine_level):
-	self.upgrade = machine_level
-	print("IngredientSource upgraded")
+func _play_default_animation():
+	var anim_name = "default_animation_%s" % [str(self.upgrade)]
+	$AnimationPlayer.play(anim_name)

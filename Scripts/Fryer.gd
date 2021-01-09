@@ -30,6 +30,7 @@ func send_item():
 
 func set_config(machine_level, machine_upgrades):
 	self.upgrade = machine_level
+	self.platform.show()
 	_play_default_animation()
 	$Timer.cooking_time = machine_upgrades["CookingTime"]
 	print("%s upgraded" % [get_name()])

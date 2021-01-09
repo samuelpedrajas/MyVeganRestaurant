@@ -8,6 +8,7 @@ var time = 90  # will be overrided
 var score = 0
 onready var client_area = $Main/ClientArea
 onready var menu = $Menu
+onready var hud = $CanvasLayer/HUD
 
 
 func open_screen(level_config, kitchen_config, kitchen_status):
@@ -19,8 +20,8 @@ func open_screen(level_config, kitchen_config, kitchen_status):
 
 	self.time = level_config.max_time
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
-	$HUD.set_time(time)
-	$HUD.set_goal(client_area.calculated_goal)
+	hud.set_time(time)
+	hud.set_goal(client_area.calculated_goal)
 	_on_size_changed()
 	show()
 
@@ -190,13 +191,13 @@ func throw_to_bin(item, origin):
 
 func add_score(inc):
 	score += inc
-	$HUD.set_score(score)
+	hud.set_score(score)
 
 
 func substract_score(inc):
 	score -= inc
 	score = max(0, score)
-	$HUD.set_score(score)
+	hud.set_score(score)
 
 
 ### Signal Handlers ###
@@ -211,7 +212,7 @@ func _on_size_changed():
 
 func _on_Timer_timeout():
 	time -= 1
-	$HUD.set_time(time)
+	hud.set_time(time)
 	if time == 0:
 		get_tree().get_root().set_disable_input(true)
 		emit_signal("close_request")

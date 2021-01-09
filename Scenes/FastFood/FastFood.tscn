@@ -262,8 +262,10 @@ visible = false
 position = Vector2( 1585.56, 64.7362 )
 kitchen = NodePath("../../../FastFood")
 
-[node name="HUD" parent="." instance=ExtResource( 15 )]
-
 [node name="Timer" type="Timer" parent="."]
-[connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource( 15 )]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="start_game" from="CanvasLayer/HUD" to="." method="_on_HUD_start_game"]

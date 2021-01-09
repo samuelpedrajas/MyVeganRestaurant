@@ -53,6 +53,13 @@ func die():
 	client.remove_delivery(client_delivery)
 	queue_free()
 
+
 func set_config(level):
 	self.upgrade = level
-	print("Delivery upgraded")
+	_play_default_animation()
+	print("%s upgraded" % [get_name()])
+
+
+func _play_default_animation():
+	var anim_name = "default_animation_%s" % [str(self.upgrade)]
+	$AnimationPlayer.play(anim_name)

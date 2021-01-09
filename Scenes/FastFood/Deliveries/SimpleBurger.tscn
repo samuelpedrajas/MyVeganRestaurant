@@ -1,9 +1,24 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/Delivery.gd" type="Script" id=1]
 [ext_resource path="res://Images/FastFood/Food/PanSuperior.png" type="Texture" id=2]
 [ext_resource path="res://Images/FastFood/Food/PanInferior.png" type="Texture" id=3]
 [ext_resource path="res://Images/FastFood/Food/HamburguesaHecha.png" type="Texture" id=4]
+[ext_resource path="res://Images/FastFood/Food/PanSuperior_2.png" type="Texture" id=5]
+[ext_resource path="res://Images/FastFood/Food/HamburguesaHecha_2.png" type="Texture" id=6]
+[ext_resource path="res://Images/FastFood/Food/PanInferior_2.png" type="Texture" id=7]
+[ext_resource path="res://Images/FastFood/Food/PanSuperior_1.png" type="Texture" id=8]
+[ext_resource path="res://Images/FastFood/Food/HamburguesaHecha_1.png" type="Texture" id=9]
+[ext_resource path="res://Images/FastFood/Food/PanInferior_1.png" type="Texture" id=10]
+
+[sub_resource type="Animation" id=1]
+resource_name = "default_animation_0"
+
+[sub_resource type="Animation" id=2]
+resource_name = "default_animation_1"
+
+[sub_resource type="Animation" id=3]
+resource_name = "default_animation_2"
 
 [node name="SimpleBurger" type="Node2D"]
 script = ExtResource( 1 )
@@ -14,13 +29,48 @@ throwable = false
 
 [node name="Sprites" type="Node2D" parent="."]
 
-[node name="BottomBread" type="Sprite" parent="Sprites"]
+[node name="Sprites0" type="Node2D" parent="Sprites"]
+
+[node name="BottomBread" type="Sprite" parent="Sprites/Sprites0"]
 texture = ExtResource( 3 )
 
-[node name="CookedBurger" type="Sprite" parent="Sprites"]
+[node name="CookedBurger" type="Sprite" parent="Sprites/Sprites0"]
 position = Vector2( 0, -19 )
 texture = ExtResource( 4 )
 
-[node name="TopBread" type="Sprite" parent="Sprites"]
+[node name="TopBread" type="Sprite" parent="Sprites/Sprites0"]
 position = Vector2( 0, -46 )
 texture = ExtResource( 2 )
+
+[node name="Sprites1" type="Node2D" parent="Sprites"]
+visible = false
+
+[node name="BottomBread" type="Sprite" parent="Sprites/Sprites1"]
+texture = ExtResource( 10 )
+
+[node name="CookedBurger" type="Sprite" parent="Sprites/Sprites1"]
+position = Vector2( 0, -19 )
+texture = ExtResource( 9 )
+
+[node name="TopBread" type="Sprite" parent="Sprites/Sprites1"]
+position = Vector2( 0, -46 )
+texture = ExtResource( 8 )
+
+[node name="Sprites2" type="Node2D" parent="Sprites"]
+visible = false
+
+[node name="BottomBread" type="Sprite" parent="Sprites/Sprites2"]
+texture = ExtResource( 7 )
+
+[node name="CookedBurger" type="Sprite" parent="Sprites/Sprites2"]
+position = Vector2( 0, -19 )
+texture = ExtResource( 6 )
+
+[node name="TopBread" type="Sprite" parent="Sprites/Sprites2"]
+position = Vector2( 0, -46 )
+texture = ExtResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/default_animation_0 = SubResource( 1 )
+anims/default_animation_1 = SubResource( 2 )
+anims/default_animation_2 = SubResource( 3 )

@@ -26,7 +26,7 @@ func _send_to_group():
 		print("No destination is available")
 		return null
 
-	destination.add_item(self.ingredient.duplicate())
+	destination.add_item(self.ingredient.clone())
 	print(
 		"%s was added to %s" % [
 			self.ingredient.reference, destination.get_name()
@@ -38,7 +38,7 @@ func _on_ClickableArea_pressed():
 	if destination_group == null:
 		var plate = kitchen.select_plate(self.ingredient)
 		if plate != null:
-			plate.add_ingredient(ingredient.duplicate())
+			plate.add_ingredient(ingredient.clone())
 		else:
 			print("No plates available for %s" % [get_name()])
 	else:

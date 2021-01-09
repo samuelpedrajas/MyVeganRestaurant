@@ -15,10 +15,6 @@ var served = false
 var upgrade = 0
 
 
-func _ready():
-	add_child(tween)
-
-
 func set_client(_client, _delivery):
 	self.client = _client
 	self.client_delivery = _delivery
@@ -55,9 +51,16 @@ func die():
 
 
 func set_config(level):
+	add_child(tween)
 	self.upgrade = level
 	_play_default_animation()
 	print("%s upgraded" % [get_name()])
+
+
+func clone():
+	var _clone = duplicate()
+	_clone.set_config(upgrade)
+	return _clone
 
 
 func _play_default_animation():

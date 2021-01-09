@@ -24,6 +24,12 @@ func set_config(machine_level):
 	print("Ingredient upgraded")
 
 
+func clone():
+	var _clone = duplicate()
+	_clone.set_config(upgrade)
+	return _clone
+
+
 func _play_default_animation():
 	if get_node_or_null("AnimationPlayer") == null:
 		return

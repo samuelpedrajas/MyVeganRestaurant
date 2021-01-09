@@ -69,8 +69,8 @@ func configure_deliverables(kitchen_config, kitchen_status):
 			var sources = get_tree().get_nodes_in_group(_source_name)
 			var source_config = related_sources[_source_name]
 			for source in sources:
-				source.set_config(deliverable_level)
 				source.ingredient.set_config(deliverable_level)
+				source.set_config(deliverable_level)
 
 				var ingredient_name = source.ingredient.reference
 				_delivery_upgrade[ingredient_name] = deliverable_level
@@ -81,7 +81,7 @@ func get_new_delivery(delivery, ingredient):
 	var new_delivery = _get_new_delivery(delivery, ingredient)
 	if new_delivery == null:
 		return null
-	return new_delivery.duplicate()
+	return new_delivery.clone()
 
 
 func get_delivery(reference):

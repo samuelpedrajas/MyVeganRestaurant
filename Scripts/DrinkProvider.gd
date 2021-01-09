@@ -40,7 +40,7 @@ func _on_Timer_food_cooked():
 	$Timer.hide()
 	for platform in platforms:
 		if platform.is_visible() and platform.delivery == null:
-			var new_delivery = delivery.duplicate()
+			var new_delivery = delivery.clone()
 			new_delivery.connect("delivered", self, "_on_Drink_delivered")
 			platform.add_delivery(new_delivery)
 

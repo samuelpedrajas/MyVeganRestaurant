@@ -113,7 +113,7 @@ func _build_order_lists():
 
 		var final_order = []
 		for delivery_ref in _sort_deliveries_by_category(orders[i]):
-			final_order.append(menu.get_delivery(delivery_ref).duplicate())
+			final_order.append(menu.get_delivery(delivery_ref).clone())
 
 		order_lists.append(final_order)
 	order_lists.shuffle()
@@ -262,7 +262,7 @@ func select_random_deliveries():
 
 	var final_order = []
 	for delivery_ref in _sort_deliveries_by_category(order):
-		final_order.append(menu.get_delivery(delivery_ref).duplicate())
+		final_order.append(menu.get_delivery(delivery_ref).clone())
 
 	return final_order
 

@@ -12,10 +12,9 @@ onready var hud = $CanvasLayer/HUD
 
 
 func open_screen(level_config, kitchen_config, kitchen_status):
+	menu.configure_deliverables(kitchen_config, kitchen_status)
 	_configure_instruments(kitchen_config, kitchen_status)
 	_hide_unused_nodes(level_config)
-
-	menu.configure_deliverables(kitchen_config, kitchen_status)
 	client_area.prepare_game(level_config)
 
 	self.time = level_config.max_time

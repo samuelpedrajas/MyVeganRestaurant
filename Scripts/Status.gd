@@ -5,15 +5,15 @@ var coins = 0
 var kitchen_status = {
 	"FastFood": {
 		"Deliverables": {
-			"Cola": 0,
-			"CompleteBurger": 0,
-			"Fries": 0
+			"Cola": 2,
+			"CompleteBurger": 2,
+			"Fries": 2
 		},
 		"Instruments": {
-			"Grill": 0,
-			"Fryer": 0,
-			"ColaPump": 0,
-			"Plate": 0
+			"Grill": 2,
+			"Fryer": 2,
+			"ColaPump": 2,
+			"Plate": 2
 		}
 	}
 }

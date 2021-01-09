@@ -66,11 +66,11 @@ func _play_preparing_animation():
 
 
 func _on_Timer_food_cooked():
-	self.ingredient.evolve()
+	self.ingredient.set_cooked()
 
 
 func _on_Timer_food_burned():
-	self.ingredient.evolve()
+	self.ingredient.set_burned()
 	self.burned = true
 	print("%s burned!" % [get_name()])
 

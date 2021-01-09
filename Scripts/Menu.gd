@@ -96,7 +96,7 @@ func _get_new_delivery(delivery, ingredient):
 	var ingredients = []
 	if delivery != null:
 		ingredients += delivery.ingredients
-	ingredients.append(ingredient.get_level_reference())
+	ingredients.append(ingredient.reference)
 
 	for _delivery in _delivery_name_to_delivery.values():
 		if Utils.arrays_have_same_content(ingredients, _delivery.ingredients):

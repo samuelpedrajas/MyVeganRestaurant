@@ -137,7 +137,7 @@ tracks/2/keys = {
 [node name="CompleteBurger" type="Node2D"]
 script = ExtResource( 5 )
 reference = "CompleteBurger"
-ingredients = [ "BurgerBread", "CookedBurger", "Tomato", "Lettuce" ]
+ingredients = [ "BurgerBreadIngredient", "BurgerIngredient", "Tomato", "Lettuce" ]
 v_limits = Vector2( -91, 34.5 )
 
 [node name="Sprites" type="Node2D" parent="."]

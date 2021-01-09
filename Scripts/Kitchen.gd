@@ -18,13 +18,16 @@ func open_screen(level_config, kitchen_config, kitchen_status):
 	client_area.prepare_game(level_config)
 
 	self.time = level_config.max_time
-	get_tree().set_pause(true)
 	get_tree().get_root().connect("size_changed", self, "_on_size_changed")
 	$HUD.set_time(time)
 	$HUD.set_goal(client_area.calculated_goal)
-	$Timer.start()
 	_on_size_changed()
 	show()
+
+
+func start():
+	client_area.start()
+	$Timer.start()
 
 
 func _hide_unused_nodes(level_config):
@@ -199,9 +202,7 @@ func substract_score(inc):
 ### Signal Handlers ###
 
 func _on_HUD_start_game():
-	yield(get_tree(), "idle_frame")
-	get_tree().set_pause(false)
-	client_area.start()
+	start()
 
 
 func _on_size_changed():

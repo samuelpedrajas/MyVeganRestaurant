@@ -8,10 +8,6 @@ var ingredient = null
 var burned = false
 
 
-func _ready():
-	$AnimationPlayer.play("default_animation")
-
-
 func is_busy():
 	return self.ingredient != null
 
@@ -22,14 +18,14 @@ func add_item(_ingredient):
 		return
 	self.ingredient = _ingredient
 	$Placeholder.add_child(_ingredient)
-	$AnimationPlayer.play("preparing_animation")
+	_play_preparing_animation()
 	$Timer.start()
 
 
 func drop_item():
 	self.burned = false
 	self.ingredient = null
-	$AnimationPlayer.play("default_animation")
+	_play_default_animation()
 	$Timer.stop()
 
 
@@ -54,7 +50,19 @@ func get_throw_position():
 
 func set_config(machine_level, machine_upgrades):
 	self.upgrade = machine_level
-	print("Grill upgraded")
+	_play_default_animation()
+	$Timer.cooking_time = machine_upgrades["CookingTime"]
+	print("%s upgraded" % [get_name()])
+
+
+func _play_default_animation():
+	var anim_name = "default_animation_%s" % [str(self.upgrade)]
+	$AnimationPlayer.play(anim_name)
+
+
+func _play_preparing_animation():
+	var anim_name = "preparing_animation_%s" % [str(self.upgrade)]
+	$AnimationPlayer.play(anim_name)
 
 
 func _on_Timer_food_cooked():

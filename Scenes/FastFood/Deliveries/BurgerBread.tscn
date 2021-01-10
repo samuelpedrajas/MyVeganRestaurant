@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Delivery.gd" type="Script" id=1]
 [ext_resource path="res://Images/FastFood/Food/PanSuperior.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Images/FastFood/Food/PanSuperior_2.png" type="Texture" id=4]
 [ext_resource path="res://Images/FastFood/Food/PanInferior_1.png" type="Texture" id=5]
 [ext_resource path="res://Images/FastFood/Food/PanSuperior_1.png" type="Texture" id=6]
+[ext_resource path="res://Images/FastFood/Food/PanInferior_2.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default_animation_0"
@@ -156,7 +157,7 @@ texture = ExtResource( 6 )
 visible = false
 
 [node name="BottomBread" type="Sprite" parent="Sprites/Sprites2"]
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 
 [node name="TopBread" type="Sprite" parent="Sprites/Sprites2"]
 position = Vector2( 0, -32 )

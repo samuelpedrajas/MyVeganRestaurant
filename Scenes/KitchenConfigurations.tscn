@@ -23,6 +23,10 @@ var kitchen_config = {
 				\"SimpleBurger\": {
 					\"Prices\": [50, 70, 100],
 					\"DiscardPrices\": []
+				},
+				\"BurgerBread\": {
+					\"Prices\": [],
+					\"DiscardPrices\": []
 				}
 			},
 			\"RelatedSources\": {

@@ -50,8 +50,12 @@ func configure_deliverables(kitchen_config, kitchen_status):
 		var delivery = _delivery_name_to_delivery[deliverable_name]
 		delivery.set_config(deliverable_level)
 		_delivery_upgrade[deliverable_name] = deliverable_level
-		_prices[deliverable_name] = deliverable_info["Prices"]
-		_discard_prices[deliverable_name] = deliverable_info["DiscardPrices"]
+		var prices = deliverable_info["Prices"]
+		if prices.size() > 0:
+			_prices[deliverable_name] = prices
+		var discard_prices = deliverable_info["DiscardPrices"]
+		if discard_prices.size() > 0:
+			_discard_prices[deliverable_name] = discard_prices
 	
 		# config related
 		var related_deliverables = deliverable_info["RelatedDeliverables"]
@@ -60,8 +64,12 @@ func configure_deliverables(kitchen_config, kitchen_status):
 			delivery = _delivery_name_to_delivery[_deliverable_name]
 			delivery.set_config(deliverable_level)
 			_delivery_upgrade[_deliverable_name] = deliverable_level
-			_prices[_deliverable_name] = related_info["Prices"]
-			_discard_prices[_deliverable_name] = related_info["DiscardPrices"]
+			prices = related_info["Prices"]
+			if prices.size() > 0:
+				_prices[_deliverable_name] = prices
+			discard_prices = related_info["DiscardPrices"]
+			if discard_prices.size() > 0:
+				_discard_prices[_deliverable_name] = discard_prices
 
 		# config ingredient sources
 		var related_sources = deliverable_info["RelatedSources"]
@@ -74,7 +82,9 @@ func configure_deliverables(kitchen_config, kitchen_status):
 
 				var ingredient_name = source.ingredient.reference
 				_delivery_upgrade[ingredient_name] = deliverable_level
-				_discard_prices[ingredient_name] = source_config["DiscardPrices"]
+				discard_prices = source_config["DiscardPrices"]
+				if discard_prices.size() > 0:
+					_discard_prices[ingredient_name] = discard_prices
 
 
 func get_new_delivery(delivery, ingredient):

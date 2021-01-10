@@ -25,7 +25,7 @@ var kitchen_config = {
 					\"DiscardPrices\": []
 				},
 				\"BurgerBread\": {
-					\"Prices\": [],
+					\"Prices\": [],  # don't set prices for non deliverables
 					\"DiscardPrices\": []
 				}
 			},
